@@ -140,8 +140,8 @@ def delete_cluster_data(cluster_id):
     return cluster_data
   
 
-def restart__cluster_apps(cluster_id):
-    print("Restart all FPGAs...")
+def restart_cluster_apps(cluster_id):
+    print("Restart all FPGAs ...")
     r1 = requests.patch(
         "http://" + __cf_manager_url__ + "/clusters/" + str(cluster_id) + "/restart?username={0}&password={1}".format(__openstack_user__, __openstack_pw__))
 
@@ -151,6 +151,59 @@ def restart__cluster_apps(cluster_id):
 
     cluster_data = json.loads(r1.text)
     return cluster_data
+
+
+####################################################################################################  
+# Instances functions
+####################################################################################################  
+
+def get_instances_data():
+        print("TODO \n")
+	
+def create_instance():
+        print("TODO \n")
+
+def get_instance_data():
+        print("TODO \n")
+
+def reprogram_instance():
+        print("TODO \n")
+
+def api_request_instance():
+        print("TODO \n")
+
+
+def restart_instance_app(instance_id):
+    print("Restart FPGA ...")
+    r1 = requests.patch(
+        "http://" + __cf_manager_url__ + "/instances/" + str(instance_id) + "/restart?username={0}&password={1}".format(__openstack_user__, __openstack_pw__))
+
+    if r1.status_code != 200:
+        # something went horrible wrong
+        return errorReqExit("PATCH instance restart", r1.status_code)
+
+    instance_data = json.loads(r1.text)
+    return instance_data
+
+
+def delete_instance(resource_id):
+    print("deleting instance {}".format(resource_id))
+
+    r1 = requests.delete(
+        "http://" + __cf_manager_url__ + "/instances/{0}?username={1}&password={2}".format(resource_id, __openstack_user__, __openstack_pw__))
+
+    if r1.status_code > 204:
+        # error codes
+        # 204 Instance was deleted
+        # 401 Unauthenticated, bad login
+        # 403 Unauthorized
+        # 404 Instance does not exist
+        return r1.status_code
+    else:
+        print("Instance {} removed".format(resource_id))
+
+    instance_data = r1.status_code
+    return instance_data
 
 
 ####################################################################################################  
