@@ -139,8 +139,20 @@ def delete_cluster_data(cluster_id):
     cluster_data = json.loads(r1.text)
     return cluster_data
   
-  
-  
+
+def restart__cluster_apps(cluster_id):
+    print("Restart all FPGAs...")
+    r1 = requests.patch(
+        "http://" + __cf_manager_url__ + "/clusters/" + str(cluster_id) + "/restart?username={0}&password={1}".format(__openstack_user__, __openstack_pw__))
+
+    if r1.status_code != 200:
+        # something went horrible wrong
+        return errorReqExit("PATCH cluster restart", r1.status_code)
+
+    cluster_data = json.loads(r1.text)
+    return cluster_data
+
+
 ####################################################################################################  
 # Login functions
 ####################################################################################################  
