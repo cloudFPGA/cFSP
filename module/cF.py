@@ -32,16 +32,27 @@ __openstack_user_template__['credentials']['pw'] = "your user password"
 __cf_manager_url__ = "10.12.0.132:8080"
 __NON_FPGA_IDENTIFIER__ = "NON_FPGA"
 
+__POST_CLUSTER_TIMEOUT__   = 1140
+__GET_CLUSTER_TIMEOUT__    = 1
+__DELETE_CLUSTER_TIMEOUT__ = 5
 
 def print_usage():
     print("Openstack credentials should be stored in {}) \n".format(__credentials_file_name__) +
           "Options available in cF library :\n" +
-          " - post_cluster(number_of_FPGA_nodes, role_image_id, host_address)\n" +
-          " - get_cluster_data(cluster_id) \n" +
-          " - get_clusters_data() \n" +
-          " - delete_cluster_data(cluster_id) \n" +
-          " - load_user_credentials(filedir) \n" +
-          " - show_user_credentials(filedir) \n")
+          " - Clusters: \n" +
+          "   - post_cluster(number_of_FPGA_nodes, role_image_id, host_address)\n" +
+          "   - get_cluster_data(cluster_id) \n" +
+          "   - get_clusters_data() \n" +
+          "   - delete_cluster_data(cluster_id) \n" +
+          "   - restart_cluster_apps(cluster_id) \n" +
+          " - Instances: \n" +
+          "   - restart_instance_app(instance_id) \n" +
+          "   - delete_instance(resource_id) \n" +
+          " - Resources: \n" +
+          "   - get_resource_status(resource_id) \n" +
+          " - Users: \n" +
+          "   - load_user_credentials(filedir) \n" +
+          "   - show_user_credentials(filedir) \n")
     exit(1)
 
 
@@ -56,6 +67,27 @@ def errorReqExit(msg, code):
             print("403 Unauthorized\n")
         if (code == 404):
             print("404 Cluster does not exist\n")
+    if (msg == "POST cluster"):
+        if (code == 401):
+            print("401 Unauthenticated, bad login\n")
+        if (code == 404):
+            print("404 One of the regested images does not exist\n")
+        if (code == 415):
+            print("415 Image has wrong type/breed\n")
+        if (code == 422):
+            print("422 Malformed request\n")
+        if (code == 424):
+            print("424 Bitfile seems to be preecarious/unstable (e.g. bad timing or could also hide an internal server error)\n")
+         if (code == 429):
+            print("429 Insufficient Quota\n")
+        if (code == 500):
+            print("500 Error in communication with devices (maybe try again)\n")
+        if (code == 503):
+            print("503 No resources available to fullfil the request\n")
+        if (code == 507):
+            print("507 Network or Memory failure on target device (maybe try again)\n")
+        if (code == 508):
+            print("508 No network resources available, please contact admins\n")
     exit(1)
 
 
@@ -66,83 +98,103 @@ def errorReqExit(msg, code):
 def post_cluster(number_of_FPGA_nodes, role_image_id, host_address):
     # build cluster_req structure
     print("Creating FPGA cluster...")
-    start = time.time()
-    sw_rank = 0
-    cluster_req = []
-    rank0node = {'image_id': __NON_FPGA_IDENTIFIER__,
+    try:
+        start = time.time()
+        sw_rank = 0
+        cluster_req = []
+        rank0node = {'image_id': __NON_FPGA_IDENTIFIER__,
                  'node_id': sw_rank,
                  'node_ip': host_address}
-    cluster_req.append(rank0node)
-    size = number_of_FPGA_nodes + 1
-    for i in range(1, size):
-        fpgaNode = {
-            'image_id': str(role_image_id),
-            'node_id': i
-        }
-        cluster_req.append(fpgaNode)
+        cluster_req.append(rank0node)
+        size = number_of_FPGA_nodes + 1
+        for i in range(1, size):
+            fpgaNode = {
+                'image_id': str(role_image_id),
+                'node_id': i
+            }
+            cluster_req.append(fpgaNode)
 
-    r1 = requests.post(
-        "http://" + __cf_manager_url__ + "/clusters?username={0}&password={1}&project_name=cf_Test_2".format(
-            __openstack_user__, __openstack_pw__),
-                json=cluster_req)
-    elapsed = time.time() - start
+        r1 = requests.post(
+            "http://" + __cf_manager_url__ + "/clusters?username={0}&password={1}&project_name=cf_Test_2".format(
+                __openstack_user__, __openstack_pw__),
+                json=cluster_req, timeout=__POST_CLUSTER_TIMEOUT__)
+        elapsed = time.time() - start
 
-    if r1.status_code != 200:
-        # something went horrible wrong
-        return errorReqExit("POST cluster", r1.status_code)
+        if r1.status_code != 200:
+            # something went horrible wrong
+            return errorReqExit("POST cluster", r1.status_code)
 
-    cluster_data = json.loads(r1.text)
-    print("Id of new cluster: {}".format(cluster_data['cluster_id']))
-    print("Time for POST cluster: \t{0}s\n".format(elapsed))
-    return cluster_data
-
+        cluster_data = json.loads(r1.text)
+        print("Id of new cluster: {}".format(cluster_data['cluster_id']))
+        print("Time for POST cluster: \t{0}s\n".format(elapsed))
+        return cluster_data
+    except requests.exceptions.Timeout as e:
+        # Maybe set up for a retry
+        print(e)
+        print("ERROR: Something went wrong with post_cluster request and it reached timeout="+str(__POST_CLUSTER_TIMEOUT__)+". Maybe retry or increase timeout value.\n")
 
 def get_cluster_data(cluster_id):
     print("Requesting cluster data for cluster_id={0} ...".format(cluster_id))
-    start = time.time()
-    r1 = requests.get(
-        "http://" + __cf_manager_url__ + "/clusters/" + str(cluster_id) + "?username={0}&password={1}".format(
-            __openstack_user__, __openstack_pw__))
-    elapsed = time.time() - start
-    print("Time for GET cluster: \t{0}s\n".format(elapsed))
-    if r1.status_code != 200:
-        # something went horrible wrong
-        return errorReqExit("GET cluster", r1.status_code)
+    try:
+        start = time.time()
+        r1 = requests.get(
+            "http://" + __cf_manager_url__ + "/clusters/" + str(cluster_id) + "?username={0}&password={1}".format(
+                __openstack_user__, __openstack_pw__), timeout=__GET_CLUSTER_TIMEOUT__)
+        elapsed = time.time() - start
+        print("Time for GET cluster: \t{0}s\n".format(elapsed))
+        if r1.status_code != 200:
+            # something went horrible wrong
+            return errorReqExit("GET cluster", r1.status_code)
 
-    cluster_data = json.loads(r1.text)
-    return cluster_data
+        cluster_data = json.loads(r1.text)
+        return cluster_data
+    except requests.exceptions.Timeout as e:
+        # Maybe set up for a retry
+        print(e)
+        print("ERROR: Something went wrong with get_cluster_data request and it reached timeout="+str(__GET_CLUSTER_TIMEOUT__)+". Maybe retry or increase timeout value.\n")
 
 
 def get_clusters_data():
     print("Requesting clusters data (limit=100)...")
-    start = time.time()
-    r1 = requests.get(
-        "http://" + __cf_manager_url__ + "/clusters" + "?username={0}&password={1}&limit=100".format(
-            __openstack_user__, __openstack_pw__))
-    elapsed = time.time() - start
-    print("Time for GET clusters: \t{0}s\n".format(elapsed))
-    if r1.status_code != 200:
-        # something went horrible wrong
-        return errorReqExit("GET clusters", r1.status_code)
+    try:
+        start = time.time()
+        r1 = requests.get(
+            "http://" + __cf_manager_url__ + "/clusters" + "?username={0}&password={1}&limit=100".format(
+                __openstack_user__, __openstack_pw__), timeout=__GET_CLUSTER_TIMEOUT__)
+        elapsed = time.time() - start
+        print("Time for GET clusters: \t{0}s\n".format(elapsed))
+        if r1.status_code != 200:
+            # something went horrible wrong
+            return errorReqExit("GET clusters", r1.status_code)
 
-    clusters_data = json.loads(r1.text)
-    return clusters_data
+        clusters_data = json.loads(r1.text)
+        return clusters_data
+    except requests.exceptions.Timeout as e:
+        # Maybe set up for a retry
+        print(e)
+        print("ERROR: Something went wrong with get_cluster request and it reached timeout="+str(__GET_CLUSTER_TIMEOUT__)+". Maybe retry or increase timeout value.\n")
 
 
 def delete_cluster_data(cluster_id):
     print("Requesting delete cluster_id={0} ...".format(cluster_id))
-    start = time.time()
-    r1 = requests.delete(
-        "http://" + __cf_manager_url__ + "/clusters/" + str(cluster_id) + "?username={0}&password={1}".format(
-            __openstack_user__, __openstack_pw__))
-    elapsed = time.time() - start
-    print("Time for DELETE cluster: \t{0}s\n".format(elapsed))
-    if r1.status_code != 204:
-        # something went horrible wrong
-        return errorReqExit("DELETE cluster", r1.status_code)
+    try:
+        start = time.time()
+        r1 = requests.delete(
+            "http://" + __cf_manager_url__ + "/clusters/" + str(cluster_id) + "?username={0}&password={1}".format(
+                __openstack_user__, __openstack_pw__), timeout=__DELETE_CLUSTER_TIMEOUT__)
+        elapsed = time.time() - start
+        print("Time for DELETE cluster: \t{0}s\n".format(elapsed))
+        if r1.status_code != 204:
+            # something went horrible wrong
+            return errorReqExit("DELETE cluster", r1.status_code)
 
-    cluster_data = json.loads(r1.text)
-    return cluster_data
+        cluster_data = json.loads(r1.text)
+        return cluster_data
+    except requests.exceptions.Timeout as e:
+        # Maybe set up for a retry
+        print(e)
+        print("ERROR: Something went wrong with delete_cluster_data request and it reached timeout="+str(__DELETE_CLUSTER_TIMEOUT__)+". Maybe retry or increase timeout value.\n")
+
 
 
 def restart_cluster_apps(cluster_id):

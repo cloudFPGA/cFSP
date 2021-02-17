@@ -14,12 +14,14 @@ import sys
 sys.path.append("../module")
 import cF
 
-cF.print_usage()
+#cF.print_usage()
 
 cF.load_user_credentials('./')
 
 cF.show_user_credentials('./')
 
+#cluster_data=cF.get_clusters_data()
+#print(cluster_data)
 cluster_data=cF.post_cluster(1, "33ffdea4-4462-48ac-9b32-77768ae95135", "10.2.0.4")
 
-cF.delete_cluster_data(80)
+#cF.delete_cluster_data(83)
