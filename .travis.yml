@@ -13,8 +13,8 @@ before_install:
 - cp test/user_example.json test/user.json
 - user=$(head -n 1 zyc2-vpn/up-user)
 - pass=$(tail -n 1 zyc2-vpn/up-user)
-- sed -i "s/example_user/$user/" user.json
-- sed -i "s/example_password/$pass/" user.json
+- sed -i "s/example_user/$user/" test/user.json
+- sed -i "s/example_password/$pass/" test/user.json
 - sudo openvpn --config zyc2-vpn/zyc2-vpn-user.ovpn --auth-user-pass zyc2-vpn/up-user &>>openvpn-client.log &
 install:
 - pip install -r requirements.txt
