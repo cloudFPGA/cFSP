@@ -6,7 +6,7 @@
 #  *     Authors: FAB, WEI, NGL, DID
 #  *
 #  *     Description:
-#  *      A Python library with functions for accessing cFRM and create/delete images. clusters etc.
+#  *      A Python library with functions for accessing cFRM and create/delete images, instances, clusters etc.
 #  *
 #  *
 
@@ -32,9 +32,9 @@ __openstack_user_template__['credentials']['pw'] = "your user password"
 __cf_manager_url__ = "10.12.0.132:8080"
 __NON_FPGA_IDENTIFIER__ = "NON_FPGA"
 
-__POST_CLUSTER_TIMEOUT__   = 1140
-__GET_CLUSTER_TIMEOUT__    = 1
-__DELETE_CLUSTER_TIMEOUT__ = 5
+__POST_CLUSTER_TIMEOUT__   = 130
+__GET_CLUSTER_TIMEOUT__    = 5
+__DELETE_CLUSTER_TIMEOUT__ = 20
 
 def print_usage():
     print("Openstack credentials should be stored in {}) \n".format(__credentials_file_name__) +
@@ -42,7 +42,7 @@ def print_usage():
           " - Clusters: \n" +
           "   - post_cluster(number_of_FPGA_nodes, role_image_id, host_address)\n" +
           "   - get_cluster_data(cluster_id) \n" +
-          "   - get_clusters_data() \n" +
+          "   - get_clusters_data(limit) \n" +
           "   - delete_cluster_data(cluster_id) \n" +
           "   - restart_cluster_apps(cluster_id) \n" +
           " - Instances: \n" +
@@ -58,7 +58,9 @@ def print_usage():
 
 def errorReqExit(msg, code):
     print("Request " + msg + " failed with HTTP code " + str(code) + ".")
-    if (msg == "GET cluster") or (msg == "GET clusters") or (msg == "DELETE cluster"):
+    if (code == 0):
+        print("0 error: no response from server\n")
+    elif (msg == "GET cluster") or (msg == "GET clusters") or (msg == "DELETE cluster"):
         if (code == 400):
             print("400 Bad request (maybe login/pass with space char?)\n")
         if (code == 401):
@@ -67,7 +69,7 @@ def errorReqExit(msg, code):
             print("403 Unauthorized\n")
         if (code == 404):
             print("404 Cluster does not exist\n")
-    if (msg == "POST cluster"):
+    elif (msg == "POST cluster"):
         if (code == 401):
             print("401 Unauthenticated, bad login\n")
         if (code == 404):
@@ -78,7 +80,7 @@ def errorReqExit(msg, code):
             print("422 Malformed request\n")
         if (code == 424):
             print("424 Bitfile seems to be preecarious/unstable (e.g. bad timing or could also hide an internal server error)\n")
-         if (code == 429):
+        if (code == 429):
             print("429 Insufficient Quota\n")
         if (code == 500):
             print("500 Error in communication with devices (maybe try again)\n")
@@ -154,8 +156,8 @@ def get_cluster_data(cluster_id):
         print("ERROR: Something went wrong with get_cluster_data request and it reached timeout="+str(__GET_CLUSTER_TIMEOUT__)+". Maybe retry or increase timeout value.\n")
 
 
-def get_clusters_data():
-    print("Requesting clusters data (limit=100)...")
+def get_clusters_data(limit):
+    print("Requesting clusters data (limit="+str(limit)+")...")
     try:
         start = time.time()
         r1 = requests.get(
@@ -166,7 +168,6 @@ def get_clusters_data():
         if r1.status_code != 200:
             # something went horrible wrong
             return errorReqExit("GET clusters", r1.status_code)
-
         clusters_data = json.loads(r1.text)
         return clusters_data
     except requests.exceptions.Timeout as e:
@@ -187,8 +188,10 @@ def delete_cluster_data(cluster_id):
         if r1.status_code != 204:
             # something went horrible wrong
             return errorReqExit("DELETE cluster", r1.status_code)
-
-        cluster_data = json.loads(r1.text)
+        try: 
+            cluster_data = json.loads(r1.text)
+        except ValueError: 
+            cluster_data = []
         return cluster_data
     except requests.exceptions.Timeout as e:
         # Maybe set up for a retry
@@ -271,7 +274,7 @@ def delete_instance(resource_id):
 
 
 ####################################################################################################  
-# Login functions
+# User functions
 ####################################################################################################  
 
 def load_user_credentials(filedir):
