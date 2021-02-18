@@ -309,6 +309,7 @@ def show_user_credentials(filedir):
     except Exception as e:
         print(e)
         print("No credentials found \n")
+        sys.exit(1)
 
 
 ####################################################################################################  
