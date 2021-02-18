@@ -52,8 +52,8 @@ def print_usage():
           "   - get_resource_status(resource_id) \n" +
           " - Users: \n" +
           "   - load_user_credentials(filedir) \n" +
-          "   - show_user_credentials(filedir) \n")
-    exit(1)
+          "   - show_user_credentials(filedir) \n\n")
+    #exit(1)
 
 
 def errorReqExit(msg, code):
