@@ -10,6 +10,11 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_d74a9efc4525_key -iv $encrypted_d74a9efc4525_iv
   -in zyc2-vpn/zyc2-vpn-user.ovpn.enc -out zyc2-vpn/zyc2-vpn-user.ovpn -d
 - ls -la zyc2-vpn/
+- cp test/user_example.json test/user.json
+- user=$(head -n 1 zyc2-vpn/up-user)
+- pass=$(tail -n 1 zyc2-vpn/up-user)
+- sed -i "s/example_user/$user/" user.json
+- sed -i "s/example_password/$pass/" user.json
 - sudo openvpn --config zyc2-vpn/zyc2-vpn-user.ovpn --auth-user-pass zyc2-vpn/up-user &>>openvpn-client.log &
 install:
 - pip install -r requirements.txt
