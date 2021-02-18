@@ -1,6 +1,7 @@
+[![Build Status](https://travis.ibm.com/cloudFPGA/cFpy.svg?token=8sgWzx3xuqu53CzFUy8K&branch=master)](https://travis.ibm.com/cloudFPGA/cFpy)
+
 # cFpy
 A python library for the control path of cloudFPGA
-
 
 ## Supported functions
 
