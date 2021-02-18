@@ -134,7 +134,8 @@ def post_cluster(number_of_FPGA_nodes, role_image_id, host_address):
         # Maybe set up for a retry
         print(e)
         print("ERROR: Something went wrong with post_cluster request and it reached timeout="+str(__POST_CLUSTER_TIMEOUT__)+". Maybe retry or increase timeout value.\n")
-
+        sys.exit(1)
+        
 def get_cluster_data(cluster_id):
     print("Requesting cluster data for cluster_id={0} ...".format(cluster_id))
     try:
@@ -291,7 +292,8 @@ def load_user_credentials(filedir):
     except Exception as e:
         print(e)
         print("Writing credentials template to {}\n".format(json_file))
-
+        sys.exit(1)
+        
     with open(json_file, 'w') as outfile:
         json.dump(__openstack_user_template__, outfile)
     return -1
