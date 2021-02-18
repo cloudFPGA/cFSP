@@ -33,3 +33,13 @@ A python library for the control path of cloudFPGA
 cd test
 python test.py
 ```
+
+## Enable OpenVPN in travis
+```bash
+sudo gem install travis
+travis endpoint --set-default --api-endpoint https://travis.ibm.com/api
+travis login --github-token <token>
+travis encrypt-file zyc2-vpn-user.ovpn --add
+travis encrypt-file up-user --add
+git add up-user.enc zyc2-vpn-user.ovpn.enc
+```
