@@ -6,9 +6,9 @@ before_install:
 - sudo apt-get update
 - sudo apt-get install openvpn
 - openssl aes-256-cbc -K $encrypted_0c65535e3e7a_key -iv $encrypted_0c65535e3e7a_iv
-  -in up-user.enc -out up-user -d
+  -in zyc2-vpn/up-user.enc -out zyc2-vpn/up-user -d
 - openssl aes-256-cbc -K $encrypted_d74a9efc4525_key -iv $encrypted_d74a9efc4525_iv
-  -in zyc2-vpn-user.ovpn.enc -out zyc2-vpn-user.ovpn -d
+  -in zyc2-vpn/zyc2-vpn-user.ovpn.enc -out zyc2-vpn/zyc2-vpn-user.ovpn -d
 - ls -la zyc2-vpn/
 - sudo openvpn --config zyc2-vpn/zyc2-vpn-user.ovpn --auth-user-pass zyc2-vpn/up-user &>>openvpn-client.log &
 install:
