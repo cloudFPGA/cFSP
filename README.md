@@ -2,22 +2,26 @@
 
 # cFSP
 
-The **cloudFPGA Support Packages (cFSP)** for the cloudFPGA project.
+The **cloudFPGA Support Package (cFSP)** for the cloudFPGA project.
 
 Currently, the cFSP includes a library for the control path of cloudFPGA.
 
 ## Supported functions
 
-### user
+### Control path
+
+Module `cFPy.mngmt`:
+
+#### user
 - [x] load_user_credentials(filedir)
 - [x] show_user_credentials(filedir)
-### clusters
+#### clusters
 - [x] post_cluster(number_of_FPGA_nodes, role_image_id, host_address)
 - [x] get_cluster_data(cluster_id)
 - [x] get_clusters_data()
 - [x] delete_cluster_data(cluster_id)
 - [x] restart_cluster_apps(cluster_id)
-### instances
+#### instances
 - [ ] get_instances_data()
 - [ ] create_instance(image_id)
 - [ ] get_instance_data(instance_id)
@@ -25,14 +29,23 @@ Currently, the cFSP includes a library for the control path of cloudFPGA.
 - [ ] api_request_instance(instance_id, custom_request_method, custom_request_uri, custom_request_payload)
 - [x] restart_instance_app(instance_id)
 - [x] delete_instance(resource_id)
-### images
+#### images
 - [ ] get_images()
 - [ ] get_image(image_id)
 - [ ] post_image(image_id)
 - [ ] delete_image(image_id)
 
+### Data path
+
+Module `cFPy.comm`:
+
+*(to be implemented)*
+
 
 ## Example usage
+
+Store your credentials in `test/user_example.json`, afterwards:
+
 ```bash
 cd test
 python test.py
@@ -47,3 +60,6 @@ travis encrypt-file zyc2-vpn-user.ovpn --add
 travis encrypt-file up-user --add
 git add up-user.enc zyc2-vpn-user.ovpn.enc
 ```
+
+
+
