@@ -26,7 +26,14 @@
 #  *
 #  *
 
-from mngmt import cFuser, cFcluster
+import os
+import sys
+import requests
+import json
+import time
+import datetime
+
+from .mngmt import cFuser, cFcluster
 
 CF_DEFAULT_PORT = 2718
 

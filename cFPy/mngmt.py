@@ -28,14 +28,13 @@
 
 import os
 import sys
-import subprocess
 import requests
+from requests.utils import requote_uri
 import json
 import time
-import resource
 import datetime
 
-from util import errorReqExit
+from .util import errorReqExit
 
 ####################################################################################################
 # Global Constants
@@ -71,10 +70,10 @@ class cFuser:
     def get_auth_string(self, with_project=False):
         if with_project:
             s = "username={0}&password={1}&project_name={2}".format(self.user, self.pw, self.project)
-            return s
+            return requests.utils.requote_uri(s)
         else:
             s = "username={0}&password={1}".format(self.user, self.pw)
-            return s
+            return requests.utils.requote_uri(s)
 
     def set_project(self, new_project):
         """
@@ -85,13 +84,14 @@ class cFuser:
         """
         self.project = new_project
 
-    def show_credentials(self):
+    def print_credentials(self):
         print("User     : " + self.user)
         print("Password : " + self.pw)
         print("Project  : " + self.project)
 
 
 def load_user_credentials(json_file):
+    """returns username, password, and project from a JSON file"""
     user = ""
     pw = ""
     project = ""
@@ -115,7 +115,7 @@ def load_user_credentials(json_file):
     sys.exit(1)
 
 
-def show_user_credentials(json_file):
+def print_user_credentials_from_file(json_file):
     try:
         with open(json_file, 'r') as infile:
             data = json.load(infile)
@@ -224,6 +224,7 @@ def get_clusters_data(user: cFuser, limit=100):
             "http://" + __cf_manager_url__ + "/clusters" + "?{0}&limit={1}".format(
                 user.get_auth_string(), limit), timeout=__GET_CLUSTER_TIMEOUT__)
         elapsed = time.time() - start
+        print(r1.request.url)
         print("Time for GET clusters: \t{0}s\n".format(elapsed))
         if r1.status_code != 200:
             # something went horrible wrong
@@ -269,4 +270,141 @@ def restart_cluster_apps(cluster: cFcluster):
     # update, if necessary
     cluster.cluster_data = cluster_data
     return cluster_data
+
+####################################################################################################
+# Instances functions
+####################################################################################################
+
+
+class cFinstance:
+
+    def __init__(self, user: cFuser, instance_data):
+        self.instance_data = instance_data
+        self.user = user
+        self.id = instance_data['instance_id']
+
+
+def get_instances_data():
+    print("TODO \n")
+
+
+def create_instance():
+    print("TODO \n")
+
+
+def get_instance_data():
+    print("TODO \n")
+
+
+def reprogram_instance():
+    print("TODO \n")
+
+
+def api_request_instance():
+    print("TODO \n")
+
+
+def restart_instance_app(instance: cFinstance):
+    print("Restart FPGA ...")
+    r1 = requests.patch(
+        "http://" + __cf_manager_url__ + "/instances/" + str(instance.id) + "/restart?{0}".format(
+            instance.user.get_auth_string()))
+
+    if r1.status_code != 200:
+        # something went horrible wrong
+        return errorReqExit("PATCH instance restart", r1.status_code)
+
+    instance_data = json.loads(r1.text)
+    # update if necessary
+    instance.instance_data = instance_data
+    return instance_data
+
+
+def delete_instance(instance: cFinstance):
+    print("deleting instance {}".format(instance.id))
+
+    r1 = requests.delete(
+        "http://" + __cf_manager_url__ + "/instances/{0}?{1}".format(instance.id, instance.user.get_auth_string()))
+
+    if r1.status_code > 204:
+        # error codes
+        # 204 Instance was deleted
+        # 401 Unauthenticated, bad login
+        # 403 Unauthorized
+        # 404 Instance does not exist
+        return r1.status_code
+    else:
+        print("Instance {} removed".format(instance.id))
+
+    instance_data = r1.status_code
+    return instance_data
+
+
+####################################################################################################
+# Images functions
+####################################################################################################
+
+class cFimage:
+
+    def __init__(self, user: cFuser, image_data):
+        self.user = user
+        self.image_data = image_data
+        self.id = image_data['id']
+        self.comment = image_data['comment']
+        self.required_shell = image_data['shell_type']
+
+
+def get_images(user: cFuser):
+    print("TODO \n")
+
+
+def get_image(image: cFimage):
+    print("TODO \n")
+
+
+def post_image(image: cFimage):
+    print("TODO \n")
+
+
+def delete_image(image: cFimage):
+    print("TODO \n")
+
+
+####################################################################################################
+# Resources functions (admin only)
+####################################################################################################
+
+# TODO: no resource class so far, because the resource data should reside inside the CFRM, not the cFSP
+
+def get_resource_status(resource_id, admin: cFuser):
+    print("Requesting resource status...")
+    r1 = requests.get(
+        "http://" + __cf_manager_url__ + "/resources/" + str(
+            resource_id) + "/status/" + "?{0}".format(admin.get_auth_string()))
+
+    if r1.status_code != 200:
+        # something went wrong
+        return errorReqExit("GET resource status", r1.status_code)
+
+    resource_status = json.loads(r1.text)
+    return resource_status
+
+
+def set_resource_status(resource_id, new_status, admin: cFuser):
+    # print("set resource status")
+
+    # possible status: "AVAILABLE", "USED", "MAINTENANCE"
+    r1 = requests.put(
+        "http://" + __cf_manager_url__ + "/resources/{0}/status/?{1}&new_status={2}".format(
+            resource_id, admin.get_auth_string(), new_status))
+
+    if r1.status_code != 204:
+        # something went wrong
+        return errorReqExit("PUT /resources/{resource_id}/status/", r1.status_code)
+    else:
+        print("Resource {} set to {}".format(resource_id, new_status))
+
+    resource_data = r1.status_code
+    return resource_data
+
 

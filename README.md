@@ -1,7 +1,10 @@
-[![Build Status](https://travis.ibm.com/cloudFPGA/cFpy.svg?token=8sgWzx3xuqu53CzFUy8K&branch=master)](https://travis.ibm.com/cloudFPGA/cFpy)
+[![Build Status](https://travis.ibm.com/cloudFPGA/cFSP.svg?token=8sgWzx3xuqu53CzFUy8K&branch=master)](https://travis.ibm.com/cloudFPGA/cFSP)
 
-# cFpy
-A python library for the control path of cloudFPGA
+# cFSP
+
+The **cloudFPGA Support Packages (cFSP)** for the cloudFPGA project.
+
+Currently, the cFSP includes a library for the control path of cloudFPGA.
 
 ## Supported functions
 

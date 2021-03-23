@@ -27,7 +27,8 @@
 #  *
 
 import sys
-sys.path.append("../module")
+# make sure cFPY is in the Pythonpath, or add a line as below
+# sys.path.append("../cFPy")
 import cFPy
 
 print("############# Start testing: print_usage ###############\n")
@@ -35,25 +36,29 @@ cFPy.print_usage()
 print("############# End testing:   print_usage ###############\n\n")
 
 print("############# Start testing: load_user_credentials ###############\n")
-#cFPy.load_user_credentials('./')
 my_user = cFPy.mngmt.cFuser("./user_example.json")
 print("############# End testing:   load_user_credentials ###############\n\n")
 
 print("############# Start testing: show_user_credentials ###############\n\n")
-cFPy.show_user_credentials('./')
+my_user.print_credentials()
 print("############# End testing:   show_user_credentials ###############\n\n")
 
 print("############# Start testing: get_clusters_data ###############\n")
-cluster_data=cFPy.get_clusters_data(100)
+cluster_data = cFPy.mngmt.get_clusters_data(my_user, 100)
 print(cluster_data)
 print("############# End testing:   get_clusters_data ###############\n\n")
 
 print("############# Start testing: post_cluster ###############\n")
-cluster_data=cFPy.post_cluster(1, "33ffdea4-4462-48ac-9b32-77768ae95135", "10.2.0.4")
-cluster_id=cluster_data['cluster_id']
-print(cluster_id)
+my_cluster = cFPy.mngmt.post_cluster(my_user, 1, "33ffdea4-4462-48ac-9b32-77768ae95135", "10.2.0.4")
+if type(my_cluster) is cFPy.mngmt.cFcluster:
+    cluster_id = my_cluster.id
+    print(cluster_id)
+else:
+    print("Failed to create cluster")
+    cluster_id = None
 print("############# End testing:   post_cluster ###############\n\n")
 
 print("############# Start testing: delete_cluster_data ###############\n")
-cFPy.delete_cluster_data(cluster_id)
+if type(my_cluster) is cFPy.mngmt.cFcluster:
+    cFPy.mngmt.delete_cluster_data(my_cluster)
 print("############# End testing:   delete_cluster_data ###############\n\n")

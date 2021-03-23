@@ -62,37 +62,37 @@ def print_usage():
 
 def errorReqExit(msg, code):
     print("Request " + msg + " failed with HTTP code " + str(code) + ".")
-    if (code == 0):
+    if code == 0:
         print("0 error: no response from server\n")
     elif (msg == "GET cluster") or (msg == "GET clusters") or (msg == "DELETE cluster"):
-        if (code == 400):
+        if code == 400:
             print("400 Bad request (maybe login/pass with space char?)\n")
-        if (code == 401):
+        if code == 401:
             print("401 Unauthenticated, bad login\n")
-        if (code == 403):
+        if code == 403:
             print("403 Unauthorized\n")
-        if (code == 404):
+        if code == 404:
             print("404 Cluster does not exist\n")
-    elif (msg == "POST cluster"):
-        if (code == 401):
+    elif msg == "POST cluster":
+        if code == 401:
             print("401 Unauthenticated, bad login\n")
-        if (code == 404):
+        if code == 404:
             print("404 One of the regested images does not exist\n")
-        if (code == 415):
+        if code == 415:
             print("415 Image has wrong type/breed\n")
-        if (code == 422):
+        if code == 422:
             print("422 Malformed request\n")
-        if (code == 424):
+        if code == 424:
             print("424 Bitfile seems to be preecarious/unstable (e.g. bad timing or could also hide an internal server error)\n")
-        if (code == 429):
+        if code == 429:
             print("429 Insufficient Quota\n")
-        if (code == 500):
+        if code == 500:
             print("500 Error in communication with devices (maybe try again)\n")
-        if (code == 503):
+        if code == 503:
             print("503 No resources available to fullfil the request\n")
-        if (code == 507):
+        if code == 507:
             print("507 Network or Memory failure on target device (maybe try again)\n")
-        if (code == 508):
+        if code == 508:
             print("508 No network resources available, please contact admins\n")
     exit(1)
 
