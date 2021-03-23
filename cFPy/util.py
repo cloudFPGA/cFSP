@@ -42,22 +42,22 @@ import datetime
 
 def print_usage():
     print( # "Openstack credentials should be stored in {}) \n".format(__credentials_file_name__) +
-        "Options available in cF library :\n" +
+        "Options available in cFPy.mngmt library :\n" +
         " - Clusters: \n" +
-        "   - post_cluster(number_of_FPGA_nodes, role_image_id, host_address)\n" +
-        "   - get_cluster_data(cluster_id) \n" +
-        "   - get_clusters_data(limit) \n" +
-        "   - delete_cluster_data(cluster_id) \n" +
-        "   - restart_cluster_apps(cluster_id) \n" +
+        "   - post_cluster(user, number_of_FPGA_nodes, role_image_id, host_address)\n" +
+        "   - get_cluster_data(cluster) \n" +
+        "   - get_clusters_data(user) \n" +
+        "   - delete_cluster_data(cluster) \n" +
+        "   - restart_cluster_apps(cluster) \n" +
         " - Instances: \n" +
-        "   - restart_instance_app(instance_id) \n" +
-        "   - delete_instance(resource_id) \n" +
-        " - Resources: \n" +
+        "   - restart_instance_app(instance) \n" +
+        "   - delete_instance(instance) \n" +
+        " - Resources (admin users only): \n" +
         "   - get_resource_status(resource_id) \n" +
         " - Users: \n" +
+        "   - cFuser(path/to/credentials.json) \n" +
         "   - load_user_credentials(filedir) \n" +
         "   - show_user_credentials(filedir) \n\n")
-    #exit(1)
 
 
 def errorReqExit(msg, code):

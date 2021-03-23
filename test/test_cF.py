@@ -1,5 +1,5 @@
 # /*******************************************************************************
-#  * Copyright 2016 -- 2020 IBM Corporation
+#  * Copyright 2016 -- 2021 IBM Corporation
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License");
 #  * you may not use this file except in compliance with the License.
@@ -26,9 +26,10 @@
 #  *
 #  *
 
-import sys
-# make sure cFPY is in the Pythonpath, or add a line as below
+# make sure cFPY is in the PYTHONPATH, or add a line as below
+# import sys
 # sys.path.append("../cFPy")
+
 import cFPy
 
 print("############# Start testing: print_usage ###############\n")
