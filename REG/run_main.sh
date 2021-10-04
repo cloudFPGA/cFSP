@@ -16,26 +16,12 @@
 #  *       - All environment variables must be sourced beforehand.
 #  *
 
-# @brief A function to check if previous step passed.
-# @param[in] $1 the return value of the previous command.
-function exit_on_error {
-    if [ $1 -ne 0 ]; then
-        echo "EXIT ON ERROR: Regression '$0' FAILED."
-        echo "  Last return value was $1."
-        exit $1
-    fi
-}
 
 # STEP-0: We need to set the right environment
 export rootDir="$cFSPRootDir/"  #the / is IMPORTANT
 
-#also, we need a license:
-export XILINXD_LICENSE_FILE=2100@pokwinlic1.pok.ibm.com:2100@pokwinlic2.pok.ibm.com:2100@pokwinlic3.pok.ibm.com
-
-
 echo "Set cFp environment."
-retval=1
-
+retval=0
 
 #===============================================================================
 # FUNCTION - fCleanUpAndExit - Clean up the environement and exit
@@ -44,17 +30,21 @@ retval=1
 #  @returns    $1
 #===============================================================================
 fCleanUpAndExit() {
-	echo -e "#"
-	echo -e "# CLEANING UP BEFORE EXITING"
-    echo -e "#"
+    if [ $1 -ne 0 ]; then
+        echo "EXIT ON ERROR: Regression '$0' FAILED."
+        echo "  Last return value was $1."
+    fi    
 
+    echo -e "#"
+	echo -e "# CLEANING UP BEFORE EXITING"
+    echo -e "#"  
+    
 	sudo kill $(cat /tmp/zyc2-user-vpn.pid)
 	rm -f /tmp/zyc2-user-vpn.credentials
 	rm -f /tmp/zyc2-user-vpn.conf
 
 	exit $1
 }
-
 
 
 
@@ -74,14 +64,15 @@ sleep 10
 ping -c 4 10.12.0.1
 if [ $? -ne 0 ]; then echo -e "ERROR: Cannot ping the VPN"; exit 1; fi
 
-cp test/user_example.json test/user.json
 
+echo -e "#"
+echo -e "# SETTING UP CREDENTIALS FILE"
+echo -e "#"
+cp test/user_example.json test/user.json
 user=$(head -n 1 /tmp/zyc2-user-vpn.credentials)
 pass=$(tail -n 1 /tmp/zyc2-user-vpn.credentials)
 sed -i s/example_user/$user/ test/user.json
 sed -i s/example_password/$pass/ test/user.json
-cat zyc2-vpn/up-user
-cat zyc2-vpn/zyc2-vpn-user.ovpn
 sed -i s/user_example.json/user.json/ test/test_cF.py
     
     
@@ -100,18 +91,15 @@ echo "===     $0"
 echo "================================================================"
 
 echo "================================================================"
-echo "===   REGRESSION - START OF BUILD: 'monolithic' "
+echo "===   REGRESSION - START OF BUILD: 'test_cF.py' "
 echo "===     $0"
 echo "================================================================"
 cd $rootDir/test
 python3 test_cF.py
-exit_on_error $? 
 echo "================================================================"
-echo "===   REGRESSION - END OF BUILD  : 'monolithic' "
+echo "===   REGRESSION - END OF BUILD  : 'test_cF.py' "
 echo "===     $0"
 echo "================================================================"
 
 
 fCleanUpAndExit $retval
-
-
