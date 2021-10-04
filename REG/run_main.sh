@@ -78,7 +78,7 @@ cp test/user_example.json test/user.json
 
 user=$(head -n 1 /tmp/zyc2-user-vpn.credentials)
 pass=$(tail -n 1 /tmp/zyc2-user-vpn.credentials)
-sed -i s/example_user/$user/" test/user.json
+sed -i s/example_user/$user/ test/user.json
 sed -i s/example_password/$pass/ test/user.json
 cat zyc2-vpn/up-user
 cat zyc2-vpn/zyc2-vpn-user.ovpn
