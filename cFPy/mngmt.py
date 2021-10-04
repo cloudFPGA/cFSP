@@ -196,11 +196,11 @@ def post_cluster(user: cFuser, number_of_FPGA_nodes, role_image_id, host_address
 
 
 def get_cluster_data(cluster: cFcluster):
-    print("Requesting cluster data for cluster_id={0} ...".format(cluster['cluster_id'])) # FIXME: .get_id()
+    print("Requesting cluster data for cluster_id={0} ...".format(cluster.get_id())) # FIXME: .get_id()
     try:
         start = time.time()
         r1 = requests.get(
-            "http://" + __cf_manager_url__ + "/clusters/" + str(cluster['cluster_id']) + "?{0}".format(
+            "http://" + __cf_manager_url__ + "/clusters/" + str(cluster.get_id()) + "?{0}".format(
                 cluster.user.get_auth_string()), timeout=__GET_CLUSTER_TIMEOUT__)
         elapsed = time.time() - start
         print("Time for GET cluster: \t{0}s\n".format(elapsed))
@@ -259,19 +259,24 @@ def delete_cluster_data(cluster: cFcluster):
 
 
 def restart_cluster_apps(cluster: cFcluster):
-    print("Restart all FPGAs ...")
-    r1 = requests.patch(
-        "http://" + __cf_manager_url__ + "/clusters/" + str(cluster.get_id()) + "/restart?{0}".format(
+    print("Requesting restart for (all) FPGA(s) of cluster_id={0} ...".format(cluster.get_id()))
+    try:
+        start = time.time()        
+        r1 = requests.patch(
+            "http://" + __cf_manager_url__ + "/clusters/" + str(cluster.get_id()) + "/restart?{0}".format(
             cluster.user.get_auth_string()))
+        elapsed = time.time() - start
+        print("Time for RESTART cluster: \t{0}s\n".format(elapsed))
 
-    if r1.status_code != 200:
-        # something went horrible wrong
-        return errorReqExit("PATCH cluster restart", r1.status_code)
+        if r1.status_code != 200:
+            # something went horrible wrong
+            return errorReqExit("PATCH cluster restart", r1.status_code)
+        print(r1.content.decode())
 
-    cluster_data = json.loads(r1.text)
-    # update, if necessary
-    cluster.cluster_data = cluster_data
-    return cluster_data
+    except Exception as e:
+        print("ERROR: Failed to reset the FPGA(s) role(s)")
+        print(str(e))
+        exit(1)
 
 ####################################################################################################
 # Instances functions
@@ -318,7 +323,7 @@ def get_instance_data(instance: cFinstance):
         start = time.time()
         r1 = requests.get(
             "http://" + __cf_manager_url__ + "/instances/" + str(instance.get_id()) + "?{0}".format(
-                cluster.user.get_auth_string()), timeout=__GET_INSTANCE_TIMEOUT__)
+                instance.user.get_auth_string()), timeout=__GET_INSTANCE_TIMEOUT__)
         elapsed = time.time() - start
         print("Time for GET instance: \t{0}s\n".format(elapsed))
         if r1.status_code != 200:
@@ -345,20 +350,20 @@ def api_request_instance():
 
 
 def restart_instance_app(instance: cFinstance):
-    print("Restart FPGA ...")
+    print("Requesting restart for instance_id={0} ...".format(instance.get_id()))
     try:
+        start = time.time()       
         r1 = requests.patch(
-            "http://" + __cf_manager_url__ + "/instances/" + str(instance.id) + "/restart?{0}".format(
+            "http://" + __cf_manager_url__ + "/instances/" + str(instance.get_id()) + "/app_restart?{0}".format(
             instance.user.get_auth_string()))
+        elapsed = time.time() - start
+        print("Time for RESTART instance: \t{0}s\n".format(elapsed))
 
         if r1.status_code != 200:
             # something went horrible wrong
             return errorReqExit("PATCH instance restart", r1.status_code)
+        print(r1.content.decode())
 
-        instance_data = json.loads(r1.text)
-        # update if necessary
-        instance.instance_data = instance_data
-        return instance_data
     except Exception as e:
         print("ERROR: Failed to reset the FPGA role")
         print(str(e))

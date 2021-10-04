@@ -22,13 +22,13 @@ Module `cFPy.mngmt`:
 - [x] delete_cluster_data(cluster_id)
 - [x] restart_cluster_apps(cluster_id)
 #### instances
-- [ ] get_instances_data()
+- [x] get_instances_data()
 - [ ] create_instance(image_id)
-- [ ] get_instance_data(instance_id)
+- [x] get_instance_data(instance_id)
 - [ ] reprogram_instance(instance_id, image_id, dont_verify_memory)
 - [ ] api_request_instance(instance_id, custom_request_method, custom_request_uri, custom_request_payload)
 - [x] restart_instance_app(instance_id)
-- [x] delete_instance(resource_id)
+- [x] delete_instance(instance_id)
 #### images
 - [ ] get_images()
 - [ ] get_image(image_id)
