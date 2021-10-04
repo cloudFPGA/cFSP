@@ -53,6 +53,8 @@ __POST_CLUSTER_TIMEOUT__   = 130
 __GET_CLUSTER_TIMEOUT__    = 5
 __DELETE_CLUSTER_TIMEOUT__ = 20
 
+__GET_INSTANCE_TIMEOUT__    = 5
+__DELETE_INSTANCE_TIMEOUT__ = 20
 
 ####################################################################################################
 # User functions
@@ -194,11 +196,11 @@ def post_cluster(user: cFuser, number_of_FPGA_nodes, role_image_id, host_address
 
 
 def get_cluster_data(cluster: cFcluster):
-    print("Requesting cluster data for cluster_id={0} ...".format(cluster.get_id()))
+    print("Requesting cluster data for cluster_id={0} ...".format(cluster['cluster_id'])) # FIXME: .get_id()
     try:
         start = time.time()
         r1 = requests.get(
-            "http://" + __cf_manager_url__ + "/clusters/" + str(cluster.get_id()) + "?{0}".format(
+            "http://" + __cf_manager_url__ + "/clusters/" + str(cluster['cluster_id']) + "?{0}".format(
                 cluster.user.get_auth_string()), timeout=__GET_CLUSTER_TIMEOUT__)
         elapsed = time.time() - start
         print("Time for GET cluster: \t{0}s\n".format(elapsed))
@@ -283,17 +285,55 @@ class cFinstance:
         self.user = user
         self.id = instance_data['instance_id']
 
-
-def get_instances_data():
-    print("TODO \n")
-
+    def get_id(self):
+        return self.id
+    
+def get_instances_data(user: cFuser, limit=100):
+    print("Requesting instances data (limit="+str(limit)+")...")
+    try:
+        start = time.time()
+        r1 = requests.get(
+            "http://" + __cf_manager_url__ + "/instances" + "?{0}&limit={1}".format(
+                user.get_auth_string(), limit), timeout=__GET_INSTANCE_TIMEOUT__)
+        elapsed = time.time() - start
+        print(r1.request.url)
+        print("Time for GET instances: \t{0}s\n".format(elapsed))
+        if r1.status_code != 200:
+            # something went horrible wrong
+            return errorReqExit("GET instances", r1.status_code)
+        instances_data = json.loads(r1.text)
+        return instances_data
+    except requests.exceptions.Timeout as e:
+        # Maybe set up for a retry
+        print(e)
+        print("ERROR: Something went wrong with get_instances request and it reached timeout="+str(__GET_INSTANCE_TIMEOUT__)+". Maybe retry or increase timeout value.\n")
 
 def create_instance():
     print("TODO \n")
 
 
-def get_instance_data():
-    print("TODO \n")
+def get_instance_data(instance: cFinstance):
+    print("Requesting instance data for instance_id={0} ...".format(instance.get_id()))
+    try:
+        start = time.time()
+        r1 = requests.get(
+            "http://" + __cf_manager_url__ + "/instances/" + str(instance.get_id()) + "?{0}".format(
+                cluster.user.get_auth_string()), timeout=__GET_INSTANCE_TIMEOUT__)
+        elapsed = time.time() - start
+        print("Time for GET instance: \t{0}s\n".format(elapsed))
+        if r1.status_code != 200:
+            # something went horrible wrong
+            return errorReqExit("GET instance", r1.status_code)
+
+        instance_data = json.loads(r1.text)
+        # update, if necessary
+        instance.instance_data = instance_data
+        return instance_data
+    except requests.exceptions.Timeout as e:
+        # Maybe set up for a retry
+        print(e)
+        print("ERROR: Something went wrong with get_instance_data request and it reached timeout="+str(__GET_INSTANCE_TIMEOUT__)+". Maybe retry or increase timeout value.\n")
+
 
 
 def reprogram_instance():
@@ -306,19 +346,23 @@ def api_request_instance():
 
 def restart_instance_app(instance: cFinstance):
     print("Restart FPGA ...")
-    r1 = requests.patch(
-        "http://" + __cf_manager_url__ + "/instances/" + str(instance.id) + "/restart?{0}".format(
+    try:
+        r1 = requests.patch(
+            "http://" + __cf_manager_url__ + "/instances/" + str(instance.id) + "/restart?{0}".format(
             instance.user.get_auth_string()))
 
-    if r1.status_code != 200:
-        # something went horrible wrong
-        return errorReqExit("PATCH instance restart", r1.status_code)
+        if r1.status_code != 200:
+            # something went horrible wrong
+            return errorReqExit("PATCH instance restart", r1.status_code)
 
-    instance_data = json.loads(r1.text)
-    # update if necessary
-    instance.instance_data = instance_data
-    return instance_data
-
+        instance_data = json.loads(r1.text)
+        # update if necessary
+        instance.instance_data = instance_data
+        return instance_data
+    except Exception as e:
+        print("ERROR: Failed to reset the FPGA role")
+        print(str(e))
+        exit(1)
 
 def delete_instance(instance: cFinstance):
     print("deleting instance {}".format(instance.id))

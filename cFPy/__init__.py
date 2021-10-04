@@ -27,8 +27,7 @@
 #  *
 
 # assemble the package
-from .util import print_usage
+from .util  import print_usage
 from . import mngmt
 from . import comm
-
 
