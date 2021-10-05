@@ -22,7 +22,7 @@
 #  *     Authors: FAB, WEI, NGL, DID
 #  *
 #  *     Description:
-#  *      A test example of cFPy Python library.
+#  *      A test example of cFSP Python library.
 #  *
 #  *
 
