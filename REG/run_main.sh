@@ -95,7 +95,7 @@ echo "===   REGRESSION - START OF BUILD: 'test_cF.py' "
 echo "===     $0"
 echo "================================================================"
 cd $rootDir/test
-python3 test_cF.py
+retval=`python3 test_cF.py`
 echo "================================================================"
 echo "===   REGRESSION - END OF BUILD  : 'test_cF.py' "
 echo "===     $0"
