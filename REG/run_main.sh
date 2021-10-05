@@ -34,16 +34,17 @@ fCleanUpAndExit() {
         echo "EXIT ON ERROR: Regression '$0' FAILED."
         echo "  Last return value was $1."
     fi    
-
+    
     echo -e "#"
-	echo -e "# CLEANING UP BEFORE EXITING"
+    echo -e "# SUCCESSFULL TEST"
+    echo -e "# CLEANING UP BEFORE EXITING"
     echo -e "#"  
     
-	sudo kill $(cat /tmp/zyc2-user-vpn.pid)
-	rm -f /tmp/zyc2-user-vpn.credentials
-	rm -f /tmp/zyc2-user-vpn.conf
+    sudo kill $(cat /tmp/zyc2-user-vpn.pid)
+    rm -f /tmp/zyc2-user-vpn.credentials
+    rm -f /tmp/zyc2-user-vpn.conf
 
-	exit $1
+    exit $1
 }
 
 
