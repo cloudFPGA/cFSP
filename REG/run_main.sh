@@ -95,7 +95,10 @@ echo "===   REGRESSION - START OF BUILD: 'test_cF.py' "
 echo "===     $0"
 echo "================================================================"
 cd $rootDir/test
-retval=$(python3 test_cF.py 2>&1)                                                                                                                    
+retval=$(python3 test_cF.py 2>&1)
+print("The return value is")
+print(type(retval))
+print(retval)
 
 echo "================================================================"
 echo "===   REGRESSION - END OF BUILD  : 'test_cF.py' "
