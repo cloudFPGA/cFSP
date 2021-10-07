@@ -1,4 +1,4 @@
-[![Build Status](https://travis.ibm.com/cloudFPGA/cFSP.svg?token=8sgWzx3xuqu53CzFUy8K&branch=master)](https://travis.ibm.com/cloudFPGA/cFSP)
+[![Build Status](https://jenkins.cloudfpga.zc2.ibm.com/buildStatus/icon?job=cFSP)](https://jenkins.cloudfpga.zc2.ibm.com/job/cFSP/)
 
 # cFSP
 
@@ -41,6 +41,13 @@ Module `cFPy.comm`:
 
 *(to be implemented)*
 
+## Setting up python virtual environment 
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+```
 
 ## Example usage
 
