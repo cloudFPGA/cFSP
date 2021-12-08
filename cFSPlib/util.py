@@ -42,7 +42,7 @@ import datetime
 
 def print_usage():
     print( # "Openstack credentials should be stored in {}) \n".format(__credentials_file_name__) +
-        "Options available in cFPy.mngmt library :\n" +
+        "Options available in cFSPlib.mngmt library :\n" +
         " - Clusters: \n" +
         "   - post_cluster(user, number_of_FPGA_nodes, role_image_id, host_address)\n" +
         "   - get_cluster_data(cluster) \n" +

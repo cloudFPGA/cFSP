@@ -10,7 +10,7 @@ Currently, the cFSP includes a library for the control path of cloudFPGA.
 
 ### Control path
 
-Module `cFPy.mngmt`:
+Module `cFSPlib/.mngmt`:
 
 #### user
 - [x] load_user_credentials(filedir)
@@ -37,15 +37,17 @@ Module `cFPy.mngmt`:
 
 ### Data path
 
-Module `cFPy.comm`:
+Module `cFSPlib/.comm`:
 
 *(to be implemented)*
 
 ## Setting up python virtual environment 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
-pip install --upgrade pip
+cd <your-path>/cFSP/
+which python3.8
+/usr/bin/python3.8
+virtualenv -p /usr/bin/python3.8 cfenv
+source cfenv/bin/activate
 pip install -r requirements.txt
 ```
 

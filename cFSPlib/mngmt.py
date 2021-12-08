@@ -34,7 +34,7 @@ import json
 import time
 import datetime
 
-from .util import errorReqExit
+from util import errorReqExit
 
 ####################################################################################################
 # Global Constants

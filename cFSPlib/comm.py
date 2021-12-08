@@ -33,7 +33,7 @@ import json
 import time
 import datetime
 
-from .mngmt import cFuser, cFcluster
+from mngmt import cFuser, cFcluster
 
 CF_DEFAULT_PORT = 2718
 
