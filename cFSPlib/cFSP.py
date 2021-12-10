@@ -21,8 +21,37 @@
 #  *     Authors: FAB, WEI, NGL, DID
 #  *
 #  *     Description:
-#  *       Python framework to create new cloudFPGA projects (cFp).
+#  *       Python tool to interact with cFRM.
 #  *
+
+#! /usr/bin/env python
+
+"""
+cloudFPGA Support Package (cfsp)
+cfsp is a command-line tool that helps a cloudFPGA user to work with cloudFPGA Resource Manager (cFRM).
+Usage: 
+    cfsp [-c CFGFILE] [--version] [--help] [--username=<username>] [--password=<password>] 
+           <command> [<args>...]
+    
+Commands:
+    user            Creates a new cFp based on the given cFDK
+    cluster         Update the environment setting of an existing cFp
+    image           Upgrades the cFDK and the environment setting an existing cFp
+    instance        Installs a cloudFPGA addon (cFa) to an existing cFp
+
+Options:
+    -h --help            Show this screen.
+    -v --version         Show version.
+    -c --config CFGFILE  Specify the configfile that rsnapshot should use 
+                         [default: ./user.json]
+    --username=<username>      Your ZYC2 username [default: username_example].
+    --password=<password>      Your ZYC2 password [default: password_example].
+
+See 'cfsp help <command>' for more information on a specific command.
+
+Copyright IBM Research, licensed under the Apache License 2.0.
+
+"""
 
 from __future__ import print_function, unicode_literals
 
@@ -34,8 +63,10 @@ import re
 from PyInquirer import prompt, print_json
 from pprint import pprint
 
-#import sys
-#sys.path.append("./")
+import cfsp_globals
+import dill
+import cfsp_user
+import cfsp_cluster
 
 from util import print_usage
 import mngmt
@@ -43,39 +74,42 @@ import comm
 
 __version__ = 0.1
 
-docstr = """cloudFPGA Support Package
-cfsp is a command-line tool that helps a cloudFPGA user to work with cloudFPGA Resource Manager (cFRM).
-Usage: 
-    cfsp new (--cfdk-version=<cfdkv> | --cfdk-zip=<path-to-zip>)  [--git-url=<git-url>] [--git-init] <path-to-project-folder>
-    cfsp update  <path-to-project-folder>
-    cfsp upgrade (--cfdk-version=<cfdkv> | --cfdk-zip=<path-to-zip>)  [--git-url=<git-url>] <path-to-project-folder>
-    cfsp adorn (--cfa-repo=<cfagit> | --cfa-zip=<path-to-zip>) <folder-name-for-addon> <path-to-project-folder>
+def check_credentials():
+    #if os.path.isfile(cfsp_globals.__cfsp_session_file__):
+    #    dill.load_session(cfsp_globals.__cfsp_session_file__)
+    #else:
+    args = docopt(__doc__, version=__version__)
+    args['<args>'] = ['load']
+    cfsp_user.main(args)
     
-    cfsp -h|--help
-    cfsp -v|--version
-Commands:
-    new             Creates a new cFp based on the given cFDK
-    update          Update the environment setting of an existing cFp
-    upgrade         Upgrades the cFDK and the environment setting an existing cFp
-    adorn           Installs a cloudFPGA addon (cFa) to an existing cFp
-Options:
-    -h --help       Show this screen.
-    -v --version    Show version.
-    
-    --cfdk-version=<cfdkv>      Specifies that the cFDK can be accessed via Github and with cFDK-version should be used.
-                                'latest' will use the latest available version.
-    --git-url=<git-url>         Uses the given URL to clone cFDK instead the default.
-    --cfdk-zip=<path-to-zip>    If the cFDK can't be reached via Github, a zip can be used.
-    --git-init                  Creates the new cFp as git-repo; Adds the cFDK as git submodule, if not using a cfdk-zip
-    --cfa-repo=<cfagit>         Link to the cFa git repository
-    --cfa-zip=<path-to-zip>     Path to a cFa zip folder
-Copyright IBM Research, licensed under the Apache License 2.0.
-Contact: {ngl,fab,wei,did,hle}@zurich.ibm.com
-"""
-
 def main():
-    arguments = docopt(docstr, version=__version__)
-    print("OK")
+    args = docopt(__doc__, version=__version__)
+    
+    #print('global arguments:')
+    #print(args)
+    #print('command arguments:')
+    
+    argv = [args['<command>']] + args['<args>']
+    #print("OK")
+
+    if args['<command>'] == 'user':
+        print("is user")
+        cfsp_user.main(args)
+        print(args['<args>'])
+    elif args['<command>'] == 'cluster':
+        print("is cluster")
+        check_credentials()
+        cfsp_cluster.main(args)
+
+        
+    elif args['<command>'] in ['help', None]:
+        if args['<args>'] == ['user']:
+            print(docopt(cfsp_user.__doc__, argv=argv))
+        elif args['<args>'] == ['cluster']:
+            print(docopt(cfsp_user.__doc__, argv=argv))
+        else:
+            exit(print(docopt(__doc__, version=__version__)))
+        
 
 
 if __name__ == '__main__':
@@ -83,5 +117,7 @@ if __name__ == '__main__':
         # This works with virtualenv for Python 3 and 2 and also for the venv module in Python 3
         print("ERROR: It looks like this cFSP isn't running in a virtual environment. Aborting.")
         sys.exit(1)
+        
+    
     main()
     exit(0)

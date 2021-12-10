@@ -34,107 +34,12 @@ import json
 import time
 import datetime
 
+from cfsp_user import *
+from cfsp_globals import *
+
 from util import errorReqExit
 
-####################################################################################################
-# Global Constants
-####################################################################################################
 
-__openstack_user_template__ = {}
-__openstack_user_template__['credentials'] = {}
-__openstack_user_template__['credentials']['user'] = "your user name"
-__openstack_user_template__['credentials']['pw'] = "your user password"
-__openstack_user_template__['project'] = "default"
-
-__cf_manager_url__ = "10.12.0.132:8080"
-__NON_FPGA_IDENTIFIER__ = "NON_FPGA"
-
-__POST_CLUSTER_TIMEOUT__   = 130
-__GET_CLUSTER_TIMEOUT__    = 5
-__DELETE_CLUSTER_TIMEOUT__ = 20
-
-__GET_INSTANCE_TIMEOUT__    = 5
-__DELETE_INSTANCE_TIMEOUT__ = 20
-
-####################################################################################################
-# User functions
-####################################################################################################
-
-class cFuser:
-    """A user in the cloudFPGA world"""
-
-    def __init__(self, credentials_path):
-        user, pw, project = load_user_credentials(credentials_path)
-        self.user = user
-        self.pw = pw
-        self.project = project
-
-    def get_auth_string(self, with_project=False):
-        if with_project:
-            s = "username={0}&password={1}&project_name={2}".format(self.user, self.pw, self.project)
-            return requests.utils.requote_uri(s)
-        else:
-            s = "username={0}&password={1}".format(self.user, self.pw)
-            return requests.utils.requote_uri(s)
-
-    def set_project(self, new_project):
-        """
-        This method should be used if the cloudFPGA quota name that should be used for this handle is different from the
-        default or credentials file
-        :param new_project:
-        :return: nothing
-        """
-        self.project = new_project
-
-    def print_credentials(self):
-        print("User     : " + self.user)
-        print("Password : " + self.pw)
-        print("Project  : " + self.project)
-
-
-def load_user_credentials(json_file):
-    """returns username, password, and project from a JSON file"""
-    user = ""
-    pw = ""
-    project = ""
-
-    try:
-        with open(json_file, 'r') as infile:
-            data = json.load(infile)
-        user = data['credentials']['user']
-        pw = data['credentials']['pw']
-        if 'project' in data:
-            project = data['project']
-        else:
-            project = __openstack_user_template__['project']
-        return user, pw, project
-    except Exception as e:
-        print(e)
-        print("Writing credentials template to {}\n".format(json_file))
-
-    with open(json_file, 'w') as outfile:
-        json.dump(__openstack_user_template__, outfile)
-    sys.exit(1)
-
-
-def print_user_credentials_from_file(json_file):
-    try:
-        with open(json_file, 'r') as infile:
-            data = json.load(infile)
-        user = data['credentials']['user']
-        pw = data['credentials']['pw']
-        if 'project' in data:
-            project = data['project']
-        else:
-            project = __openstack_user_template__['project']
-        print("User     : " + user)
-        print("Password : " + pw)
-        print("Project  : " + project)
-        return 0
-    except Exception as e:
-        print(e)
-        print("No credentials found \n")
-        sys.exit(1)
 
 
 ####################################################################################################
