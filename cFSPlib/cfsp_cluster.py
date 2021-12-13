@@ -1,4 +1,4 @@
-"""usage: cfsp cluster (get | post) [credentials_file]
+"""usage: cfsp cluster (get | post)
 """
 from __future__ import absolute_import
 
@@ -9,9 +9,10 @@ sys.path.append(python_api_client_path)
 import cfsp_globals
 import swagger_client
 from swagger_client.api.clusters_api import ClustersApi  # noqa: E501
+from swagger_client.rest import ApiException
 from swagger_client.api_client import ApiClient
 from swagger_client.configuration import Configuration
-
+from pprint import pprint
 
 def main(args):
     print("cluster main")
@@ -32,13 +33,20 @@ def main(args):
         password = cfsp_globals.__cfsp_password__
         print('username='+username)
         if (len(args['<args>']) == 2):
-            returned = cluster_api.cf_manager_rest_api_get_cluster_single(username, password, args['<args>'][1])
+            try:
+                api_response = cluster_api.cf_manager_rest_api_get_cluster_single(username, password, args['<args>'][1])
+            except ApiException as e:
+                print("Exception when calling ClustersApi->cf_manager_rest_api_get_cluster_single: %s\n" % e)              
+                exit(-1)
         elif (len(args['<args>']) == 1):
-            returned = cluster_api.cf_manager_rest_api_get_clusters(username, password)
+            try:
+                api_response = cluster_api.cf_manager_rest_api_get_clusters(username, password)
+            except ApiException as e:
+                print("Exception when calling ClustersApi->cf_manager_rest_api_get_clusters: %s\n" % e)              
+                exit(-1)            
         else:
             exit(print("ERROR: invalid arguments provided in cfsp cluster get. Aborting..."))
-        print(returned)
-
+        pprint(api_response)
 
 
 

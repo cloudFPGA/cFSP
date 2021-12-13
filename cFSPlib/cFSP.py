@@ -74,12 +74,13 @@ import comm
 
 __version__ = 0.1
 
-def check_credentials():
+def check_credentials(CFGFILE):
     #if os.path.isfile(cfsp_globals.__cfsp_session_file__):
     #    dill.load_session(cfsp_globals.__cfsp_session_file__)
     #else:
     args = docopt(__doc__, version=__version__)
-    args['<args>'] = ['load']
+    args['<args>'] = ['load', CFGFILE]
+    args['--username']
     cfsp_user.main(args)
     
 def main():
@@ -98,7 +99,7 @@ def main():
         print(args['<args>'])
     elif args['<command>'] == 'cluster':
         print("is cluster")
-        check_credentials()
+        check_credentials(args['--config'])
         cfsp_cluster.main(args)
 
         
