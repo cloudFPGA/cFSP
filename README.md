@@ -74,6 +74,17 @@ Show the credentials of a user from a credentials file.
 ![cfsp-user-show](doc/img/2a.png)
 
 
+### Load new credentials for a user
+
+You can easily load new credentials either by editing the configuration file (e.g. user.json), or by providing any of the supported command line options. In the latter case, the configuration file is being overwritten.
+
+```bash
+./cfsp user load --username=anotherUser  --password=anotherPassword  --project=anotherProject
+```
+
+![cfsp-user-load-new](doc/img/2b.png)
+
+
 ### Upload an image
 
 Assuming you want to upload the FPGA image which is stored at `/tmp/4_topFMKU60_impl_monolithic.bit`
