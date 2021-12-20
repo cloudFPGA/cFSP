@@ -4,7 +4,7 @@ Usage:
 Commands:
     get <id>     Get all clusters of a user. Either <id> of cluster or no argument for all.
     post         Request a cluster.
-    delete id    Delete a cluster with cluster_id=id.
+    delete id    Delete a cluster with cluster_id=id. Also supporting id=all to relete all clusters (after confirmation dialog with user)
 """
 from __future__ import absolute_import
 

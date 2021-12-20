@@ -39,5 +39,7 @@ Please follow the [installation procedure](#installation--usage) and then run th
 ./cfsp --help
 ```
 
+![cfsp-help](doc/img/1.png)
+
 
 
