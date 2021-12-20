@@ -30,8 +30,9 @@
 cloudFPGA Support Package (cfsp)
 cfsp is a command-line tool that helps a cloudFPGA user to work with cloudFPGA Resource Manager (cFRM).
 Usage: 
-    cfsp [-c CFGFILE] [--version] [--help] [--username=<username>] [--password=<password>] [--project=<project>]
-           <command> [<args>...]
+    cfsp    [-c CFGFILE] [--version] [--help] [--username=<username>] [--password=<password>] [--project=<project>]
+            [--image_id=<image_id>] [--node_ip=<node_ip>]
+            <command> [<args>...]
     
 Commands:
     user            Creates a new cFp based on the given cFDK
@@ -44,10 +45,13 @@ Options:
     -v --version         Show version.
     -c --config CFGFILE  Specify the configfile that rsnapshot should use 
                          [default: ./user.json]
-    --username=<username>      Your ZYC2 username [default: username_example].
-    --password=<password>      Your ZYC2 password [default: password_example].
-    --project=<password>       The user's project [default: project_example].
-
+    --username=<username>       Your ZYC2 username [default: username_example].
+    --password=<password>       Your ZYC2 password [default: password_example].
+    --project=<password>        The user's project [default: project_example].
+    
+    --image_id=<image_id>       The id of the uploaded FPGA image, or NON_FPGA for a CPU VM node [default: NON_FPGA].
+    --node_ip=<node_ip>         The ip of the OpenVPN user's VM, e.g. a ZYC2 VM [default: 10.12.2.100].
+    
 See 'cfsp help <command>' for more information on a specific command.
 
 Copyright IBM Research, licensed under the Apache License 2.0.
