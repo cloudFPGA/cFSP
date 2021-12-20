@@ -21,7 +21,6 @@ from swagger_client.configuration import Configuration
 from pprint import pprint
 
 def main(args):
-    print("image main")
 
     conf = Configuration()
     conf.host = cfsp_globals.__cf_manager_url__

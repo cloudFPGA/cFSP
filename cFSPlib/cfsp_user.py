@@ -88,7 +88,6 @@ def main(args):
         else:
             print("ERROR: invalid arguments provided in cfsp user show. Aborting...")
             sys.exit(-1)
-    user.print_credentials()
             
 def load_user_credentials(json_file):
     """returns username, password, and project from a JSON file"""
