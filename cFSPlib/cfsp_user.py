@@ -77,6 +77,7 @@ def main(args):
             cfsp_globals.__cfsp_project__ = user.project = args['--project']        
         else:
             cfsp_globals.__cfsp_project__ = user.project
+        write_user_credentials(args['--config'])
     elif args['<args>'][0] == 'show':
         if (len(args['<args>']) == 1):
             print_user_credentials_from_file(args['--config'])
@@ -108,6 +109,19 @@ def load_user_credentials(json_file):
     #sys.exit(1)
 
 
+def write_user_credentials(json_file):
+    """writes credentials to a JSON file"""
+    __cfsp_template__ = {}
+    __cfsp_template__['credentials'] = {}
+    __cfsp_template__['credentials']['username'] = cfsp_globals.__cfsp_username__
+    __cfsp_template__['credentials']['password'] = cfsp_globals.__cfsp_password__
+    __cfsp_template__['project'] = cfsp_globals.__cfsp_project__    
+    try:
+        with open(json_file, 'w') as outfile:
+            json.dump(__cfsp_template__, outfile)
+    except Exception as e:
+        print(e)
+        
 def print_user_credentials_from_file(json_file):
     try:
         with open(json_file, 'r') as infile:

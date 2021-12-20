@@ -71,7 +71,7 @@ Show the credentials of a user from a credentials file.
 ./cfsp user show
 ```
 
-![cfsp-user-load](doc/img/2a.png)
+![cfsp-user-show](doc/img/2a.png)
 
 
 ### Upload an image
