@@ -73,3 +73,50 @@ Assuming you want to upload the FPGA image which is stored at `/tmp/4_topFMKU60_
 ```
 
 ![cfsp-image-post](doc/img/4.png)
+
+
+### Get an image
+
+Assuming you want to get the details of the previously uloaded FPGA image with id `74462cd5-20e3-4228-a47d-258b7e5e583a`
+
+```bash
+./cfsp image get 74462cd5-20e3-4228-a47d-258b7e5e583a
+```
+
+![cfsp-image-post](doc/img/5.png)
+
+
+### Create a cluster
+
+Assuming you want to create with
+  * one CPU node from ZYC2 with ip=`10.12.2.100`
+  * one FPGA from cloudFPGA platform with the previously uloaded FPGA image with id `74462cd5-20e3-4228-a47d-258b7e5e583a`
+
+```bash
+./cfsp cluster post --image_id=74462cd5-20e3-4228-a47d-258b7e5e583a --node_ip=10.12.2.100
+```
+
+![cfsp-image-post](doc/img/6.png)
+
+
+### Get a cluster
+
+Assuming you want to get the details of the previously created cluster with id `259`
+
+```bash
+/cfsp cluster get 259
+```
+
+![cfsp-image-post](doc/img/7.png)
+
+
+### Delete a cluster
+
+Assuming you want to delete the previously created cluster with id `259`
+
+```bash
+/cfsp cluster delete 259
+```
+
+![cfsp-image-post](doc/img/8.png)
+
