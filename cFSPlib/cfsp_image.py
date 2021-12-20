@@ -36,9 +36,7 @@ def main(args):
     password = cfsp_globals.__cfsp_password__
     project_name = cfsp_globals.__cfsp_project__
 
-    print(args['<args>'])
     if args['<args>'][0] == 'get':
-        print("image get")        
         if (len(args['<args>']) == 2):
             try:
                 api_response = api_instance.cf_manager_rest_api_get_image_single(username, password, args['<args>'][1])                
@@ -54,9 +52,7 @@ def main(args):
         else:
             exit(print("ERROR: invalid arguments provided in cfsp image get. Aborting..."))
         pprint(api_response)
-        print(type(api_response))
     elif args['<args>'][0] == 'post':
-        print("image post")
         try:
             # Upload an image
             image_details = '{   "breed": "SHELL",   "fpga_board": "FMKU60",   "shell_type": "Themisto",   "comment" : "Some valuable information for humans (optional)"}'

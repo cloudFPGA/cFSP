@@ -32,6 +32,8 @@ pip install -r requirements.txt
 
 ## Getting Started
 
+### Getting help
+
 Please follow the [installation procedure](#installation--usage) and then run the following:
 
 
@@ -40,6 +42,8 @@ Please follow the [installation procedure](#installation--usage) and then run th
 ```
 
 ![cfsp-help](doc/img/1.png)
+
+### Setting up the credentials file for a user
 
 Load the credentials for a user. If no credentials file exists, a template will be created.
 
@@ -53,4 +57,19 @@ You may edit this file with your ZYC2 username and password.
 
 ![cfsp-user-json](doc/img/3.png)
 
-> **_NOTE:_** You may provide a spcific configuration file instead the default (user.json), by using the option `-c my_custom_file` (or `--config`)
+> **_NOTE:_** You may provide a spcific configuration file instead the default (user.json), by using the option `-c my_custom_file` (or `--config my_custom_file`), e.g.
+
+```bash
+./cfsp user load /home/user/user.json
+```
+
+### Uploading an image
+
+Assuming you want to upload the FPGA image which is stored at `/tmp/4_topFMKU60_impl_monolithic.bit`
+
+```bash
+./cfsp image post --image_file=4_topFMKU60_impl_monolithic.bit
+
+```
+
+![cfsp-image-post](doc/img/4.png)
