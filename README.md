@@ -41,5 +41,16 @@ Please follow the [installation procedure](#installation--usage) and then run th
 
 ![cfsp-help](doc/img/1.png)
 
+Load the credentials for a user. If no credentials file exists, a template will be created.
 
+```bash
+./cfsp user load
+```
 
+![cfsp-user-load](doc/img/2.png)
+
+You may edit this file with your ZYC2 username and password.
+
+![cfsp-user-json](doc/img/3.png)
+
+> **_NOTE:_** You may provide a spcific configuration file instead the default (user.json), by using the option `-c my_custom_file` (or `--config`)
