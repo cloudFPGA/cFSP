@@ -7,7 +7,7 @@
 /** \defgroup cFSP cFSP
  *  @ingroup cFSphere
  * 
- *  \brief cFSP is the cloudFPGA Support Package and it helps a user to interact with cFRM
+ *  \brief cFSP is the cloudFPGA Support Package and it includes a support library for accessing the data and control paths of a cloudFPGA instance.
  */
 
 /*****************************************************************************
