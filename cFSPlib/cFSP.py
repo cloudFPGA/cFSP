@@ -32,6 +32,8 @@ cfsp is a command-line tool that helps a cloudFPGA user to work with cloudFPGA R
 Usage: 
     cfsp    [-c CFGFILE] [--version] [--help] [--username=<username>] [--password=<password>] [--project=<project>]
             [--image_id=<image_id>] [--node_ip=<node_ip>]
+            [--image_file=<image_file>]
+            [--repeat=<repeat>]
             <command> [<args>...]
     
 Commands:
@@ -52,6 +54,10 @@ Options:
     --image_id=<image_id>       The id of the uploaded FPGA image, or NON_FPGA for a CPU VM node [default: NON_FPGA].
     --node_ip=<node_ip>         The ip of the OpenVPN user's VM, e.g. a ZYC2 VM [default: 10.12.2.100].
     
+    --image_file=<image_file>   The FPGA image file to be uploaded [default: ./image.bit].
+    
+    --repeat=<repeat>           The numper of times to repeat the command [default: 1].
+    
 See 'cfsp help <command>' for more information on a specific command.
 
 Copyright IBM Research, licensed under the Apache License 2.0.
@@ -67,11 +73,12 @@ from docopt import docopt
 import re
 from PyInquirer import prompt, print_json
 from pprint import pprint
+from tqdm import tqdm
 
 import cfsp_globals
-#import dill
 import cfsp_user
 import cfsp_cluster
+import cfsp_image
 
 from util import print_usage
 import mngmt
@@ -91,30 +98,30 @@ def check_credentials(CFGFILE):
 def main():
     args = docopt(__doc__, version=__version__)
     
-    #print('global arguments:')
-    #print(args)
-    #print('command arguments:')
-    
     argv = [args['<command>']] + args['<args>']
-    #print("OK")
 
-    if args['<command>'] == 'user':
-        print("is user")
-        cfsp_user.main(args)
-        print(args['<args>'])
-    elif args['<command>'] == 'cluster':
-        print("is cluster")
-        check_credentials(args['--config'])
-        cfsp_cluster.main(args)
-
+    for repeat_id in tqdm(range(0,int(args['--repeat']))):
+        print("INFO: Repeat #"+str(repeat_id))
+    
+        if args['<command>'] == 'user':
+            cfsp_user.main(args)
+            print(args['<args>'])
+        elif args['<command>'] == 'cluster':
+            check_credentials(args['--config'])
+            cfsp_cluster.main(args)
+        elif args['<command>'] == 'image':
+            check_credentials(args['--config'])
+            cfsp_image.main(args)
         
-    elif args['<command>'] in ['help', None]:
-        if args['<args>'] == ['user']:
-            print(docopt(cfsp_user.__doc__, argv=argv))
-        elif args['<args>'] == ['cluster']:
-            print(docopt(cfsp_cluster.__doc__, argv=argv))
-        else:
-            exit(print(docopt(__doc__, version=__version__)))
+        elif args['<command>'] in ['help', None]:
+            if args['<args>'] == ['user']:
+                print(docopt(cfsp_user.__doc__, argv=argv))
+            elif args['<args>'] == ['cluster']:
+                print(docopt(cfsp_cluster.__doc__, argv=argv))
+            elif args['<args>'] == ['image']:
+                print(docopt(cfsp_image.__doc__, argv=argv))
+            else:
+                exit(print(docopt(__doc__, version=__version__)))
         
 
 

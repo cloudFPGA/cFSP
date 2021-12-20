@@ -53,14 +53,12 @@ class cFuser:
 
 
 def main(args):
-    print("user main")
     if ((len(args['<args>']) < 1) or (len(args['<args>']) > 2)):
         print("ERROR: invalid arguments provided in 'cfsp user' command. Aborting...")
         exit(print(__doc__))
     
     print(args['<args>'])
     if args['<args>'][0] == 'load':
-        print("user load")
         if (len(args['<args>']) == 2):
             user=cFuser(args['<args>'][1])
         elif (len(args['<args>']) == 1):
@@ -82,7 +80,6 @@ def main(args):
             cfsp_globals.__cfsp_project__ = user.project
         #dill.dump_session(cfsp_globals.__cfsp_session_file__)
     elif args['<args>'][0] == 'show':
-        print("user show")
         if (len(args['<args>']) == 2):
             user=cFuser(args['<args>'][1])
             print_user_credentials_from_file(args['<args>'][1])

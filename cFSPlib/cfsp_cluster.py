@@ -4,6 +4,7 @@ Usage:
 Commands:
     get <id>     Get all clusters of a user. Either <id> of cluster or no argument for all.
     post         Request a cluster.
+    delete id    Delete a cluster with cluster_id=id.
 """
 from __future__ import absolute_import
 
@@ -18,10 +19,18 @@ from swagger_client.rest import ApiException
 from swagger_client.api_client import ApiClient
 from swagger_client.configuration import Configuration
 from pprint import pprint
+from tqdm import tqdm
+
+def confirm_choice():
+    confirm = input("[c]Confirm or [v]Void: ")
+    if confirm != 'c' and confirm != 'v':
+        print("\n Invalid Option. Please Enter a Valid Option.")
+        return confirm_choice() 
+    print (confirm)
+    return confirm
+
 
 def main(args):
-    print("cluster main")
-
     conf = Configuration()
     conf.host = cfsp_globals.__cf_manager_url__
     api_client = ApiClient(conf)    
@@ -35,9 +44,7 @@ def main(args):
     password = cfsp_globals.__cfsp_password__
     project_name = cfsp_globals.__cfsp_project__
 
-    print(args['<args>'])
     if args['<args>'][0] == 'get':
-        print("cluster get")        
         if (len(args['<args>']) == 2):
             try:
                 api_response = api_instance.cf_manager_rest_api_get_cluster_single(username, password, args['<args>'][1])
@@ -54,15 +61,13 @@ def main(args):
             exit(print("ERROR: invalid arguments provided in cfsp cluster get. Aborting..."))
         pprint(api_response)
     elif args['<args>'][0] == 'post':
-        print("cluster post")
         # create an instance of the API class
-        body = [swagger_client.ClustersBody]        
-        #body[0].image_id = "NON_FPGA"
-        #body[0].node_id = 0
-        #body[0].node_ip = args['--node_ip']
+        # FIXME: Currently we only support a cluster with one ZYC2 VM and one FPGA
+        body = [swagger_client.ClustersBody, swagger_client.ClustersBody]        
         body[0].image_id = args['--image_id']
-        body[0].node_id = 0        
-        dont_verify_memory = 0 # int | If 1, don't verify the DDR4 memory during setup (optional) (default to 0)
+        body[0].node_id = 0
+        body[1] =  {    "image_id": "NON_FPGA",    "node_ip":  args['--node_ip'],    "node_id": 1  }
+        dont_verify_memory = 0
         try:
             # Request a cluster
             api_response = api_instance.cf_manager_rest_api_post_clusters(body, username, password, project_name=project_name, dont_verify_memory=dont_verify_memory)
@@ -75,7 +80,28 @@ def main(args):
             try:
             # Delete a cluster
                 cluster_id = args['<args>'][1]
-                api_instance.cf_manager_rest_api_delete_cluster(username, password, cluster_id)
+                if cluster_id == 'all':
+                    print("INFO: Really deleting all clusters ?")
+                    if confirm_choice() == 'c':
+                        print("INFO: Confirmed deleting all clusters")
+                        try:
+                            api_response_get_in_delete = api_instance.cf_manager_rest_api_get_clusters(username, password)
+                            if(len(api_response_get_in_delete) > 0):
+                                for this_cluster in tqdm(api_response_get_in_delete):                                  
+                                    print("INFO: Deleting cluster " + str(this_cluster.cluster_id) + " ... ")
+                                    try:
+                                        api_instance.cf_manager_rest_api_delete_cluster(username, password, this_cluster.cluster_id)
+                                    except ApiException as e_in_delete:
+                                        print("Exception when calling ClustersApi->cf_manager_rest_api_delete_cluster: %s\n" % e_in_delete)        
+                            else:
+                                print("INFO: No clusters to delete.")
+                        except ApiException as e_in_get:
+                            print("Exception when calling ClustersApi->cf_manager_rest_api_get_clusters: %s\n" % e_in_get)              
+                            exit(-1)
+                    else:
+                        print ("INFO: Canceling deleting all clsuters")
+                else:
+                    api_instance.cf_manager_rest_api_delete_cluster(username, password, cluster_id)
             except ApiException as e:
                 print("Exception when calling ClustersApi->cf_manager_rest_api_delete_cluster: %s\n" % e)
         else:
