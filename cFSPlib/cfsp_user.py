@@ -1,15 +1,17 @@
 """
 Usage:
-    cfsp user (load | show) [credentials_file]
+    cfsp user (load | show) [-c CFGFILE]
 Commands:
     load         Load credentials from a file
     show         Show the credentials of a file
+Options:
+    -c --config CFGFILE  Specify the configfile that rsnapshot should use 
+                         [default: ./user.json]    
 """
 from docopt import docopt
 import json
 import cfsp_globals
 import sys
-#import dill
 
 
 ####################################################################################################
@@ -19,12 +21,12 @@ import sys
 class cFuser:
     """A user in the cloudFPGA world"""
 
-    def __init__(self, credentials_file):
-        username, password, project = load_user_credentials(credentials_file)
+    def __init__(self, CFGFILE):
+        username, password, project = load_user_credentials(CFGFILE)
         self.project = project
         self.username = username
         self.password = password
-        self.credentials_file = credentials_file
+        self.CFGFILE = CFGFILE
 
 
     def get_auth_string(self, with_project=False):
@@ -45,7 +47,7 @@ class cFuser:
         self.project = new_project
 
     def print_credentials(self):
-        print("File     : " + self.credentials_file)
+        print("File     : " + self.CFGFILE)
         print("User     : " + self.username)
         print("Password : " + self.password)
         print("Project  : " + self.project)
@@ -53,16 +55,13 @@ class cFuser:
 
 
 def main(args):
-    if ((len(args['<args>']) < 1) or (len(args['<args>']) > 2)):
+    if (len(args['<args>']) != 1):
         print("ERROR: invalid arguments provided in 'cfsp user' command. Aborting...")
         exit(print(__doc__))
     
-    print(args['<args>'])
     if args['<args>'][0] == 'load':
-        if (len(args['<args>']) == 2):
-            user=cFuser(args['<args>'][1])
-        elif (len(args['<args>']) == 1):
-            user=cFuser("user.json")
+        if (len(args['<args>']) == 1):
+            user=cFuser(args['--config'])
         else:
             print("ERROR: invalid arguments provided in cfsp user load. Aborting...")
             sys.exit(-1)
@@ -78,13 +77,9 @@ def main(args):
             cfsp_globals.__cfsp_project__ = user.project = args['--project']        
         else:
             cfsp_globals.__cfsp_project__ = user.project
-        #dill.dump_session(cfsp_globals.__cfsp_session_file__)
     elif args['<args>'][0] == 'show':
-        if (len(args['<args>']) == 2):
-            user=cFuser(args['<args>'][1])
-            print_user_credentials_from_file(args['<args>'][1])
-        elif (len(args['<args>']) == 1):
-            user=cFuser("user.json")
+        if (len(args['<args>']) == 1):
+            print_user_credentials_from_file(args['--config'])
         else:
             print("ERROR: invalid arguments provided in cfsp user show. Aborting...")
             sys.exit(-1)
@@ -109,7 +104,6 @@ def load_user_credentials(json_file):
         print("Writing credentials template to {}\n".format(json_file))
         with open(json_file, 'w') as outfile:
             json.dump(cfsp_globals.__openstack_user_template__, outfile)
-    #dill.dump_session('./cf_bk_dill.pkl')
     return username, password, project           
     #sys.exit(1)
 

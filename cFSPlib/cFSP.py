@@ -91,8 +91,7 @@ def check_credentials(CFGFILE):
     #    dill.load_session(cfsp_globals.__cfsp_session_file__)
     #else:
     args = docopt(__doc__, version=__version__)
-    args['<args>'] = ['load', CFGFILE]
-    #args['--username'] = 'did'
+    args['<args>'] = ['load']
     cfsp_user.main(args)
     
 def main():
