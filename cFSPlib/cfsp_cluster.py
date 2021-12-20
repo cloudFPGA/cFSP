@@ -1,4 +1,9 @@
-"""usage: cfsp cluster (get | post)
+"""
+Usage: 
+    cfsp cluster (get | post)    
+Commands:
+    get <id>     Get all clusters of a user. Either <id> of cluster or no argument for all.
+    post         Request a cluster.
 """
 from __future__ import absolute_import
 
@@ -26,12 +31,13 @@ def main(args):
         print("ERROR: invalid arguments provided in 'cfsp cluster' command. Aborting...")
         exit(print(__doc__))
     
+    username = cfsp_globals.__cfsp_username__
+    password = cfsp_globals.__cfsp_password__
+    project = cfsp_globals.__cfsp_project__
+
     print(args['<args>'])
     if args['<args>'][0] == 'get':
-        print("cluster get")
-        username = cfsp_globals.__cfsp_username__
-        password = cfsp_globals.__cfsp_password__
-        print('username='+username)
+        print("cluster get")        
         if (len(args['<args>']) == 2):
             try:
                 api_response = cluster_api.cf_manager_rest_api_get_cluster_single(username, password, args['<args>'][1])
@@ -47,7 +53,12 @@ def main(args):
         else:
             exit(print("ERROR: invalid arguments provided in cfsp cluster get. Aborting..."))
         pprint(api_response)
-
+    elif args['<args>'][0] == 'post':
+        print("cluster post")
+        # create an instance of the API class
+        api_instance = swagger_client.ClustersApi()
+        body = [swagger_client.ClustersBody()] # list[ClustersBody] | Mapping of Node-IDs to Images
+        project_name = cfsp_globals.__cfsp_project__
 
 
     

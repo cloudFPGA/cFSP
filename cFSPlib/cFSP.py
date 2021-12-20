@@ -30,7 +30,7 @@
 cloudFPGA Support Package (cfsp)
 cfsp is a command-line tool that helps a cloudFPGA user to work with cloudFPGA Resource Manager (cFRM).
 Usage: 
-    cfsp [-c CFGFILE] [--version] [--help] [--username=<username>] [--password=<password>] 
+    cfsp [-c CFGFILE] [--version] [--help] [--username=<username>] [--password=<password>] [--project=<project>]
            <command> [<args>...]
     
 Commands:
@@ -46,6 +46,7 @@ Options:
                          [default: ./user.json]
     --username=<username>      Your ZYC2 username [default: username_example].
     --password=<password>      Your ZYC2 password [default: password_example].
+    --project=<password>       The user's project [default: project_example].
 
 See 'cfsp help <command>' for more information on a specific command.
 
@@ -64,7 +65,7 @@ from PyInquirer import prompt, print_json
 from pprint import pprint
 
 import cfsp_globals
-import dill
+#import dill
 import cfsp_user
 import cfsp_cluster
 
@@ -80,7 +81,7 @@ def check_credentials(CFGFILE):
     #else:
     args = docopt(__doc__, version=__version__)
     args['<args>'] = ['load', CFGFILE]
-    args['--username']
+    #args['--username'] = 'did'
     cfsp_user.main(args)
     
 def main():
@@ -107,7 +108,7 @@ def main():
         if args['<args>'] == ['user']:
             print(docopt(cfsp_user.__doc__, argv=argv))
         elif args['<args>'] == ['cluster']:
-            print(docopt(cfsp_user.__doc__, argv=argv))
+            print(docopt(cfsp_cluster.__doc__, argv=argv))
         else:
             exit(print(docopt(__doc__, version=__version__)))
         

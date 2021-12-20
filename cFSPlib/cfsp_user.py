@@ -1,15 +1,15 @@
 """
-Usage: cfsp user (load | show) [credentials_file]
-
+Usage:
+    cfsp user (load | show) [credentials_file]
 Commands:
-    load            Creates a new cFp based on the given cFDK
-    show         Update the environment setting of an existing cFp
+    load         Load credentials from a file
+    show         Show the credentials of a file
 """
 from docopt import docopt
 import json
 import cfsp_globals
 import sys
-import dill
+#import dill
 
 
 ####################################################################################################
@@ -69,14 +69,18 @@ def main(args):
             print("ERROR: invalid arguments provided in cfsp user load. Aborting...")
             sys.exit(-1)
         if args['--username'] != 'username_example':
-            cfsp_globals.__cfsp_username__ = args['--username']
+            cfsp_globals.__cfsp_username__ = user.username = args['--username']
         else:
             cfsp_globals.__cfsp_username__ = user.username
         if args['--password'] != 'password_example':
-            cfsp_globals.__cfsp_password__ = args['--password']        
+            cfsp_globals.__cfsp_password__ = user.password = args['--password']        
         else:
             cfsp_globals.__cfsp_password__ = user.password
-        dill.dump_session(cfsp_globals.__cfsp_session_file__)
+        if args['--project'] != 'project_example':
+            cfsp_globals.__cfsp_project__ = user.project = args['--project']        
+        else:
+            cfsp_globals.__cfsp_project__ = user.project
+        #dill.dump_session(cfsp_globals.__cfsp_session_file__)
     elif args['<args>'][0] == 'show':
         print("user show")
         if (len(args['<args>']) == 2):
