@@ -25,8 +25,15 @@
 #  *
 
 #! /usr/bin/env python
-
 """
+@file       cFSP.py
+@brief      This is the main file of cFSP
+@author     DID
+@date       Dec 2021
+@ingroup cFSP
+@addtogroup cFSP
+\{
+
 cloudFPGA Support Package (cfsp)
 cfsp is a command-line tool that helps a cloudFPGA user to work with cloudFPGA Resource Manager (cFRM).
 Usage: 
@@ -133,3 +140,8 @@ if __name__ == '__main__':
     
     main()
     exit(0)
+
+
+"""
+! \} 
+"""
