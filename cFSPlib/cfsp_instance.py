@@ -67,6 +67,13 @@ def main(args):
         try:
             # Request an instance
             api_response = api_instance.cf_manager_rest_api_post_instances(image_id, username, password, project_name=project_name, dont_verify_memory=dont_verify_memory)
+            # post_instance dows not return the role_ip, thus we call get_instance afterwards.
+            instance_id = api_response.instance_id
+            try:
+                api_response = api_instance.cf_manager_rest_api_get_instance(username, password, instance_id)
+            except ApiException as e:
+                print("Exception when calling InstancesApi->cf_manager_rest_api_get_instance: %s\n" % e)              
+                exit(-1)
             pprint(api_response)
         except ApiException as e:
             print("Exception when calling InstancesApi->cf_manager_rest_api_post_instances: %s\n" % e)

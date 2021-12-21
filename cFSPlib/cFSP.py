@@ -39,7 +39,8 @@ cloudFPGA Support Package (cfsp)
 cfsp is a command-line tool that helps a cloudFPGA user to work with cloudFPGA Resource Manager (cFRM).
 Usage: 
     cfsp    [-c CFGFILE] [--version] [--help] [--username=<username>] [--password=<password>] [--project=<project>]
-            [--image_id=<image_id>] [--node_ip=<node_ip>]
+            [--image_id=<image_id>]...
+            [--node_ip=<node_ip>]...
             [--image_file=<image_file>]
             [--limit=<limit>] [--repeat=<repeat>]
             <command> [<args>...]

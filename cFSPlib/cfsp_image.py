@@ -65,7 +65,7 @@ def main(args):
     elif args['<args>'][0] == 'delete':
         if (len(args['<args>']) == 2):
             try:
-            # Delete a cluster
+            # Delete an image
                 image_id = args['<args>'][1]
                 api_instance.cf_manager_rest_api_delete_image(username, password, image_id)
             except ApiException as e:

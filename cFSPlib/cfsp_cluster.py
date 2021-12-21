@@ -63,11 +63,22 @@ def main(args):
     elif args['<args>'][0] == 'post':
         # create an instance of the API class
         # FIXME: Currently we only support a cluster with one ZYC2 VM and one FPGA
-        body = [swagger_client.ClustersBody, swagger_client.ClustersBody]        
-        body[0].image_id = args['--image_id']
-        body[0].node_id = 0
-        body[1] =  {    "image_id": "NON_FPGA",    "node_ip":  args['--node_ip'],    "node_id": 1  }
+        body = [] #[swagger_client.ClustersBody, swagger_client.ClustersBody]        
+        #body[0].image_id = args['--image_id']
+        #body[0].node_id = 0
+        #body[1] =  {    "image_id": "NON_FPGA",    "node_ip":  args['--node_ip'],    "node_id": 1  }
         dont_verify_memory = 0
+        
+        fpga_num = len(args['--image_id'])
+        for i in range(fpga_num):
+            fpga_body = {    "image_id": args['--image_id'][i],  "node_id": i  }
+            body.append(fpga_body)
+            
+        cpu_num = len(args['--node_ip'])
+        for j in range(cpu_num):
+            cpu_body = {    "image_id": cfsp_globals.__NON_FPGA_IDENTIFIER__,    "node_ip":  args['--node_ip'][j],    "node_id": fpga_num+j  }
+            body.append(cpu_body)
+
         try:
             # Request a cluster
             api_response = api_instance.cf_manager_rest_api_post_clusters(body, username, password, project_name=project_name, dont_verify_memory=dont_verify_memory)

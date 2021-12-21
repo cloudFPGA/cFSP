@@ -41,6 +41,7 @@ pip install -r requirements.txt
 * [Upload an image](#upload-an-image).
 * [Get an image](#get-an-image).
 * [Create a cluster](#create-a-cluster).
+* [Create a multi-node cluster](#create-a-multi-node-cluster).
 * [Get a cluster](#get-a-cluster).
 * [Delete a cluster](#delete-a-cluster).
 * [Create an instance](#create-an-instance).
@@ -143,7 +144,20 @@ Assuming you want to create a cluster with
 ./cfsp cluster post --image_id=74462cd5-20e3-4228-a47d-258b7e5e583a --node_ip=10.12.2.100 --repeat=2
 ```
 
-![cfsp-cluster-post-many](doc/img/6a.png)
+![cfsp-cluster-post-repeat](doc/img/6a.png)
+
+
+### Create a multi-node cluster
+
+You can add to a cluster an arbitrary number of
+  * CPU nodes from ZYC2, by using the `--node_ip=` identifier
+  * FPGA nodes from cloudFPGA, by using the `--image_id=` identifier
+
+```bash
+./cfsp cluster post --image_id=74462cd5-20e3-4228-a47d-258b7e5e583a --image_id=d031b5a9-c3d8-4775-98db-e3de936a63e3  --node_ip=10.12.2.100 --node_ip=10.12.2.101 --node_ip=10.12.2.103 --node_ip=10.12.2.104 --node_ip=10.12.2.105
+```
+
+![cfsp-cluster-post-many](doc/img/6b.png)
 
 
 ### Get a cluster
