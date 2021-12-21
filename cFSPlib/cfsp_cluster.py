@@ -76,37 +76,36 @@ def main(args):
             print("Exception when calling ClustersApi->cf_manager_rest_api_post_clusters: %s\n" % e)
             exit(-1)
     elif args['<args>'][0] == 'delete':
-        if (len(args['<args>']) == 2):
-            cluster_id = args['<args>'][1]
-            if cluster_id == 'all':
-                print("INFO: Really deleting all clusters ?")
-                if confirm_choice() == 'c':
-                    print("INFO: Confirmed deleting all clusters")
-                    try:
-                        api_response_get_in_delete = api_instance.cf_manager_rest_api_get_clusters(username, password)
-                        if(len(api_response_get_in_delete) > 0):
-                            for this_cluster in tqdm(api_response_get_in_delete):                                  
-                                # Delete a cluster
-                                print("INFO: Deleting cluster " + str(this_cluster.cluster_id) + " ... ")
-                                try:
-                                    api_instance.cf_manager_rest_api_delete_cluster(username, password, this_cluster.cluster_id)
-                                except ApiException as e_in_delete:
-                                    print("Exception when calling ClustersApi->cf_manager_rest_api_delete_cluster: %s\n" % e_in_delete)        
-                        else:
-                            print("INFO: No clusters to delete.")
-                    except ApiException as e_in_get:
-                        print("Exception when calling ClustersApi->cf_manager_rest_api_get_clusters: %s\n" % e_in_get)              
-                        exit(-1)
-                else:
-                    print ("INFO: Canceling deleting all clsuters")
-            else:
-                # Delete a cluster
-                print("INFO: Deleting cluster " + str(cluster_id) + " ... ")
+        if (len(args['<args>']) == 1):
+            print("INFO: Really deleting all clusters ?")
+            if confirm_choice() == 'c':
+                print("INFO: Confirmed deleting all clusters")
                 try:
-                    api_instance.cf_manager_rest_api_delete_cluster(username, password, cluster_id)
-                except ApiException as e:
-                    print("Exception when calling ClustersApi->cf_manager_rest_api_delete_cluster: %s\n" % e)
+                    api_response_get_in_delete = api_instance.cf_manager_rest_api_get_clusters(username, password)
+                    if(len(api_response_get_in_delete) > 0):
+                        for this_cluster in tqdm(api_response_get_in_delete):                                  
+                            # Delete a cluster
+                            print("INFO: Deleting cluster " + str(this_cluster.cluster_id) + " ... ")
+                            try:
+                                api_instance.cf_manager_rest_api_delete_cluster(username, password, this_cluster.cluster_id)
+                            except ApiException as e_in_delete:
+                                print("Exception when calling ClustersApi->cf_manager_rest_api_delete_cluster: %s\n" % e_in_delete)        
+                    else:
+                        print("INFO: No clusters to delete.")
+                except ApiException as e_in_get:
+                    print("Exception when calling ClustersApi->cf_manager_rest_api_get_clusters: %s\n" % e_in_get)              
                     exit(-1)
+            else:
+                print ("INFO: Canceling deleting all clsuters")
+        elif (len(args['<args>']) == 2):
+            cluster_id = args['<args>'][1]
+            # Delete a cluster
+            print("INFO: Deleting cluster " + str(cluster_id) + " ... ")
+            try:
+                api_instance.cf_manager_rest_api_delete_cluster(username, password, cluster_id)
+            except ApiException as e:
+                print("Exception when calling ClustersApi->cf_manager_rest_api_delete_cluster: %s\n" % e)
+                exit(-1)
         else:
             exit(print("ERROR: invalid arguments provided in cfsp cluster delete. Aborting..."))
 

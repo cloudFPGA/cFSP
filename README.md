@@ -32,6 +32,20 @@ pip install -r requirements.txt
 
 ## Getting Started
 
+### [ToC]
+
+* [Getting help](#getting-help).
+* [Setting up the credentials file for a user](#setting-up-the-credentials-file-for-a-user).
+* [Show the credentials of a user](#show-the-credentials-of-a-user).
+* [Load new credentials for a user](#load-new-credentials-for-a-user).
+* [Upload an image](#upload-an-image).
+* [Get an image](#get-an-image).
+* [Create a cluster](#create-a-cluster).
+* [Get a cluster](#get-a-cluster).
+* [Delete a cluster](#delete-a-cluster).
+* [Create a cluster](#create-a-cluster).
+
+
 ### Getting help
 
 Please follow the [installation procedure](#installation--usage) and then run the following:
@@ -151,10 +165,10 @@ Assuming you want to delete the previously created cluster with id `259`
 
 ![cfsp-cluster-delete](doc/img/8.png)
 
-> **_NOTE:_** You may delete all uploaded clusters of a user by providing the keyword `all` for a cluster id, e.g.
+> **_NOTE:_** You may delete all uploaded clusters of a user by not providing a specific cluster id, e.g.
 
 ```bash
-./cfsp cluster delete all
+./cfsp cluster delete
 ```
 
 ![cfsp-cluster-delete-all](doc/img/9.png)
