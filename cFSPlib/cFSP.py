@@ -24,15 +24,16 @@
 #  *       Python tool to interact with cFRM.
 #  *
 
+# @file       cFSP.py
+# @brief      This is the main file of cFSP
+# @author     DID
+# @date       Dec 2021
+# @ingroup cFSP
+# @addtogroup cFSP
+# \{
+
 #! /usr/bin/env python
 """
-@file       cFSP.py
-@brief      This is the main file of cFSP
-@author     DID
-@date       Dec 2021
-@ingroup cFSP
-@addtogroup cFSP
-\{
 
 cloudFPGA Support Package (cfsp)
 cfsp is a command-line tool that helps a cloudFPGA user to work with cloudFPGA Resource Manager (cFRM).
@@ -44,10 +45,10 @@ Usage:
             <command> [<args>...]
     
 Commands:
-    user            Creates a new cFp based on the given cFDK
-    cluster         Update the environment setting of an existing cFp
-    image           Upgrades the cFDK and the environment setting an existing cFp
-    instance        Installs a cloudFPGA addon (cFa) to an existing cFp
+    user            Adding or showing the credentials of a user.
+    cluster         Creating, showing and deleting clusters.
+    image           Uploading, showing and deleting FPGA images.
+    instance        Creating, showing and deleting instances.
 
 Options:
     -h --help            Show this screen.
@@ -142,6 +143,5 @@ if __name__ == '__main__':
     exit(0)
 
 
-"""
-! \} 
-"""
+
+# ! \} 
