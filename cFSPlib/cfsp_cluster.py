@@ -4,7 +4,7 @@ Usage:
 Commands:
     get <id>     Get all clusters of a user. Either <id> of cluster or no argument for all.
     post         Request a cluster.
-    delete id    Delete a cluster with cluster_id=id. Also supporting id=all to relete all clusters (after confirmation dialog with user)
+    delete id    Delete a cluster with cluster_id=id. If no id is provided then all clusters are deleted (after confirmation dialog with user)
 """
 from __future__ import absolute_import
 
@@ -53,7 +53,7 @@ def main(args):
                 exit(-1)
         elif (len(args['<args>']) == 1):
             try:
-                api_response = api_instance.cf_manager_rest_api_get_clusters(username, password)
+                api_response = api_instance.cf_manager_rest_api_get_clusters(username, password, limit=args['--limit'])
             except ApiException as e:
                 print("Exception when calling ClustersApi->cf_manager_rest_api_get_clusters: %s\n" % e)              
                 exit(-1)            

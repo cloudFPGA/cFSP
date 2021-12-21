@@ -41,7 +41,7 @@ Usage:
     cfsp    [-c CFGFILE] [--version] [--help] [--username=<username>] [--password=<password>] [--project=<project>]
             [--image_id=<image_id>] [--node_ip=<node_ip>]
             [--image_file=<image_file>]
-            [--repeat=<repeat>]
+            [--limit=<limit>] [--repeat=<repeat>]
             <command> [<args>...]
     
 Commands:
@@ -63,6 +63,7 @@ Options:
     --node_ip=<node_ip>         The ip of the OpenVPN user's VM, e.g. a ZYC2 VM [default: 10.12.2.100].
     
     --image_file=<image_file>   The FPGA image file to be uploaded [default: ./image.bit].
+    --limit=<limit>             The limit of get for clusters, images, instances [default: 100].
     
     --repeat=<repeat>           The numper of times to repeat the command [default: 1].
     
@@ -87,6 +88,7 @@ import cfsp_globals
 import cfsp_user
 import cfsp_cluster
 import cfsp_image
+import cfsp_instance
 
 from util import print_usage
 import mngmt
@@ -119,7 +121,9 @@ def main():
         elif args['<command>'] == 'image':
             check_credentials(args['--config'])
             cfsp_image.main(args)
-        
+        elif args['<command>'] == 'instance':
+            check_credentials(args['--config'])
+            cfsp_instance.main(args)
         elif args['<command>'] in ['help', None]:
             if args['<args>'] == ['user']:
                 print(docopt(cfsp_user.__doc__, argv=argv))
@@ -127,9 +131,13 @@ def main():
                 print(docopt(cfsp_cluster.__doc__, argv=argv))
             elif args['<args>'] == ['image']:
                 print(docopt(cfsp_image.__doc__, argv=argv))
+            elif args['<args>'] == ['instance']:
+                print(docopt(cfsp_instance.__doc__, argv=argv))
             else:
                 exit(print(docopt(__doc__, version=__version__)))
-        
+        else:
+            print("ERROR: unknown command. Aborting...")
+            exit(print(docopt(__doc__, version=__version__)))
 
 
 if __name__ == '__main__':

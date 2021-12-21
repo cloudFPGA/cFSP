@@ -32,7 +32,7 @@ pip install -r requirements.txt
 
 ## Getting Started
 
-### [ToC]
+### Contents
 
 * [Getting help](#getting-help).
 * [Setting up the credentials file for a user](#setting-up-the-credentials-file-for-a-user).
@@ -43,7 +43,9 @@ pip install -r requirements.txt
 * [Create a cluster](#create-a-cluster).
 * [Get a cluster](#get-a-cluster).
 * [Delete a cluster](#delete-a-cluster).
-* [Create a cluster](#create-a-cluster).
+* [Create an instance](#create-an-instance).
+* [Get an instance](#get-an-instance).
+* [Delete an instance](#delete-an-instance).
 
 
 ### Getting help
@@ -74,7 +76,7 @@ You may edit this file with your ZYC2 username and password. Please remember als
 > **_NOTE:_** You may provide a spcific configuration file instead the default (user.json), by using the option `-c my_custom_file` (or `--config my_custom_file`), e.g.
 
 ```bash
-./cfsp user load /home/user/user.json
+./cfsp user load --config /home/user/user.json
 ```
 
 ### Show the credentials of a user
@@ -124,7 +126,7 @@ Assuming you want to get the details of the previously uloaded FPGA image with i
 
 ### Create a cluster
 
-Assuming you want to create with
+Assuming you want to create a cluster with
   * one CPU node from ZYC2 with ip=`10.12.2.100`
   * one FPGA from cloudFPGA platform with the previously uloaded FPGA image with id `74462cd5-20e3-4228-a47d-258b7e5e583a`
 
@@ -172,3 +174,58 @@ Assuming you want to delete the previously created cluster with id `259`
 ```
 
 ![cfsp-cluster-delete-all](doc/img/9.png)
+
+
+
+
+
+
+### Create an instance
+
+Assuming you want to create an instance
+  * one FPGA from cloudFPGA platform with the previously uloaded FPGA image with id `74462cd5-20e3-4228-a47d-258b7e5e583a`
+
+```bash
+./cfsp instance post --image_id=74462cd5-20e3-4228-a47d-258b7e5e583a
+```
+
+![cfsp-instance-post](doc/img/10.png)
+
+
+> **_NOTE:_** You may want to create many instances of the previous type. For such cases, there is an extra option `--repeat=<num>`, which specifies how many times the command should be issued. Please note that this applies to all supported commands of `cfsp`, e.g. :
+
+```bash
+./cfsp instance post --image_id=74462cd5-20e3-4228-a47d-258b7e5e583a --repeat=2
+```
+
+![cfsp-instance-post-many](doc/img/10a.png)
+
+
+### Get an instance
+
+Assuming you want to get the details of the previously created instance with id `6`
+
+```bash
+./cfsp instance get 6
+```
+
+![cfsp-instance-get](doc/img/11.png)
+
+
+### Delete an instance
+
+Assuming you want to delete the previously created instance with id `6`
+
+```bash
+./cfsp instance delete 6
+```
+
+![cfsp-instance-delete](doc/img/12.png)
+
+> **_NOTE:_** You may delete all uploaded instances of a user by not providing a specific cluster id, e.g.
+
+```bash
+./cfsp instance delete
+```
+
+![cfsp-instance-delete-all](doc/img/13.png)

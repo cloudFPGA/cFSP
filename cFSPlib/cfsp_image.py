@@ -44,7 +44,7 @@ def main(args):
                 exit(-1)
         elif (len(args['<args>']) == 1):
             try:
-                api_response = api_instance.cf_manager_rest_api_get_images(username, password)
+                api_response = api_instance.cf_manager_rest_api_get_images(username, password, limit=args['--limit'])
             except ApiException as e:
                 print("Exception when calling ImagesApi->cf_manager_rest_api_get_images: %s\n" % e)              
                 exit(-1)            
