@@ -219,10 +219,10 @@ Assuming you want to create an instance
 
 ### Get an instance
 
-Assuming you want to get the details of the previously created instance with id `6`
+Assuming you want to get the details of the previously created instance with id `5`
 
 ```bash
-./cfsp instance get 6
+./cfsp instance get 5
 ```
 
 ![cfsp-instance-get](doc/img/11.png)
@@ -230,10 +230,10 @@ Assuming you want to get the details of the previously created instance with id 
 
 ### Delete an instance
 
-Assuming you want to delete the previously created instance with id `6`
+Assuming you want to delete the previously created instance with id `5`
 
 ```bash
-./cfsp instance delete 6
+./cfsp instance delete 5
 ```
 
 ![cfsp-instance-delete](doc/img/12.png)
