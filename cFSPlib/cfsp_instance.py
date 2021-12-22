@@ -42,7 +42,6 @@ def main(args):
     username = cfsp_globals.__cfsp_username__
     password = cfsp_globals.__cfsp_password__
     project_name = cfsp_globals.__cfsp_project__
-    limit = 100
     
     if args['<args>'][0] == 'get':
         if (len(args['<args>']) == 2):
@@ -62,11 +61,12 @@ def main(args):
         pprint(api_response)
     elif args['<args>'][0] == 'post':
         # create an instance of the API class
-        image_id = args['--image_id']
-        dont_verify_memory = 0
+        if len(args['--image_id']) != 1:
+            exit(print("ERROR: instance post supports only one image (--image_id). Aborting..."))
+        image_id = args['--image_id'][0]
         try:
             # Request an instance
-            api_response = api_instance.cf_manager_rest_api_post_instances(image_id, username, password, project_name=project_name, dont_verify_memory=dont_verify_memory)
+            api_response = api_instance.cf_manager_rest_api_post_instances(image_id, username, password, project_name=project_name, dont_verify_memory=args['--dont_verify_memory'])
             # post_instance dows not return the role_ip, thus we call get_instance afterwards.
             instance_id = api_response.instance_id
             try:

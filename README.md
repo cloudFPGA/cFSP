@@ -74,7 +74,7 @@ You may edit this file with your ZYC2 username and password. Please remember als
 
 ![cfsp-user-json](doc/img/3.png)
 
-> **_NOTE:_** You may provide a spcific configuration file instead the default (user.json), by using the option `-c my_custom_file` (or `--config my_custom_file`), e.g.
+> **_NOTE:_** You may provide a spcific configuration file instead of the default (user.json), by using the option `-c my_custom_file` (or `--config my_custom_file`), e.g.
 
 ```bash
 ./cfsp user load --config /home/user/user.json
@@ -93,13 +93,15 @@ Show the credentials of a user from a credentials file.
 
 ### Load new credentials for a user
 
-You can easily load new credentials either by editing the configuration file (e.g. user.json), or by providing any of the supported command line options. In the latter case, the configuration file is being overwritten.
+You can easily load new credentials by:
+* either editing the configuration file (e.g. user.json), 
+* or by providing any of the supported command line options (`--username`, `--password`, `--project`). In the latter case, the configuration file is being overwritten.
 
-```bash
-./cfsp user load --username=anotherUser  --password=anotherPassword  --project=anotherProject
-```
+  ```bash
+  ./cfsp user load --username=anotherUser  --password=anotherPassword  --project=anotherProject
+  ```
 
-![cfsp-user-load-new](doc/img/2b.png)
+  ![cfsp-user-load-new](doc/img/2b.png)
 
 
 ### Upload an image

@@ -41,7 +41,7 @@ Usage:
     cfsp    [-c CFGFILE] [--version] [--help] [--username=<username>] [--password=<password>] [--project=<project>]
             [--image_id=<image_id>]...
             [--node_ip=<node_ip>]...
-            [--image_file=<image_file>]
+            [--image_file=<image_file>] [--dont_verify_memory=<dont_verify_memory>]
             [--limit=<limit>] [--repeat=<repeat>]
             <command> [<args>...]
     
@@ -64,6 +64,7 @@ Options:
     --node_ip=<node_ip>         The ip of the OpenVPN user's VM, e.g. a ZYC2 VM [default: 10.12.2.100].
     
     --image_file=<image_file>   The FPGA image file to be uploaded [default: ./image.bit].
+    --dont_verify_memory=<dont_verify_memory>   If 1, don't verify the DDR4 memory during setup [default: 0].
     --limit=<limit>             The limit of get for clusters, images, instances [default: 100].
     
     --repeat=<repeat>           The numper of times to repeat the command [default: 1].

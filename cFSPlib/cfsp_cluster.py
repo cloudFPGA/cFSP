@@ -67,7 +67,6 @@ def main(args):
         #body[0].image_id = args['--image_id']
         #body[0].node_id = 0
         #body[1] =  {    "image_id": "NON_FPGA",    "node_ip":  args['--node_ip'],    "node_id": 1  }
-        dont_verify_memory = 0
         
         fpga_num = len(args['--image_id'])
         for i in range(fpga_num):
@@ -81,7 +80,7 @@ def main(args):
 
         try:
             # Request a cluster
-            api_response = api_instance.cf_manager_rest_api_post_clusters(body, username, password, project_name=project_name, dont_verify_memory=dont_verify_memory)
+            api_response = api_instance.cf_manager_rest_api_post_clusters(body, username, password, project_name=project_name, dont_verify_memory=args['--dont_verify_memory'])
             pprint(api_response)
         except ApiException as e:
             print("Exception when calling ClustersApi->cf_manager_rest_api_post_clusters: %s\n" % e)
