@@ -36,6 +36,15 @@ from swagger_client.api_client import ApiClient
 from swagger_client.configuration import Configuration
 from pprint import pprint
 
+
+def confirm_choice():
+    confirm = input("[c]Confirm or [v]Void: ")
+    if confirm != 'c' and confirm != 'v':
+        print("\n Invalid Option. Please Enter a Valid Option.")
+        return confirm_choice() 
+    print (confirm)
+    return confirm
+
 def main(args):
 
     conf = Configuration()
@@ -73,20 +82,47 @@ def main(args):
             image_details = '{   "breed": "SHELL",   "fpga_board": "FMKU60",   "shell_type": "Themisto",   "comment" : "Some valuable information for humans (optional)"}'
             pr_verify_rpt = ""
             image_file = args['--image_file']
-            api_response = api_instance.cf_manager_rest_api_post_images(image_details, image_file, pr_verify_rpt, username, password)
-            pprint(api_response)
+            if (image_file.find("pblock") != -1):
+                print("ERROR: the image file contains the keyword 'pblock' which is typically generated in pr flow. Do you wish to continue anyway ?")
+                if (confirm_choice() != 'c'):
+                    exit(print("ERROR: Aborting upon user selection..."))                
+            length_image_file = len(image_file)
+            image_file_type = image_file[length_image_file - 3 : length_image_file]
+            if (image_file_type == "bit"):
+                api_response = api_instance.cf_manager_rest_api_post_images(image_details, image_file, pr_verify_rpt, username, password)
+                pprint(api_response)
+            else:
+                exit(print("ERROR: invalid image file provided in cfsp post-app-logic. You should provide a .bit file instead. Aborting..."))
         except ApiException as e:
             print("Exception when calling ImagesApi->cf_manager_rest_api_post_images: %s\n" % e)
             exit(-1)
-    elif args['<args>'][0] == 'postpr':
+    elif args['<args>'][0] == 'post-app-logic':
         try:
             # Upload an image
             image_details = '{"cl_id": "<t.b.a>", "fpga_board": "FMKU60", "shell_type": "Themisto", "comment" : "Some valuable information for humans (optional)"}'
             image_file = args['--image_file']
-            sig_file = args['--sig_file']
-            pr_verify_rpt = args['--pr_verify_rpt']
-            api_response = api_instance.cf_manager_rest_api_post_app_logic(image_details, image_file, sig_file, pr_verify_rpt, username, password)            
-            pprint(api_response)
+            if (image_file.find("pblock") == -1):
+                print("WARNING: the image file does not contain the keyword 'pblock' which is typically generated in pr flow. Do you wish to continue anyway ?")
+                if (confirm_choice() != 'c'):
+                    exit(print("ERROR: Aborting upon user selection..."))
+            length_image_file = len(image_file)
+            image_file_type = image_file[length_image_file - 3 : length_image_file]
+            image_file_name = image_file[0 : length_image_file - 4]
+            if (image_file_type == "bin"):
+                sig_file = args['--sig_file']
+                if (sig_file is None):
+                    sig_file = image_file + ".sig"
+                    print("INFO: No --sig_file provided. Assuming " + sig_file)
+                pr_verify_rpt = args['--pr_verify_rpt']
+                if (pr_verify_rpt is None):
+                    pr_verify_rpt = image_file_name + ".rpt"
+                    pr_verify_rpt_new = pr_verify_rpt.replace("4_","5_") # FIXME: This is a bug if the path, apart from the filename, contains the characters '4_'.
+                    pr_verify_rpt = pr_verify_rpt_new
+                    print("INFO: No --pr_verify_rpt provided. Assuming " + pr_verify_rpt)
+                api_response = api_instance.cf_manager_rest_api_post_app_logic(image_details, image_file, sig_file, pr_verify_rpt, username, password)            
+                pprint(api_response)
+            else:
+                exit(print("ERROR: invalid image file provided in cfsp post-app-logic. You should provide a .bin file instead. Aborting..."))
         except ApiException as e:
             print("Exception when calling ImagesApi->cf_manager_rest_api_post_app_logic: %s\n" % e)
             exit(-1)

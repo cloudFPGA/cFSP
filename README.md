@@ -119,10 +119,10 @@ Assuming you want to upload the FPGA image which is stored at `/tmp/4_topFMKU60_
 
 ### Upload an image for partial reconfiguration
 
-Assuming you want to upload the FPGA image for pr which is stored at `/tmp/4_topFMKU60_impl_monolithic.bit`. In that case you will also need the corresponding signature file that was produced by the build (`/tmp/4_topFMKU60_impl_monolithic.sig`), as well as the result of the pr_verify command `/tmp/4_topFMKU60_impl_monolithic.rpt`
+Assuming you want to upload the FPGA image for pr which is stored at `/tmp/4_topFMKU60_impl_pblock_ROLE_partial.bin`. In that case you will also need the corresponding signature file that was produced by the build (`/tmp/4_topFMKU60_impl_pblock_ROLE_partial.bin.sig`), as well as the result of the pr_verify command `/tmp/5_topFMKU60_impl_pblock_ROLE_partial.rpt`. Please note that those last two files are automatically selected by default if only the image file is provided.
 
 ```bash
-./cfsp image post --image_file=4_topFMKU60_impl_monolithic.bit --sig_file=/tmp/4_topFMKU60_impl_monolithic.sig --pr_verify_rpt=/tmp/4_topFMKU60_impl_monolithic.rpt
+./cfsp image post-app-logic --image_file=4_topFMKU60_impl_pblock_ROLE_partial.bin --sig_file=/tmp/4_topFMKU60_impl_pblock_ROLE_partial.bin.sig --pr_verify_rpt=/tmp/5_topFMKU60_impl_pblock_ROLE_partial.rpt
 
 ```
 
