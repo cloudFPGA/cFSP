@@ -39,6 +39,7 @@ pip install -r requirements.txt
 * [Show the credentials of a user](#show-the-credentials-of-a-user).
 * [Load new credentials for a user](#load-new-credentials-for-a-user).
 * [Upload an image](#upload-an-image).
+* [Upload an image for pr](#upload-an-image-for-partial-reconfiguration).
 * [Get an image](#get-an-image).
 * [Create a cluster](#create-a-cluster).
 * [Create a multi-node cluster](#create-a-multi-node-cluster).
