@@ -78,6 +78,18 @@ def main(args):
         except ApiException as e:
             print("Exception when calling ImagesApi->cf_manager_rest_api_post_images: %s\n" % e)
             exit(-1)
+    elif args['<args>'][0] == 'postpr':
+        try:
+            # Upload an image
+            image_details = '{"cl_id": "<t.b.a>", "fpga_board": "FMKU60", "shell_type": "Themisto", "comment" : "Some valuable information for humans (optional)"}'
+            image_file = args['--image_file']
+            sig_file = args['--sig_file']
+            pr_verify_rpt = args['--pr_verify_rpt']
+            api_response = api_instance.cf_manager_rest_api_post_app_logic(image_details, image_file, sig_file, pr_verify_rpt, username, password)            
+            pprint(api_response)
+        except ApiException as e:
+            print("Exception when calling ImagesApi->cf_manager_rest_api_post_app_logic: %s\n" % e)
+            exit(-1)
     elif args['<args>'][0] == 'delete':
         if (len(args['<args>']) == 2):
             try:

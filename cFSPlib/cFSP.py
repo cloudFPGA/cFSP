@@ -41,7 +41,7 @@ Usage:
     cfsp    [-c CFGFILE] [--version] [--help] [--username=<username>] [--password=<password>] [--project=<project>]
             [--image_id=<image_id>]...
             [--node_ip=<node_ip>]...
-            [--image_file=<image_file>] [--dont_verify_memory=<dont_verify_memory>]
+            [--image_file=<image_file>] [--sig_file=<sig_file>] [--pr_verify_rpt=<pr_verify_rpt] [--dont_verify_memory=<dont_verify_memory>]
             [--limit=<limit>] [--repeat=<repeat>]
             <command> [<args>...]
     
@@ -63,7 +63,10 @@ Options:
     --image_id=<image_id>       The id of the uploaded FPGA image, or NON_FPGA for a CPU VM node [default: NON_FPGA].
     --node_ip=<node_ip>         The ip of the OpenVPN user's VM, e.g. a ZYC2 VM [default: 10.12.2.100].
     
-    --image_file=<image_file>   The FPGA image file to be uploaded [default: ./image.bit].
+    --image_file=<image_file>      The FPGA image file to be uploaded [default: ./image.bit].
+    --sig_file=<sig_file>          An FPGA bitstream signature file containing hashes from the build process.
+    --pr_verify_rpt=<pr_verify_rpt An FPGA report containing the output of the automatically run pr_verify command.
+    
     --dont_verify_memory=<dont_verify_memory>   If 1, don't verify the DDR4 memory during setup [default: 0].
     --limit=<limit>             The limit of get for clusters, images, instances [default: 100].
     
