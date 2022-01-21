@@ -105,14 +105,13 @@ def main(args):
                 if (confirm_choice() != 'c'):
                     exit(print("ERROR: Aborting upon user selection..."))
             image_dirname = os.path.dirname(image_file)
-            image_json = image_dirname+ "/3_topFMKU60_STATIC.json"
-            with open(image_json) as f:
+            json_file = image_dirname+ "/3_topFMKU60_STATIC.json"
+            print("INFO: This json file will be used: " + json_file)
+            with open(json_file) as f:
                 data = json.load(f)
             cl_id = str(data['id'])
             #TODO: Parse also shell, fpga_board and comment from the json file
-            image_details = '{"cl_id": ' + cl_id + ', "fpga_board": "FMKU60", "shell_type": "Themisto", "comment" : "Some valuable information for humans (optional)"}'
-            #print(image_details)
-            #exit(-1)
+            image_details = '{"cl_id": "' + cl_id + '", "fpga_board": "FMKU60", "shell_type": "Themisto", "comment" : "Some valuable information for humans (optional)"}'
             length_image_file = len(image_file)
             image_file_type = image_file[length_image_file - 3 : length_image_file]
             image_file_name = image_file[0 : length_image_file - 4]
