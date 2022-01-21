@@ -25,6 +25,7 @@ Commands:
 from __future__ import absolute_import
 
 import sys,os
+import json
 python_api_client_path = os.getcwd()+"/cFSPlib/python_api_client/"
 sys.path.append(python_api_client_path)
 
@@ -98,13 +99,20 @@ def main(args):
             exit(-1)
     elif args['<args>'][0] == 'post-app-logic':
         try:
-            # Upload an image
-            image_details = '{"cl_id": "<t.b.a>", "fpga_board": "FMKU60", "shell_type": "Themisto", "comment" : "Some valuable information for humans (optional)"}'
             image_file = args['--image_file']
             if (image_file.find("pblock") == -1):
                 print("WARNING: the image file does not contain the keyword 'pblock' which is typically generated in pr flow. Do you wish to continue anyway ?")
                 if (confirm_choice() != 'c'):
                     exit(print("ERROR: Aborting upon user selection..."))
+            image_dirname = os.path.dirname(image_file)
+            image_json = image_dirname+ "/3_topFMKU60_STATIC.json"
+            with open(image_json) as f:
+                data = json.load(f)
+            cl_id = str(data['id'])
+            #TODO: Parse also shell, fpga_board and comment from the json file
+            image_details = '{"cl_id": ' + cl_id + ', "fpga_board": "FMKU60", "shell_type": "Themisto", "comment" : "Some valuable information for humans (optional)"}'
+            #print(image_details)
+            #exit(-1)
             length_image_file = len(image_file)
             image_file_type = image_file[length_image_file - 3 : length_image_file]
             image_file_name = image_file[0 : length_image_file - 4]
@@ -119,6 +127,7 @@ def main(args):
                     pr_verify_rpt_new = pr_verify_rpt.replace("4_","5_") # FIXME: This is a bug if the path, apart from the filename, contains the characters '4_'.
                     pr_verify_rpt = pr_verify_rpt_new
                     print("INFO: No --pr_verify_rpt provided. Assuming " + pr_verify_rpt)
+                # Upload an image
                 api_response = api_instance.cf_manager_rest_api_post_app_logic(image_details, image_file, sig_file, pr_verify_rpt, username, password)            
                 pprint(api_response)
             else:
