@@ -117,7 +117,7 @@ def load_user_credentials(json_file):
         else:
             project = cfsp_globals.__openstack_user_template__['project']
     except Exception as e:
-        print(e)
+        # print(e)
         print("Writing credentials template to {}\n".format(json_file))
         with open(json_file, 'w') as outfile:
             json.dump(cfsp_globals.__openstack_user_template__, outfile)
