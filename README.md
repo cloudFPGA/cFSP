@@ -75,7 +75,7 @@ You may edit this file with your ZYC2 username and password. Please remember als
 
 ![cfsp-user-json](doc/img/3.png)
 
-> **_NOTE:_** You may provide a spcific configuration file instead of the default (user.json), by using the option `-c my_custom_file` (or `--config my_custom_file`), e.g.
+> **_NOTE:_** You may provide a specific configuration file instead of the default (user.json), by using the option `-c my_custom_file` (or `--config my_custom_file`), e.g.
 
 ```bash
 ./cfsp user load --config /home/user/user.json
