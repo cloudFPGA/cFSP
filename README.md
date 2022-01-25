@@ -119,7 +119,7 @@ Assuming you want to upload the FPGA image which is stored at `/tmp/4_topFMKU60_
 
 ### Upload an image for partial reconfiguration
 
-Assuming you want to upload the FPGA image for pr which is stored at `/tmp/example_files_PR/4_topFMKU60_impl_2_pblock_ROLE_partial.bin`. In that case you will also need the corresponding signature file that was produced by the build (`/tmp/example_files_PR/4_topFMKU60_impl_2_pblock_ROLE_partial.bin.sig`), as well as the result of the pr_verify command `/tmp/example_files_PR/5_topFMKU60_impl_2_pblock_ROLE_partial.rpt`. In addition, a configuration json file is selected by default in the parent folder if the provided image file. An example follows:
+Assuming you want to upload the FPGA image for pr which is stored at `/tmp/example_files_PR/4_topFMKU60_impl_2_pblock_ROLE_partial.bin`. In that case you will also need the corresponding signature file that was produced by the build (`/tmp/example_files_PR/4_topFMKU60_impl_2_pblock_ROLE_partial.bin.sig`), as well as the result of the pr_verify command `/tmp/example_files_PR/5_topFMKU60_impl_2_pblock_ROLE_partial.rpt`. In addition, a configuration json file is selected by default in the parent folder of the provided image file. An example follows:
 
 ```bash
 ./cfsp image post-app-logic --image_file=/tmp/example_files_PR/4_topFMKU60_impl_2_pblock_ROLE_partial.bin --sig_file=/tmp/example_files_PR/4_topFMKU60_impl_2_pblock_ROLE_partial.bin.sig --pr_verify_rpt=/tmp/example_files_PR/5_topFMKU60_impl_2_pblock_ROLE_partial.rpt
