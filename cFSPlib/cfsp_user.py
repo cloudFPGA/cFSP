@@ -28,7 +28,7 @@ from docopt import docopt
 import json
 import cfsp_globals
 import sys
-
+import os
 
 ####################################################################################################
 # User functions
@@ -108,21 +108,21 @@ def load_user_credentials(json_file):
     project = ""
 
     try:
-        with open(json_file, 'r') as infile:
-            data = json.load(infile)
-        username = data['credentials']['username']
-        password = data['credentials']['password']
-        if 'project' in data:
-            project = data['project']
+        if os.path.exists(json_file):
+            with open(json_file, 'r') as infile:
+                data = json.load(infile)
+            username = data['credentials']['username']
+            password = data['credentials']['password']
+            if 'project' in data:
+                project = data['project']
+            else:
+                project = cfsp_globals.__openstack_user_template__['project']
         else:
-            project = cfsp_globals.__openstack_user_template__['project']
+            print("INFO: Creating new user credentials file : {}\n".format(os.path.abspath(json_file)))
+            write_user_credentials(json_file)
     except Exception as e:
-        # print(e)
-        print("Writing credentials template to {}\n".format(json_file))
-        with open(json_file, 'w') as outfile:
-            json.dump(cfsp_globals.__openstack_user_template__, outfile)
+        exit(print(e))
     return username, password, project           
-    #sys.exit(1)
 
 
 def write_user_credentials(json_file):

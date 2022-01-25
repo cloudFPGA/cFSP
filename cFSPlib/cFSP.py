@@ -119,7 +119,7 @@ def main():
     
         if args['<command>'] == 'user':
             cfsp_user.main(args)
-            print(args['<args>'])
+            #print(args['<args>'])
         elif args['<command>'] == 'cluster':
             check_credentials(args['--config'])
             cfsp_cluster.main(args)
