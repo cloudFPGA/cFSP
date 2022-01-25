@@ -63,17 +63,18 @@ Please follow the [installation procedure](#installation--usage) and then run th
 
 ### Setting up the credentials file for a user
 
-Load the credentials for a user. If no credentials file exists, a template will be created.
+Load the credentials for a user. If no credentials file exists, a new one be created. The default filename is `user.json` and it is strored in the cFSP folder. You need to provide your ZYC2 username and password, as well as a project you are member of.
 
 ```bash
-./cfsp user load
+./cfsp user load  --username=my_username --password=my_password --project=my_project
 ```
 
 ![cfsp-user-load](doc/img/2.png)
 
-You may edit this file with your ZYC2 username and password. Please remember also to provide a valid project you are member of.
+The file has the following JSON format:
 
 ![cfsp-user-json](doc/img/3.png)
+
 
 > **_NOTE:_** You may provide a specific configuration file instead of the default (user.json), by using the option `-c my_custom_file` (or `--config my_custom_file`), e.g.
 
