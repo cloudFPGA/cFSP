@@ -144,6 +144,8 @@ def main(args):
                 print("Exception when calling ImagesApi->cf_manager_rest_api_delete_image: %s\n" % e)
         else:
             exit(print("ERROR: invalid arguments provided in cfsp image delete. Aborting..."))
+    else:
+        exit(print("ERROR: invalid command provided in cfsp image. Type 'cfsp help image' to get a list of supported commands. Aborting..."))            
 
 if __name__ == '__main__':
     main(args)

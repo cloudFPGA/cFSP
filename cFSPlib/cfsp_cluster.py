@@ -25,7 +25,9 @@ Commands:
 from __future__ import absolute_import
 
 import sys,os
-python_api_client_path = os.getcwd()+"/cFSPlib/python_api_client/"
+#python_api_client_path = os.getcwd()+"/cFSPlib/python_api_client/"
+python_api_client_path = os.path.dirname(os.path.abspath(__file__))+"/python_api_client/"
+
 sys.path.append(python_api_client_path)
 
 import cfsp_globals
@@ -134,6 +136,8 @@ def main(args):
                 exit(-1)
         else:
             exit(print("ERROR: invalid arguments provided in cfsp cluster delete. Aborting..."))
+    else:
+        exit(print("ERROR: invalid command provided in cfsp cluster. Type 'cfsp help cluster' to get a list of supported commands. Aborting..."))            
 
 if __name__ == '__main__':
     main(args)

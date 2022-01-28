@@ -127,6 +127,7 @@ def main(args):
                 exit(-1)
         else:
             exit(print("ERROR: invalid arguments provided in cfsp instance delete. Aborting..."))
-
+    else:
+        exit(print("ERROR: invalid command provided in cfsp instance. Type 'cfsp help instance' to get a list of supported commands. Aborting..."))
 if __name__ == '__main__':
     main(args)

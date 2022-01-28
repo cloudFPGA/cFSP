@@ -100,7 +100,9 @@ def main(args):
         else:
             print("ERROR: invalid arguments provided in cfsp user show. Aborting...")
             sys.exit(-1)
-            
+    else:
+        exit(print("ERROR: invalid command provided in cfsp user. Type 'cfsp help user' to get a list of supported commands. Aborting..."))
+        
 def load_user_credentials(json_file):
     """returns username, password, and project from a JSON file"""
     username = ""
