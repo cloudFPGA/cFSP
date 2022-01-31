@@ -21,7 +21,7 @@ pip install cfsp
 
 ## Usage
 
-Please check the online documentation at https://cloudfpga.github.io/Doc/pages/CFSPHERE/cfsp.html .
+Please check the [online documentation](https://cloudfpga.github.io/Doc/pages/CFSPHERE/cfsp.html).
 
 ## Development
 ```bash
