@@ -34,7 +34,7 @@ with open("README_pypi.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="cfsp", 
-    version="0.0.6",
+    version="0.0.7",
     author="Dionysios Diamantopoulos",
     author_email="did@zurich.ibm.com",
     description="The cloudFPGA Support Package",
@@ -46,7 +46,21 @@ setuptools.setup(
     # which resides in the subdirectory mymodule
     packages=setuptools.find_packages(),
     setup_requires=['wheel'],
-
+    install_requires=[
+        "certifi",
+        "charset-normalizer",
+        "docopt",
+        "idna",
+        "prompt-toolkit",
+        "Pygments",
+        "PyInquirer",
+        "regex",
+        "requests",
+        "six",
+        "tqdm",
+        "urllib3",
+        "wcwidth",
+    ],
     # make sure the shared library is included
     package_data={'':['cFSPlib']},
     #data_files=[('', ['cfsp'])],
@@ -60,5 +74,5 @@ setuptools.setup(
         "Programming Language :: Python :: 3",
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
-    python_requires='>=3.7',
+    python_requires='>=3.6',
 )
