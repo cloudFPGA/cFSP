@@ -29,12 +29,12 @@
 
 import setuptools
 
-with open("README.md", "r", encoding="utf-8") as fh:
+with open("README_pypi.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name="cfsp", 
-    version="0.0.5",
+    version="0.0.6",
     author="Dionysios Diamantopoulos",
     author_email="did@zurich.ibm.com",
     description="The cloudFPGA Support Package",
