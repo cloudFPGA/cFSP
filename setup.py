@@ -21,7 +21,7 @@
 #  *     Authors: FAB, WEI, NGL, DID
 #  *
 #  *     Description:
-#  *      A setup file used for buidling a PyPi package.
+#  *      The setup file used for buidling cfsp PyPi package.
 #  *
 #  *    License:
 #  *     Apache Version 2.0
@@ -34,7 +34,7 @@ with open("README_pypi.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="cfsp", 
-    version="0.0.7",
+    version="0.1.0",
     author="Dionysios Diamantopoulos",
     author_email="did@zurich.ibm.com",
     description="The cloudFPGA Support Package",
@@ -42,8 +42,6 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/cloudFPGA/cfsp",
     bug_tracker = "https://github.com/cloudFPGA/cfsp/issues",
-    # this package contains one module,
-    # which resides in the subdirectory mymodule
     packages=setuptools.find_packages(),
     setup_requires=['wheel'],
     install_requires=[
@@ -61,13 +59,8 @@ setuptools.setup(
         "urllib3",
         "wcwidth",
     ],
-    # make sure the shared library is included
     package_data={'':['cFSPlib']},
-    #data_files=[('', ['cfsp'])],
     scripts=['cfsp'],
-    #data_files=['cfsp'],
-    #include_package_data=True,
-    
     classifiers=[
         "Intended Audience :: Developers",
         "License :: OSI Approved :: Apache Software License",

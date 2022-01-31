@@ -2,10 +2,24 @@
 
 This is the **cloudFPGA Support Package (cFSP)** for the [cloudFPGA project](https://www.zurich.ibm.com/cci/cloudFPGA/).
 
-Documentation : https://cloudfpga.github.io/Doc/pages/CFSPHERE/cfsp.html
-
-
 ## Requirements
 
 Python 3.6+
+
+
+## Installation
+
+You can install `cfsp` system-wide through `pip install cfsp`, or user-wide through `pip install -u cfsp`.
+
+It is advised though to do it in an isolated Python environment, e.g. through [virtualenv](https://virtualenv.pypa.io/):
+
+```
+virtualenv -p /usr/bin/python3.6 cfenv
+source cfenv/bin/activate
+pip install cfsp
+```
+
+## Usage
+
+Please check the online documentation at https://cloudfpga.github.io/Doc/pages/CFSPHERE/cfsp.html .
 

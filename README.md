@@ -11,12 +11,13 @@ The cFSP control plane includes a [Python package](cFSPlib/python_api_client/REA
 - API version: 0.8
 - Package version: 1.0.0
 
-## Requirements.
+## Requirements
 
 Python 3.6+
 
-## Installation & Usage
+## Installation
 
+### Installation through github
 Setting up python virtual environment:
 
 ```bash
@@ -29,6 +30,15 @@ source cfenv/bin/activate
 pip install -r requirements.txt
 ```
 
+### Installation through PyPi
+
+```bash
+virtualenv -p /usr/bin/python3.8 cfenv
+source cfenv/bin/activate
+pip install cfsp
+```
+
+> **_NOTE:_** If you install `cfsp` through `PyPi`, then the top-level script `cfsp` can be executed from any directory location, and not necessarily from the cFSP root path. Thus, in the following commands you should replace `./cfsp` by `cfsp`.
 
 ## Getting Started
 
