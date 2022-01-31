@@ -23,3 +23,11 @@ pip install cfsp
 
 Please check the online documentation at https://cloudfpga.github.io/Doc/pages/CFSPHERE/cfsp.html .
 
+## Development
+```bash
+make env
+source venv/bin/activate
+<add your changes>
+make dist
+make upload
+```

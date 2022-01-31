@@ -91,18 +91,6 @@ docstring:
 $(ANALIZE):
 	$(PIP) install --upgrade $(ANALIZE_PKGS) | tee -a $(REQUIREMENTS_LOG)
 
-### Generate library #########################################################
-
-genlib:
-	cd cFp_Vitis && source env/setenv.sh && \
-    pip install numpy==1.19.5 && \
-	cd HOST/quantitative_finance/mceuropeanengine/languages/python && \
- 	mkdir -p build && cd build && \
-	cmake ../ && \
-	make swignumpi && \
-	make -j 2 && \
-	cp _trieres.so ../../../../../../../trieres/_trieres.so
-
 ### Testing ##################################################################
 .PHONY: test coverage tox
 
