@@ -34,7 +34,7 @@ with open("README_pypi.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="cfsp", 
-    version="0.1.0",
+    version="0.1.1",
     author="Dionysios Diamantopoulos",
     author_email="did@zurich.ibm.com",
     description="The cloudFPGA Support Package",
