@@ -17,20 +17,23 @@ Python 3.6+
 
 ## Installation
 
+We recommend the installation at an isolated Python environment, e.g. through [Virutalenv](https://virtualenv.pypa.io).
+
 ### Installation through github
-Setting up python virtual environment:
+Use this option for the most up-to-date installation.
 
 ```bash
 git clone git@github.com:cloudFPGA/cFSP.git
 cd cFSP/
-which python3.8
-/usr/bin/python3.8
 virtualenv -p /usr/bin/python3.8 cfenv
 source cfenv/bin/activate
 pip install -r requirements.txt
 ```
 
 ### Installation through PyPi
+
+We maintain `cFSP` at [PyPi](https://pypi.org/project/cfsp/).
+Use this option for fast installation.
 
 ```bash
 virtualenv -p /usr/bin/python3.8 cfenv
