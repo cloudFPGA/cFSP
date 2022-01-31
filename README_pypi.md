@@ -25,9 +25,13 @@ Please check the [online documentation](https://cloudfpga.github.io/Doc/pages/CF
 
 ## Development
 ```bash
+git clone git@github.com:cloudFPGA/cFSP.git
+cd cFSP
 make env
 source venv/bin/activate
-<add your changes>
+<add your changes>  (do not forget to increase the `version="x.y.z"` in `setup.py`)
+git commit -am "My changes for version x.y.z"
+git push
 make dist
 make upload
 ```
