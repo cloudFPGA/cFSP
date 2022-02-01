@@ -28,13 +28,17 @@
 
 
 import setuptools, os
+from shutil import copyfile
 
 with open("README_pypi.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 fh.close()
 
+
 version_path = os.path.dirname(os.path.abspath(__file__))+"/version.txt"
-with open(version_path,"r") as fh:
+version_path_in_package = os.path.dirname(os.path.abspath(__file__))+"/cFSPlib/version.txt"
+copyfile(version_path, version_path_in_package)
+with open(version_path_in_package,"r") as fh:
     for line in fh:
         __version__ = line.rstrip("\n")
 fh.close()
