@@ -100,7 +100,7 @@ import mngmt
 import comm
 
 
-version_path = os.path.dirname(os.path.abspath(__file__))+"/../version.txt"
+version_path = os.path.dirname(os.path.abspath(__file__))+"/version.txt"
 with open(version_path,"r") as fh:
     for line in fh:
         __version__ = line.rstrip("\n")
