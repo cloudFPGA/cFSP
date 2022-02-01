@@ -16,6 +16,7 @@ It is advised though to do it in an isolated Python environment, e.g. through [v
 ```
 virtualenv -p /usr/bin/python3.6 cfenv
 source cfenv/bin/activate
+pip install --upgrade pip
 pip install cfsp
 ```
 

@@ -30,15 +30,53 @@ export cFsysPy3_cmd_hint_1=$(hash -d python3   2>>/dev/null; which python3   2>>
 if [ -f cfenv/bin/activate ]; then
     source cfenv/bin/activate
 fi
-#export cfsp_path=$((pip show cfsp | grep "Location:" | cut -d " " -f2) || echo "failed")
-#cfsp_path = os.path.dirname(os.path.abspath(__file__))+"../lib/python3.8/site-packages/cFSPlib"
-export cfsp_path=$(readlink -f $0)
+
+# POSIX compliant version (as a replacement for readlink -f)
+# Function adapted from https://github.com/bats-core/bats-core/pull/312
+readlinkf_posix() {
+  [ "${1:-}" ] || return 1
+  max_symlinks=40
+  CDPATH='' # to avoid changing to an unexpected directory
+
+  target=$1
+  [ -e "${target%/}" ] || target=${1%"${1##*[!/]}"} # trim trailing slashes
+  [ -d "${target:-/}" ] && target="$target/"
+
+  cd -P . 2>/dev/null || return 1
+  while [ "$max_symlinks" -ge 0 ] && max_symlinks=$((max_symlinks - 1)); do
+    if [ ! "$target" = "${target%/*}" ]; then
+      case $target in
+        /*) cd -P "${target%/*}/" 2>/dev/null || break ;;
+        *) cd -P "./${target%/*}" 2>/dev/null || break ;;
+      esac
+      target=${target##*/}
+    fi
+
+    if [ ! -L "$target" ]; then
+      target="${PWD%/}${target:+/}${target}"
+      printf '%s\n' "${target:-/}"
+      return 0
+    fi
+
+    # `ls -dl` format: "%s %u %s %s %u %s %s -> %s\n",
+    #   <file mode>, <number of links>, <owner name>, <group name>,
+    #   <size>, <date and time>, <pathname of link>, <contents of link>
+    # https://pubs.opengroup.org/onlinepubs/9699919799/utilities/ls.html
+    link=$(ls -dl -- "$target" 2>/dev/null) || break
+    target=${link#*" $target -> "}
+  done
+  return 1
+}
+
+export cfsp_path=$(readlinkf_posix $0)
 export cfsp_dir="`dirname $cfsp_path`/../lib/python*/site-packages"
-echo $cfsp_dir
 
 # If cfsp is installed through pip, it should be located in the former path, else, if it is installed through git, it is just located in the current folder of cFSPlib.
 if [ -d $cfsp_dir ]; then
 	python3 $cfsp_dir/cFSPlib/cFSP.py "$@"
-else
+elif [ -f ./cFSPlib/cFSP.py ]; then
 	python3 ./cFSPlib/cFSP.py "$@"
+else
+	echo "ERROR: Cannot locate cFSPlib/cFSP.py. Check your cFSP installation. Aborting..."
+	exit -1
 fi

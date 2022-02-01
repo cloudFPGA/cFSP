@@ -34,14 +34,16 @@ with open("README_pypi.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="cfsp", 
-    version="0.1.2",
+    version="0.1.3",
     author="Dionysios Diamantopoulos",
     author_email="did@zurich.ibm.com",
     description="The cloudFPGA Support Package",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/cloudFPGA/cfsp",
-    bug_tracker = "https://github.com/cloudFPGA/cfsp/issues",
+    project_urls={
+        "Bug Tracker": "https://github.com/cloudFPGA/cfsp/issues",
+    },    
     packages=setuptools.find_packages(),
     setup_requires=['wheel'],
     install_requires=[

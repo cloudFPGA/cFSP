@@ -27,6 +27,7 @@ git clone git@github.com:cloudFPGA/cFSP.git
 cd cFSP/
 virtualenv -p /usr/bin/python3.8 cfenv
 source cfenv/bin/activate
+pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
@@ -38,6 +39,7 @@ Use this option for fast installation.
 ```bash
 virtualenv -p /usr/bin/python3.8 cfenv
 source cfenv/bin/activate
+pip install --upgrade pip
 pip install cfsp
 ```
 
