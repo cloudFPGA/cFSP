@@ -99,7 +99,12 @@ from util import print_usage
 import mngmt
 import comm
 
-__version__ = 0.1
+
+version_path = os.path.dirname(os.path.abspath(__file__))+"/../version.txt"
+with open(version_path,"r") as fh:
+    for line in fh:
+        __version__ = line.rstrip("\n")
+fh.close()
 
 def check_credentials(CFGFILE):
     #if os.path.isfile(cfsp_globals.__cfsp_session_file__):

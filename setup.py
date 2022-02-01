@@ -27,14 +27,22 @@
 #  *     Apache Version 2.0
 
 
-import setuptools
+import setuptools, os
 
 with open("README_pypi.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
+fh.close()
+
+version_path = os.path.dirname(os.path.abspath(__file__))+"/version.txt"
+with open(version_path,"r") as fh:
+    for line in fh:
+        __version__ = line.rstrip("\n")
+fh.close()
+
 
 setuptools.setup(
     name="cfsp", 
-    version="0.1.3",
+    version=__version__,
     author="Dionysios Diamantopoulos",
     author_email="did@zurich.ibm.com",
     description="The cloudFPGA Support Package",
@@ -61,7 +69,8 @@ setuptools.setup(
         "urllib3",
         "wcwidth",
     ],
-    package_data={'':['cFSPlib']},
+    package_data={'':['cFSPlib','version.txt']},   
+    include_package_data=True,
     scripts=['cfsp'],
     classifiers=[
         "Intended Audience :: Developers",
