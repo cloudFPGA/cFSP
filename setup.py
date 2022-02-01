@@ -69,7 +69,7 @@ setuptools.setup(
         "urllib3",
         "wcwidth",
     ],
-    package_data={'':['cFSPlib','version.txt']},   
+    package_data={'':['cFSPlib']},   
     include_package_data=True,
     scripts=['cfsp'],
     classifiers=[
