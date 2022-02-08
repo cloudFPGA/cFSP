@@ -59,6 +59,7 @@ pip install cfsp
 * [Create a cluster](#create-a-cluster).
 * [Create a multi-node cluster](#create-a-multi-node-cluster).
 * [Get a cluster](#get-a-cluster).
+* [Extend a cluster](#extend-a-cluster).
 * [Delete a cluster](#delete-a-cluster).
 * [Create an instance](#create-an-instance).
 * [Get an instance](#get-an-instance).
@@ -209,6 +210,18 @@ Assuming you want to get the details of the previously created cluster with id `
 ![cfsp-cluster-get](doc/img/7.png)
 
 
+### Extend a cluster
+
+Assuming you want to extend the previously created cluster with id `259`, with one more FPGA with image id `d031b5a9-c3d8-4775-98db-e3de936a63e3`, and one more CPU node from ZYC2 with ip=`10.12.2.106`.
+
+```bash
+./cfsp cluster extend --cluster_id 259 --image_id=d031b5a9-c3d8-4775-98db-e3de936a63e3  --node_id 7 --node_ip=10.12.2.106 --node_id 8
+```
+
+![cfsp-cluster-delete](doc/img/7a.png)
+
+> **_NOTE:_** You may extend a cluster with numerous FPGA and CPU nodes by using the `--image_id` and `--node_ip` options. For these nodes you must also provide the rank id through `--node_id` option.
+
 ### Delete a cluster
 
 Assuming you want to delete the previously created cluster with id `259`
@@ -226,8 +239,6 @@ Assuming you want to delete the previously created cluster with id `259`
 ```
 
 ![cfsp-cluster-delete-all](doc/img/9.png)
-
-
 
 
 
