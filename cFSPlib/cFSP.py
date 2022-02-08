@@ -42,6 +42,7 @@ Usage:
             [--image_id=<image_id>]...
             [--node_ip=<node_ip>]...
             [--node_id=<node_id>]...
+            [--cluster_id=<cluster_id>]
             [--image_file=<image_file>] [--sig_file=<sig_file>] [--pr_verify_rpt=<pr_verify_rpt] [--dont_verify_memory=<dont_verify_memory>]
             [--limit=<limit>] [--repeat=<repeat>]
             <command> [<args>...]
@@ -61,9 +62,10 @@ Options:
     --password=<password>       Your ZYC2 password [default: password_example].
     --project=<password>        The user's project [default: project_example].
     
-    --image_id=<image_id>       The id of the uploaded FPGA image, or NON_FPGA for a CPU VM node [default: NON_FPGA].
+    --image_id=<image_id>       The id of the uploaded FPGA image, or NON_FPGA for a CPU VM node.
     --node_ip=<node_ip>         The ip of the user's VM, e.g. a ZYC2 VM.
     --node_id=<node_id>         The id (rank) of either the VPN user's VM or FPGAs.
+    --cluster_id=<cluster_id>   The id of a cluster to extend.
     
     --image_file=<image_file>      The FPGA image file to be uploaded [default: ./image.bit].
     --sig_file=<sig_file>          An FPGA bitstream signature file containing hashes from the build process.

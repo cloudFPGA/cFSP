@@ -20,6 +20,7 @@ Usage:
 Commands:
     get <id>     Get all clusters of a user. Either <id> of cluster or no argument for all.
     post         Request a cluster.
+    extend id    Add nodes to an existing cluster
     delete id    Delete a cluster with cluster_id=id. If no id is provided then all clusters are deleted (after confirmation dialog with user)
 """
 from __future__ import absolute_import
@@ -78,7 +79,7 @@ def main(args):
         else:
             exit(print("ERROR: invalid arguments provided in cfsp cluster get. Aborting..."))
         pprint(api_response)
-    elif args['<args>'][0] == 'post':
+    elif (args['<args>'][0] == 'post') or (args['<args>'][0] == 'extend'):
         # create an instance of the API class
         body = []        
         cpu_num = len(args['--node_ip'])
@@ -110,13 +111,41 @@ def main(args):
             print("["+args['--node_ip'][j] + ", " + str(args['--node_id'][fpga_num+j]) + "]")
             body.append(cpu_body)
         
+        if (args['<args>'][0] == 'post'):
+            try:
+                # Request a cluster
+                api_response = api_instance.cf_manager_rest_api_post_clusters(body, username, password, project_name=project_name, dont_verify_memory=args['--dont_verify_memory'])
+                pprint(api_response)
+            except ApiException as e:
+                print("Exception when calling ClustersApi->cf_manager_rest_api_post_clusters: %s\n" % e)
+                exit(-1)
+        elif args['<args>'][0] == 'extend':
+            try:
+                # Request to extend cluster
+                api_response = api_instance.cf_manager_rest_api_extend_cluster(body, username, password, cluster_id=args['--cluster_id'], dont_verify_memory=args['--dont_verify_memory'])
+                pprint(api_response)
+            except ApiException as e:
+                print("Exception when calling ClustersApi->cf_manager_rest_api_extend_cluster: %s\n" % e)
+                exit(-1)
+    elif (args['<args>'][0] == 'reduce'):
+        exit(print("ERROR: cluster reduce is not yet implemented."))
+        node_id_num = len(args['--node_id'])
+        body = []
+        
+        # Convert the node_id list to ints
+        args['--node_id'] = list(map(int, args['--node_id']))
+        
+        for i in range(node_id_num):
+            node_id_body = args['--node_id'][i]
+            body.append(node_id_body)
         try:
-            # Request a cluster
-            api_response = api_instance.cf_manager_rest_api_post_clusters(body, username, password, project_name=project_name, dont_verify_memory=args['--dont_verify_memory'])
+            # Request to extend cluster
+            api_response = api_instance.cf_manager_rest_api_reduce_cluster(body, username, password, cluster_id=args['--cluster_id'])
             pprint(api_response)
         except ApiException as e:
-            print("Exception when calling ClustersApi->cf_manager_rest_api_post_clusters: %s\n" % e)
+            print("Exception when calling ClustersApi->cf_manager_rest_api_reduce_cluster: %s\n" % e)
             exit(-1)
+            
     elif args['<args>'][0] == 'delete':
         if (len(args['<args>']) == 1):
             print("INFO: Really deleting all clusters ?")
