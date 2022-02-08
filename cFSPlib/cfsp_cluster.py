@@ -80,22 +80,36 @@ def main(args):
         pprint(api_response)
     elif args['<args>'][0] == 'post':
         # create an instance of the API class
-        # FIXME: Currently we only support a cluster with one ZYC2 VM and one FPGA
-        body = [] #[swagger_client.ClustersBody, swagger_client.ClustersBody]        
-        #body[0].image_id = args['--image_id']
-        #body[0].node_id = 0
-        #body[1] =  {    "image_id": "NON_FPGA",    "node_ip":  args['--node_ip'],    "node_id": 1  }
-        
-        fpga_num = len(args['--image_id'])
-        for i in range(fpga_num):
-            fpga_body = {    "image_id": args['--image_id'][i],  "node_id": i  }
-            body.append(fpga_body)
-            
+        body = []        
         cpu_num = len(args['--node_ip'])
+        fpga_num = len(args['--image_id'])
+        node_id_num = len(args['--node_id'])
+        
+        if node_id_num == 0:
+            print("WARNING: No --node_id argument was provided. Incremental ids will be used for fpga(s) and cpu(s) in this cluster.")
+            for i in range(fpga_num):
+                args['--node_id'].append(i)
+            for j in range(cpu_num):
+                args['--node_id'].append(fpga_num+j)
+        else:
+            if (node_id_num != cpu_num + fpga_num):
+                exit(print("ERROR: The provided argument(s) of --node_id ("+str(node_id_num)+") is not the same with the sum of --node_ip ("+str(cpu_num)+") and --image_id ("+str(fpga_num)+") ones. Please note that for each of --node_ip and --image_id, a --node_id argument is required. Aborting..."))
+        
+        # Convert the node_id list to ints
+        args['--node_id'] = list(map(int, args['--node_id']))
+   
+        print("INFO: Please review the assignment of image_id(s), node_ip(s) and node_id(s)")
+        print("[image_id, node_id]")
+        for i in range(fpga_num):
+            fpga_body = {    "image_id": args['--image_id'][i],  "node_id": args['--node_id'][i] }
+            print("["+args['--image_id'][i] + ", " + str(args['--node_id'][i]) + "]")
+            body.append(fpga_body)
+        print("[node_ip, node_id]")            
         for j in range(cpu_num):
-            cpu_body = {    "image_id": cfsp_globals.__NON_FPGA_IDENTIFIER__,    "node_ip":  args['--node_ip'][j],    "node_id": fpga_num+j  }
+            cpu_body = {    "image_id": cfsp_globals.__NON_FPGA_IDENTIFIER__,    "node_ip":  args['--node_ip'][j],    "node_id": args['--node_id'][fpga_num+j] }
+            print("["+args['--node_ip'][j] + ", " + str(args['--node_id'][fpga_num+j]) + "]")
             body.append(cpu_body)
-
+        
         try:
             # Request a cluster
             api_response = api_instance.cf_manager_rest_api_post_clusters(body, username, password, project_name=project_name, dont_verify_memory=args['--dont_verify_memory'])

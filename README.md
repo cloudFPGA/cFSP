@@ -173,10 +173,13 @@ Assuming you want to create a cluster with
 ![cfsp-cluster-post](doc/img/6.png)
 
 
+> **_NOTE:_** By using the option `--node_id` after every `--image_id` and `--node_ip`, you can define the specific rank that this CPU node or FPGA node is associated with. If no such (an) option(s) (is)are provided, then incremental `node_id`s will be assigned, as shown in the figure above. Please note that if you provide `--node_id`s, it is mandatory to firstly define those of CPU(s) and secondly of FPGA(s).
+
 > **_NOTE:_** You may want to create many clusters of the previous type. For such cases, there is an extra option `--repeat=<num>`, which specifies how many times the command should be issued. Please note that this applies to all supported commands of `cfsp`, e.g. :
 
 ```bash
-./cfsp cluster post --image_id=74462cd5-20e3-4228-a47d-258b7e5e583a --node_ip=10.12.2.100 --repeat=2
+./cfsp cluster post --image_id=74462cd5-20e3-4228-a47d-258b7e5e583a --node_id 0 --node_ip=10.12.2.100 --node_id 1 --repeat=2
+
 ```
 
 ![cfsp-cluster-post-repeat](doc/img/6a.png)
