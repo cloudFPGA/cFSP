@@ -60,6 +60,7 @@ pip install cfsp
 * [Create a multi-node cluster](#create-a-multi-node-cluster).
 * [Get a cluster](#get-a-cluster).
 * [Extend a cluster](#extend-a-cluster).
+* [Reduce a cluster](#reduce-a-cluster).
 * [Delete a cluster](#delete-a-cluster).
 * [Create an instance](#create-an-instance).
 * [Get an instance](#get-an-instance).
@@ -218,9 +219,23 @@ Assuming you want to extend the previously created cluster with id `259`, with o
 ./cfsp cluster extend --cluster_id 259 --image_id=d031b5a9-c3d8-4775-98db-e3de936a63e3  --node_id 7 --node_ip=10.12.2.106 --node_id 8
 ```
 
-![cfsp-cluster-delete](doc/img/7a.png)
+![cfsp-cluster-extend](doc/img/7a.png)
 
 > **_NOTE:_** You may extend a cluster with numerous FPGA and CPU nodes by using the `--image_id` and `--node_ip` options. For these nodes you must also provide the rank id through `--node_id` option.
+
+
+### Reduce a cluster
+
+Assuming you want to reduce the previously extended cluster with id `259`, with the two extra nodes, the FPGA node with `node_id=7` and the CPU node with `node_id=8`.
+
+```bash
+./cfsp cluster reduce --cluster_id=259 --node_id 7 --node_id 8
+```
+
+![cfsp-cluster-reduce](doc/img/7b.png)
+
+> **_NOTE:_** You may extend a cluster with numerous FPGA and CPU nodes by using the `--image_id` and `--node_ip` options. For these nodes you must also provide the rank id through `--node_id` option.
+
 
 ### Delete a cluster
 

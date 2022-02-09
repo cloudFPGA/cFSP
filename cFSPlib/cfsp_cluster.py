@@ -128,7 +128,6 @@ def main(args):
                 print("Exception when calling ClustersApi->cf_manager_rest_api_extend_cluster: %s\n" % e)
                 exit(-1)
     elif (args['<args>'][0] == 'reduce'):
-        exit(print("ERROR: cluster reduce is not yet implemented."))
         node_id_num = len(args['--node_id'])
         body = []
         
