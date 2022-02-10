@@ -27,7 +27,8 @@
 #  *
 
 # assemble the package
-from .util  import print_usage
-from . import mngmt
-from . import comm
+#from .util  import print_usage
+from . import cFSP
+from . import cfsp_user
+#from . import comm
 

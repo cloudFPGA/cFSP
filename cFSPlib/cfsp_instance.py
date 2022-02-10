@@ -33,7 +33,6 @@ import swagger_client
 from swagger_client.rest import ApiException
 from swagger_client.api_client import ApiClient
 from swagger_client.configuration import Configuration
-from pprint import pprint
 from tqdm import tqdm
 
 def confirm_choice():
@@ -74,7 +73,7 @@ def main(args):
                 exit(-1)            
         else:
             exit(print("ERROR: invalid arguments provided in cfsp instance get. Aborting..."))
-        pprint(api_response)
+        return(api_response)
     elif args['<args>'][0] == 'post':
         # create an instance of the API class
         if len(args['--image_id']) != 1:
@@ -90,7 +89,7 @@ def main(args):
             except ApiException as e:
                 print("Exception when calling InstancesApi->cf_manager_rest_api_get_instance: %s\n" % e)              
                 exit(-1)
-            pprint(api_response)
+            return(api_response)
         except ApiException as e:
             print("Exception when calling InstancesApi->cf_manager_rest_api_post_instances: %s\n" % e)
             exit(-1)
@@ -121,10 +120,11 @@ def main(args):
             # Delete an instance
             print("INFO: Deleting instance " + str(instance_id) + " ... ")
             try:
-                api_instance.cf_manager_rest_api_delete_instance(username, password, instance_id)
+                api_response = api_instance.cf_manager_rest_api_delete_instance(username, password, instance_id)
             except ApiException as e:
                 print("Exception when calling InstancesApi->cf_manager_rest_api_delete_instance: %s\n" % e)
                 exit(-1)
+            return(api_response)
         else:
             exit(print("ERROR: invalid arguments provided in cfsp instance delete. Aborting..."))
     else:

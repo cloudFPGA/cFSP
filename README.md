@@ -65,6 +65,8 @@ pip install cfsp
 * [Create an instance](#create-an-instance).
 * [Get an instance](#get-an-instance).
 * [Delete an instance](#delete-an-instance).
+* [Use cFSP as a Python module](#use-cfsp-as-a-python-module).
+
 
 
 ### Getting help
@@ -234,8 +236,6 @@ Assuming you want to reduce the previously extended cluster with id `259`, with 
 
 ![cfsp-cluster-reduce](doc/img/7b.png)
 
-> **_NOTE:_** You may extend a cluster with numerous FPGA and CPU nodes by using the `--image_id` and `--node_ip` options. For these nodes you must also provide the rank id through `--node_id` option.
-
 
 ### Delete a cluster
 
@@ -307,3 +307,32 @@ Assuming you want to delete the previously created instance with id `5`
 ```
 
 ![cfsp-instance-delete-all](doc/img/13.png)
+
+
+### Use cFSP as a Python module
+
+cFSP is both a standalone command-line tool as well as a Python module that can be imported to a 
+Python file. This allows the integration of cFSP into programming or CI/CD flows.
+
+To use cFSP as a Python module you need to add to import the `cFSP` module from the 
+`cFSPlib` library, like below:
+
+```
+import sys
+
+# make sure cFSPlib's folder is in the PYTHONPATH, or add a line as below
+sys.path.append("../")
+
+from cFSPlib import cFSP
+```
+
+Then you can use the `main` function of the `cFSP` module for all the supported cFSP capabilities.
+The option arguments and commands are inherinted from `args=docopt(cFSP.__doc__)`. Then the desired 
+arguments and command can be provided through the folllowing:
+
+```
+args['<command>'] = 'put_a_command_here'
+args['<put_an_option>'] = ['put_the_value_of_that_option']
+```
+
+A comprehensive example that tests all the supported functions of cFSP is provided in [tests/test_cfsp_module.py](https://github.com/cloudFPGA/cFSP/blob/master/test/test_cfsp_module.py).

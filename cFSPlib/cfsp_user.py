@@ -17,10 +17,12 @@
 """
 Usage:
     cfsp user (load | show) [-c CFGFILE]
-Commands:
+
+commands:
     load         Load credentials from a file
     show         Show the credentials of a file
-Options:
+
+options:
     -c --config CFGFILE  Specify the configfile that rsnapshot should use 
                          [default: ./user.json]    
 """
@@ -156,7 +158,7 @@ def print_user_credentials_from_file(json_file):
         return 0
     except Exception as e:
         print(e)
-        print("No credentials found \n")
+        print("No credentials file found : "+ json_file)
         sys.exit(1)
         
         

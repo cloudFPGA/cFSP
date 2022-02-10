@@ -33,7 +33,7 @@
 # \{
 
 #! /usr/bin/env python
-"""
+"""cfsp.
 
 cloudFPGA Support Package (cfsp)
 cfsp is a command-line tool that helps a cloudFPGA user to work with cloudFPGA Resource Manager (cFRM).
@@ -45,8 +45,8 @@ Usage:
             [--cluster_id=<cluster_id>]
             [--image_file=<image_file>] [--sig_file=<sig_file>] [--pr_verify_rpt=<pr_verify_rpt] [--dont_verify_memory=<dont_verify_memory>]
             [--limit=<limit>] [--repeat=<repeat>]
-            <command> [<args>...]
-    
+            [<command>] [<args>...]
+
 Commands:
     user            Adding or showing the credentials of a user.
     cluster         Creating, showing and deleting clusters.
@@ -61,19 +61,15 @@ Options:
     --username=<username>       Your ZYC2 username [default: username_example].
     --password=<password>       Your ZYC2 password [default: password_example].
     --project=<password>        The user's project [default: project_example].
-    
     --image_id=<image_id>       The id of the uploaded FPGA image, or NON_FPGA for a CPU VM node.
     --node_ip=<node_ip>         The ip of the user's VM, e.g. a ZYC2 VM.
     --node_id=<node_id>         The id (rank) of either the VPN user's VM or FPGAs.
     --cluster_id=<cluster_id>   The id of a cluster to extend.
-    
     --image_file=<image_file>      The FPGA image file to be uploaded [default: ./image.bit].
     --sig_file=<sig_file>          An FPGA bitstream signature file containing hashes from the build process.
     --pr_verify_rpt=<pr_verify_rpt An FPGA report containing the output of the automatically run pr_verify command.
-    
     --dont_verify_memory=<dont_verify_memory>   If 1, don't verify the DDR4 memory during setup [default: 0].
     --limit=<limit>             The limit of get for clusters, images, instances [default: 100].
-    
     --repeat=<repeat>           The numper of times to repeat the command [default: 1].
     
 See 'cfsp help <command>' for more information on a specific command.
@@ -93,6 +89,7 @@ from PyInquirer import prompt, print_json
 from pprint import pprint
 from tqdm import tqdm
 
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import cfsp_globals
 import cfsp_user
 import cfsp_cluster
@@ -110,6 +107,10 @@ with open(version_path,"r") as fh:
         __version__ = line.rstrip("\n")
 fh.close()
 
+# This variable check weather we call cfsp a script from the command line, 
+# or as module from another Python file.
+is_script = False
+
 def check_credentials(CFGFILE):
     #if os.path.isfile(cfsp_globals.__cfsp_session_file__):
     #    dill.load_session(cfsp_globals.__cfsp_session_file__)
@@ -118,28 +119,29 @@ def check_credentials(CFGFILE):
     args['<args>'] = ['load']
     cfsp_user.main(args)
     
-def main():
-    args = docopt(__doc__, version=__version__)
-    
+def main(args):
+
     argv = [args['<command>']] + args['<args>']
+    #print(args['<args>'])
+    #print([args['<command>']] + args['<args>'])
 
     for repeat_id in tqdm(range(0,int(args['--repeat']))):
+        cfrm_response = ''
         print("INFO: Repeat #"+str(repeat_id))
-    
         if args['<command>'] == 'user':
             cfsp_user.main(args)
-            #print(args['<args>'])
         elif args['<command>'] == 'cluster':
             check_credentials(args['--config'])
-            cfsp_cluster.main(args)
+            cfrm_response=cfsp_cluster.main(args)
         elif args['<command>'] == 'image':
             check_credentials(args['--config'])
-            cfsp_image.main(args)
+            cfrm_response=cfsp_image.main(args)
         elif args['<command>'] == 'instance':
             check_credentials(args['--config'])
-            cfsp_instance.main(args)
+            cfrm_response=cfsp_instance.main(args)
         elif args['<command>'] in ['help', None]:
             if args['<args>'] == ['user']:
+                print("docopt user")
                 print(docopt(cfsp_user.__doc__, argv=argv))
             elif args['<args>'] == ['cluster']:
                 print(docopt(cfsp_cluster.__doc__, argv=argv))
@@ -148,10 +150,15 @@ def main():
             elif args['<args>'] == ['instance']:
                 print(docopt(cfsp_instance.__doc__, argv=argv))
             else:
-                exit(print(docopt(__doc__, version=__version__)))
+                print(docopt(__doc__, version=__version__))
         else:
             print("ERROR: unknown command. Aborting...")
             exit(print(docopt(__doc__, version=__version__)))
+            
+        if (is_script):
+            pprint(cfrm_response)
+        else:
+            return(cfrm_response)
 
 
 if __name__ == '__main__':
@@ -160,10 +167,10 @@ if __name__ == '__main__':
         print("ERROR: It looks like this cFSP isn't running in a virtual environment. Aborting.")
         sys.exit(1)
         
-    
-    main()
+    args = docopt(__doc__, version=__version__)
+    is_script = True
+    main(args)
     exit(0)
-
 
 
 # ! \} 

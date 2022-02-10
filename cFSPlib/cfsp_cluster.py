@@ -37,7 +37,6 @@ from swagger_client.api.clusters_api import ClustersApi  # noqa: E501
 from swagger_client.rest import ApiException
 from swagger_client.api_client import ApiClient
 from swagger_client.configuration import Configuration
-from pprint import pprint
 from tqdm import tqdm
 
 def confirm_choice():
@@ -54,6 +53,8 @@ def main(args):
     conf.host = cfsp_globals.__cf_manager_url__
     api_client = ApiClient(conf)    
     api_instance = ClustersApi(api_client=api_client) 
+
+    print("in main cluster")
 
     if ((len(args['<args>']) < 1) or (len(args['<args>']) > 2)):
         print("ERROR: invalid arguments provided in 'cfsp cluster' command. Aborting...")
@@ -78,7 +79,7 @@ def main(args):
                 exit(-1)            
         else:
             exit(print("ERROR: invalid arguments provided in cfsp cluster get. Aborting..."))
-        pprint(api_response)
+        return(api_response)
     elif (args['<args>'][0] == 'post') or (args['<args>'][0] == 'extend'):
         # create an instance of the API class
         body = []        
@@ -115,7 +116,7 @@ def main(args):
             try:
                 # Request a cluster
                 api_response = api_instance.cf_manager_rest_api_post_clusters(body, username, password, project_name=project_name, dont_verify_memory=args['--dont_verify_memory'])
-                pprint(api_response)
+                return(api_response)
             except ApiException as e:
                 print("Exception when calling ClustersApi->cf_manager_rest_api_post_clusters: %s\n" % e)
                 exit(-1)
@@ -123,7 +124,7 @@ def main(args):
             try:
                 # Request to extend cluster
                 api_response = api_instance.cf_manager_rest_api_extend_cluster(body, username, password, cluster_id=args['--cluster_id'], dont_verify_memory=args['--dont_verify_memory'])
-                pprint(api_response)
+                return(api_response)
             except ApiException as e:
                 print("Exception when calling ClustersApi->cf_manager_rest_api_extend_cluster: %s\n" % e)
                 exit(-1)
@@ -140,7 +141,7 @@ def main(args):
         try:
             # Request to extend cluster
             api_response = api_instance.cf_manager_rest_api_reduce_cluster(body, username, password, cluster_id=args['--cluster_id'])
-            pprint(api_response)
+            return(api_response)
         except ApiException as e:
             print("Exception when calling ClustersApi->cf_manager_rest_api_reduce_cluster: %s\n" % e)
             exit(-1)
@@ -172,7 +173,8 @@ def main(args):
             # Delete a cluster
             print("INFO: Deleting cluster " + str(cluster_id) + " ... ")
             try:
-                api_instance.cf_manager_rest_api_delete_cluster(username, password, cluster_id)
+                 api_response = api_instance.cf_manager_rest_api_delete_cluster(username, password, cluster_id)
+                 return(api_response)
             except ApiException as e:
                 print("Exception when calling ClustersApi->cf_manager_rest_api_delete_cluster: %s\n" % e)
                 exit(-1)

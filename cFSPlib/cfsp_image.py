@@ -35,7 +35,6 @@ from swagger_client.api.images_api import ImagesApi  # noqa: E501
 from swagger_client.rest import ApiException
 from swagger_client.api_client import ApiClient
 from swagger_client.configuration import Configuration
-from pprint import pprint
 
 
 def confirm_choice():
@@ -76,7 +75,7 @@ def main(args):
                 exit(-1)            
         else:
             exit(print("ERROR: invalid arguments provided in cfsp image get. Aborting..."))
-        pprint(api_response)
+        return(api_response)
     elif args['<args>'][0] == 'post':
         try:
             # Upload an image
@@ -91,7 +90,7 @@ def main(args):
             image_file_type = image_file[length_image_file - 3 : length_image_file]
             if (image_file_type == "bit"):
                 api_response = api_instance.cf_manager_rest_api_post_images(image_details, image_file, pr_verify_rpt, username, password)
-                pprint(api_response)
+                return(api_response)
             else:
                 exit(print("ERROR: invalid image file provided in cfsp post-app-logic. You should provide a .bit file instead. Aborting..."))
         except ApiException as e:
@@ -128,7 +127,7 @@ def main(args):
                     print("INFO: No --pr_verify_rpt provided. Assuming " + pr_verify_rpt)
                 # Upload an image
                 api_response = api_instance.cf_manager_rest_api_post_app_logic(image_details, image_file, sig_file, pr_verify_rpt, username, password)            
-                pprint(api_response)
+                return(api_response)
             else:
                 exit(print("ERROR: invalid image file provided in cfsp post-app-logic. You should provide a .bin file instead. Aborting..."))
         except ApiException as e:
