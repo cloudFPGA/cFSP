@@ -314,7 +314,7 @@ Assuming you want to delete the previously created instance with id `5`
 cFSP is both a standalone command-line tool as well as a Python module that can be imported to a 
 Python file. This allows the integration of cFSP into programming or CI/CD flows.
 
-To use cFSP as a Python module you need to add to import the `cFSP` module from the 
+To use cFSP as a Python module you need to import the `cFSP` module from the 
 `cFSPlib` library, like below:
 
 ```
