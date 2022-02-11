@@ -86,7 +86,7 @@ user=$(head -n 1 /tmp/zyc2-user-vpn.credentials)
 pass=$(tail -n 1 /tmp/zyc2-user-vpn.credentials)
 sed -i s/example_user/$user/ test/user.json
 sed -i s/example_password/$pass/ test/user.json
-sed -i s/user_example.json/user.json/ test/test_cF.py
+sed -i s/user_example.json/user.json/ test/test_cfsp_module.py
 cat test/user.json
     
 echo -e "#"
@@ -104,7 +104,7 @@ echo "===     $0"
 echo "================================================================"
 
 echo "================================================================"
-echo "===   REGRESSION - START OF BUILD: 'test_cF.py' "
+echo "===   REGRESSION - START OF BUILD: 'test_cfsp_module.py' "
 echo "===     $0"
 echo "================================================================"
 cd $rootDir/test
@@ -112,7 +112,7 @@ python3 test_cfsp_module.py
 retval=$?
 
 echo "================================================================"
-echo "===   REGRESSION - END OF BUILD  : 'test_cF.py' "
+echo "===   REGRESSION - END OF BUILD  : 'test_cfsp_module.py' "
 echo "===     $0"
 echo "================================================================"
 

@@ -54,8 +54,6 @@ def main(args):
     api_client = ApiClient(conf)    
     api_instance = ClustersApi(api_client=api_client) 
 
-    print("in main cluster")
-
     if ((len(args['<args>']) < 1) or (len(args['<args>']) > 2)):
         print("ERROR: invalid arguments provided in 'cfsp cluster' command. Aborting...")
         exit(print(__doc__))
