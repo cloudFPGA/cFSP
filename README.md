@@ -17,7 +17,7 @@ Python 3.6+
 
 ## Installation
 
-We recommend the installation at an isolated Python environment, e.g. through [Virutalenv](https://virtualenv.pypa.io).
+We recommend the installation at an isolated Python environment, e.g. through [Virtualenv](https://virtualenv.pypa.io).
 
 ### Installation through github
 Use this option for the most up-to-date installation.
