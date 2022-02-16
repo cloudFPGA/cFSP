@@ -58,6 +58,7 @@ pip install cfsp
 * [Get an image](#get-an-image).
 * [Create a cluster](#create-a-cluster).
 * [Create a multi-node cluster](#create-a-multi-node-cluster).
+* [Update the FPGA nodes of a cluster](#update-the-fpga-nodes-of-a-cluster).
 * [Get a cluster](#get-a-cluster).
 * [Extend a cluster](#extend-a-cluster).
 * [Reduce a cluster](#reduce-a-cluster).
