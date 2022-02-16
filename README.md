@@ -202,9 +202,22 @@ You can add to a cluster an arbitrary number of
 ![cfsp-cluster-post-many](doc/img/6b.png)
 
 
+### Update the FPGA nodes of a cluster
+
+You can updated the images of some or all of the FPGA nodes of a cluster.
+For example to update only the image of the `node_id=0`, of the previously created cluster with id `257`, to the `image_id=3f0427af-d37a-453d-b8c4-a813c4573d12`, you may use:
+
+```bash
+/cfsp cluster update --cluster_id=257 --node_id=0 --image_id=3f0427af-d37a-453d-b8c4-a813c4573d12
+```
+
+![cfsp-cluster-post-many](doc/img/6c.png)
+
+> **_NOTE:_** You may use the option `--node_id` as many times as you want to specify the FPGA nodes of the cluster to update. If a provided node_id does not correspond to an FPGA node, but to a CPU node, an exception will be raised. If no `--node_id` argument will be provided, the tool will search for any available FPGA nodes in the specified `cluster_id`, and it will attempt to update all of them to the specified `image_id`.
+
 ### Get a cluster
 
-Assuming you want to get the details of the previously created cluster with id `259`
+Assuming you want to get the details of a cluster with id `259`
 
 ```bash
 ./cfsp cluster get 259

@@ -64,7 +64,7 @@ Options:
     --image_id=<image_id>       The id of the uploaded FPGA image, or NON_FPGA for a CPU VM node.
     --node_ip=<node_ip>         The ip of the user's VM, e.g. a ZYC2 VM.
     --node_id=<node_id>         The id (rank) of either the VPN user's VM or FPGAs.
-    --cluster_id=<cluster_id>   The id of a cluster to extend.
+    --cluster_id=<cluster_id>   The id of a cluster to update or extend.
     --image_file=<image_file>      The FPGA image file to be uploaded [default: ./image.bit].
     --sig_file=<sig_file>          An FPGA bitstream signature file containing hashes from the build process.
     --pr_verify_rpt=<pr_verify_rpt An FPGA report containing the output of the automatically run pr_verify command.
