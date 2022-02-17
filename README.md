@@ -1,3 +1,15 @@
+<p align="center">
+  <a aria-label="License" href="https://github.com/cloudFPGA/cFSP/blob/master/LICENSE">
+    <img alt="" src="https://img.shields.io/github/license/cloudFPGA/cFSP?style=for-the-badge&labelColor=000000">
+  </a>
+  <a aria-label="PyPi" href="https://pypi.org/project/cfsp/">
+    <img alt="" src="https://img.shields.io/pypi/v/cfsp?style=for-the-badge&labelColor=000000">
+  </a>
+  <a aria-label="Python" href="#cFSP">
+    <img alt="" src="https://img.shields.io/pypi/pyversions/cfsp?style=for-the-badge&labelColor=000000">
+  </a>
+</p>
+
 [![Build Status](https://jenkins.cloudfpga.zc2.ibm.com/buildStatus/icon?job=cFSP)](https://jenkins.cloudfpga.zc2.ibm.com/job/cFSP/)
 
 # cFSP
