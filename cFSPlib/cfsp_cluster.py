@@ -189,12 +189,16 @@ def main(args):
         return(api_response)
     elif args['<args>'][0] == 'delete':
         if (len(args['<args>']) == 1):
-            print("INFO: Really deleting all clusters ?")
-            if confirm_choice() == 'c':
-                print("INFO: Confirmed deleting all clusters")
-                try:
-                    api_response_get_in_delete = api_instance.cf_manager_rest_api_get_clusters(username, password)
-                    if(len(api_response_get_in_delete) > 0):
+            print("INFO: Trying deleting all clusters.")
+            try:
+                api_response_get_in_delete = api_instance.cf_manager_rest_api_get_clusters(username, password)
+                if(len(api_response_get_in_delete) > 0):
+                    if(len(api_response_get_in_delete) == 1):
+                        print("INFO: Really deleting cluster " + str(api_response_get_in_delete[0].cluster_id) + " ?")
+                    else:
+                        print("INFO: Really deleting all " + str(len(api_response_get_in_delete)) + " clusters ?")
+                    if confirm_choice() == 'c':
+                        print("INFO: Confirmed deleting all clusters.")
                         for this_cluster in tqdm(api_response_get_in_delete):                                  
                             # Delete a cluster
                             print("INFO: Deleting cluster " + str(this_cluster.cluster_id) + " ... ")
@@ -203,12 +207,12 @@ def main(args):
                             except ApiException as e_in_delete:
                                 print("Exception when calling ClustersApi->cf_manager_rest_api_delete_cluster: %s\n" % e_in_delete)        
                     else:
-                        print("INFO: No clusters to delete.")
-                except ApiException as e_in_get:
-                    print("Exception when calling ClustersApi->cf_manager_rest_api_get_clusters: %s\n" % e_in_get)              
-                    exit(-1)
-            else:
-                print ("INFO: Canceling deleting all clsuters")
+                        print ("INFO: Canceling deleting clsuter(s).")
+                else:
+                    print("INFO: No clusters to delete.")
+            except ApiException as e_in_get:
+                print("Exception when calling ClustersApi->cf_manager_rest_api_get_clusters: %s\n" % e_in_get)              
+                exit(-1)
         elif (len(args['<args>']) == 2):
             cluster_id = args['<args>'][1]
             # Delete a cluster
