@@ -78,8 +78,9 @@ def main(args):
         return(api_response)
     elif args['<args>'][0] == 'post':
         try:
+            comment = args['--comment']
             # Upload an image
-            image_details = '{   "breed": "SHELL",   "fpga_board": "FMKU60",   "shell_type": "Themisto",   "comment" : "Some valuable information for humans (optional)"}'
+            image_details = '{   "breed": "SHELL",   "fpga_board": "FMKU60",   "shell_type": "Themisto",   "comment" : "' + comment + '"}'
             pr_verify_rpt = ""
             image_file = args['--image_file']
             if (image_file.find("pblock") != -1):
@@ -90,6 +91,11 @@ def main(args):
             image_file_type = image_file[length_image_file - 3 : length_image_file]
             if (image_file_type == "bit"):
                 api_response = api_instance.cf_manager_rest_api_post_images(image_details, image_file, pr_verify_rpt, username, password)
+                this_id = api_response.id
+                try:
+                    api_response = api_instance.cf_manager_rest_api_get_image_single(username, password, this_id)
+                except ApiException as e:
+                    print("Exception when calling ImagesApi->cf_manager_rest_api_get_image_single: %s (nested in ImagesApi->cf_manager_rest_api_post_images)\n" % e)
                 return(api_response)
             else:
                 exit(print("ERROR: invalid image file provided in cfsp post-app-logic. You should provide a .bit file instead. Aborting..."))
@@ -109,8 +115,9 @@ def main(args):
             with open(json_file) as f:
                 data = json.load(f)
             cl_id = str(data['id'])
-            #TODO: Parse also shell, fpga_board and comment from the json file
-            image_details = '{"cl_id": "' + cl_id + '", "fpga_board": "FMKU60", "shell_type": "Themisto", "comment" : "Some valuable information for humans (optional)"}'
+            comment = args['--comment']
+            #TODO: Parse also shell and fpga_board from the json file
+            image_details = '{"cl_id": "' + cl_id + '", "fpga_board": "FMKU60", "shell_type": "Themisto", "comment" : "' + comment + '"}'
             length_image_file = len(image_file)
             image_file_type = image_file[length_image_file - 3 : length_image_file]
             image_file_name = image_file[0 : length_image_file - 4]
@@ -126,7 +133,12 @@ def main(args):
                     pr_verify_rpt = pr_verify_rpt_new
                     print("INFO: No --pr_verify_rpt provided. Assuming " + pr_verify_rpt)
                 # Upload an image
-                api_response = api_instance.cf_manager_rest_api_post_app_logic(image_details, image_file, sig_file, pr_verify_rpt, username, password)            
+                api_response = api_instance.cf_manager_rest_api_post_app_logic(image_details, image_file, sig_file, pr_verify_rpt, username, password)
+                this_id = api_response.id
+                try:
+                    api_response = api_instance.cf_manager_rest_api_get_image_single(username, password, this_id)
+                except ApiException as e:
+                    print("Exception when calling ImagesApi->cf_manager_rest_api_get_image_single: %s (nested in ImagesApi->cf_manager_rest_api_post_app_logic)\n" % e)                
                 return(api_response)
             else:
                 exit(print("ERROR: invalid image file provided in cfsp post-app-logic. You should provide a .bin file instead. Aborting..."))
