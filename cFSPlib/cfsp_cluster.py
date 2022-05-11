@@ -152,41 +152,100 @@ def main(args):
             cluster_id_num = len(args['--cluster_id'])
         except:
             exit(print("ERROR: The argument --cluster_id must be provided once. Aborting..."))
-            
-        
+
         if (cpu_num != 0):
-            exit(print("ERROR: Irrelevant argument --node_ip in cluster update. Aborting..."))
-        if (fpga_num != 1):
-            exit(print("ERROR: The argument --image_id must be provided once. Aborting..."))
-        if (node_id_num == 0):
-            print("WARNING: No argument --node_id was provided. Will try to locate FPGA node_id's in cluster "+ str(args['--cluster_id'])+ " ...")
+            # Update CPU
+            if (fpga_num != 0):
+                exit(print("ERROR: The argument --image_id cannot be provided together with --node_ip in cluster update (i.e. cannot simultanously update CPU and FPGA nodes). Aborting..."))
+
+            if (node_id_num == 0):
+                print("WARNING: No argument --node_id was provided. Will try to locate CPU node_id's in cluster "+ str(args['--cluster_id'])+ " ...")
+                try:
+                    api_response = api_instance.cf_manager_rest_api_get_cluster_single(username, password, args['--cluster_id'])
+                except ApiException as e:
+                    print("Exception when calling ClustersApi->cf_manager_rest_api_get_cluster_single: %s\n" % e)              
+                    exit(-1)            
+            
+                nodes_in_cluster_len = len(api_response.nodes)
+                for i in range(nodes_in_cluster_len):
+                    #if (api_response.nodes[i].['image_id'] != 'NON_FPGA'):
+                    if (api_response.nodes[i].get('image_id') == 'NON_FPGA'):
+                        print("INFO: Found CPU node at id : " + str(api_response.nodes[i].get('node_id')) + ", with ip : " + str(api_response.nodes[i].get('node_ip')))
+                        args['--node_id'].append(api_response.nodes[i].get('node_id'))
+            else:
+                # Convert the node_id list to ints
+                args['--node_id'] = list(map(int, args['--node_id']))
+            
+            node_id_num = len(args['--node_id'])
+            if (node_id_num != cpu_num):
+                exit(print("ERROR: The list of CPU nodes provided or found on the cluster " + str(args['--cluster_id']) + " ("+ str(node_id_num) + ") is not equal to the number of new IPs for CPUs provided (" + str(cpu_num) + ") in cluster update. Aborting..."))
+            
+            print("Reducing cluster...")
             try:
-                api_response = api_instance.cf_manager_rest_api_get_cluster_single(username, password, args['--cluster_id'])
+                # Request to update the CPU node of the cluster by removing the CPU node and adding a new one with the new ip
+                api_response = api_instance.cf_manager_rest_api_reduce_cluster(args['--node_id'], username, password, cluster_id=args['--cluster_id'])
             except ApiException as e:
-                print("Exception when calling ClustersApi->cf_manager_rest_api_get_cluster_single: %s\n" % e)              
+                print("Exception when calling ClustersApi->cf_manager_rest_api_reduce_cluster: %s\n" % e)                    
+                exit(-1)
+                
+            #FIXME: add extend cluster with the new cpu
+            body = []
+            for j in range(cpu_num):
+                cpu_body = {    "image_id": cfsp_globals.__NON_FPGA_IDENTIFIER__,    "node_ip":  args['--node_ip'][j],    "node_id": args['--node_id'][j] }
+                print("["+args['--node_ip'][j] + ", " + str(args['--node_id'][j]) + "]")
+                body.append(cpu_body)
+            
+            print("Extending cluster...")
+            try:
+                # Request to extend cluster
+                api_response = api_instance.cf_manager_rest_api_extend_cluster(body, username, password, cluster_id=args['--cluster_id'], dont_verify_memory=args['--dont_verify_memory'])
+                return(api_response)
+            except ApiException as e:
+                print("Exception when calling ClustersApi->cf_manager_rest_api_extend_cluster: %s\n" % e)
                 exit(-1)            
             
-            nodes_in_cluster_len = len(api_response.nodes)
-            for i in range(nodes_in_cluster_len):
-                #if (api_response.nodes[i].['image_id'] != 'NON_FPGA'):
-                if (api_response.nodes[i].get('image_id')!= 'NON_FPGA'):
-                    print("INFO: Found FPGA node at id: " + str(api_response.nodes[i].get('node_id')))
-                    args['--node_id'].append(api_response.nodes[i].get('node_id'))
+            
+            # We just return the last responce since it returns the whole cluster
+            return(api_response)
+
+
+        elif (fpga_num != 0):
+            # Update FPGA
+            if (fpga_num != 1):
+                exit(print("ERROR: The argument --image_id must be provided once. Aborting..."))
+            if (cpu_num != 0):
+                exit(print("ERROR: The argument --node_ip cannot be provided together with ----image_id in cluster update (i.e. cannot simultanously update FPGA and CPU nodes). Aborting..."))           
+            if (node_id_num == 0):
+                print("WARNING: No argument --node_id was provided. Will try to locate FPGA node_id's in cluster "+ str(args['--cluster_id'])+ " ...")
+                try:
+                    api_response = api_instance.cf_manager_rest_api_get_cluster_single(username, password, args['--cluster_id'])
+                except ApiException as e:
+                    print("Exception when calling ClustersApi->cf_manager_rest_api_get_cluster_single: %s\n" % e)              
+                    exit(-1)            
+            
+                nodes_in_cluster_len = len(api_response.nodes)
+                for i in range(nodes_in_cluster_len):
+                    #if (api_response.nodes[i].['image_id'] != 'NON_FPGA'):
+                    if (api_response.nodes[i].get('image_id') != 'NON_FPGA'):
+                        print("INFO: Found FPGA node at id : " + str(api_response.nodes[i].get('node_id')) + ", with ip : " + str(api_response.nodes[i].get('node_ip')))
+                        args['--node_id'].append(api_response.nodes[i].get('node_id'))
+            else:
+                # Convert the node_id list to ints
+                args['--node_id'] = list(map(int, args['--node_id']))
+            
+            node_id_num = len(args['--node_id'])
+            
+            for i in range(node_id_num):
+                try:
+                    # Request to update cluster
+                    api_response = api_instance.cf_manager_rest_api_update_node_of_cluster(args['--image_id'][0], username, password, cluster_id=args['--cluster_id'], node_id=args['--node_id'][i], dont_verify_memory=args['--dont_verify_memory'])
+                except ApiException as e:
+                    print("Exception when calling ClustersApi->cf_manager_rest_api_update_node_of_cluster: %s\n" % e)
+                    exit(-1)
+            # We just return the last responce since it returns the whole cluster
+            return(api_response)
         else:
-            # Convert the node_id list to ints
-            args['--node_id'] = list(map(int, args['--node_id']))
-            
-        node_id_num = len(args['--node_id'])
-            
-        for i in range(node_id_num):
-            try:
-                # Request to update cluster
-                api_response = api_instance.cf_manager_rest_api_update_node_of_cluster(args['--image_id'][0], username, password, cluster_id=args['--cluster_id'], node_id=args['--node_id'][i], dont_verify_memory=args['--dont_verify_memory'])
-            except ApiException as e:
-                print("Exception when calling ClustersApi->cf_manager_rest_api_update_node_of_cluster: %s\n" % e)
-                exit(-1)
-        # We just return the last responce since it returns the whole cluster
-        return(api_response)
+            exit(print("ERROR: No arguments --image_id or --node_id is provided. Aborting..."))
     elif args['<args>'][0] == 'delete':
         if (len(args['<args>']) == 1):
             print("INFO: Trying deleting all clusters.")

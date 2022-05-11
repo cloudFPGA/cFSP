@@ -70,7 +70,7 @@ pip install cfsp
 * [Get an image](#get-an-image).
 * [Create a cluster](#create-a-cluster).
 * [Create a multi-node cluster](#create-a-multi-node-cluster).
-* [Update the FPGA nodes of a cluster](#update-the-fpga-nodes-of-a-cluster).
+* [Update the nodes of a cluster](#update-the-nodes-of-a-cluster).
 * [Get a cluster](#get-a-cluster).
 * [Extend a cluster](#extend-a-cluster).
 * [Reduce a cluster](#reduce-a-cluster).
@@ -215,9 +215,12 @@ You can add to a cluster an arbitrary number of
 ![cfsp-cluster-post-many](doc/img/6b.png)
 
 
-### Update the FPGA nodes of a cluster
+### Update the nodes of a cluster
 
-You can updated the images of some or all of the FPGA nodes of a cluster.
+You can update:
+* the images of some or all of the FPGA nodes of a cluster.
+* the IPs of some or all CPU nodes of a cluster
+
 For example to update only the image of the `node_id=0`, of the previously created cluster with id `257`, to the `image_id=3f0427af-d37a-453d-b8c4-a813c4573d12`, you may use:
 
 ```bash
@@ -226,7 +229,13 @@ For example to update only the image of the `node_id=0`, of the previously creat
 
 ![cfsp-cluster-post-many](doc/img/6c.png)
 
-> **_NOTE:_** You may use the option `--node_id` as many times as you want to specify the FPGA nodes of the cluster to update. If a provided node_id does not correspond to an FPGA node, but to a CPU node, an exception will be raised. If no `--node_id` argument will be provided, the tool will search for any available FPGA nodes in the specified `cluster_id`, and it will attempt to update all of them to the specified `image_id`.
+And to update only the IP of one of the CPU nodes, e.g. from `10.12.2.103` to `10.12.2.109`, you may use:
+
+```bash
+/cfsp cluster update --cluster_id=257 --node_id=4 --node_ip=10.12.2.109
+```
+
+> **_NOTE:_** You may use the option `--node_id` as many times as you want to specify the CPU or FPGA nodes of the cluster to update. Depending on the type of the node_id which will be provided, either FPGA or CPU node(s), will be updated. If no `--node_id` argument will be provided, the tool will search for any available FPGA or CPU nodes in the specified `cluster_id`, and it will attempt to update all of them to the specified `image_id` (for FPGA nodes) or `node_ip` (for CPU nodes). Currently there is no option to simultanously update FPGA and CPU nodes of a cluster and an exception will be raised in such an attempt.
 
 ### Get a cluster
 
