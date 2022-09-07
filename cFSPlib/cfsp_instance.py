@@ -16,11 +16,12 @@
 
 """
 Usage: 
-    cfsp instance (get | post | delete)    
+    cfsp instance (get | post | restart | delete)    
 Commands:
     get <id>     Get all instances of a user. Either <id> of instance or no argument for all.
     post         Request an instance.
-    delete id    Delete an instance with instance_id=id. If no id is provided then all instances are deleted (after confirmation dialog with user)
+    restart      Triggers application restart of this instance.
+    delete id    Delete an instance with instance_id=id. If no id is provided then all instances are deleted (after confirmation dialog with user).
 """
 from __future__ import absolute_import
 
@@ -93,6 +94,19 @@ def main(args):
         except ApiException as e:
             print("Exception when calling InstancesApi->cf_manager_rest_api_post_instances: %s\n" % e)
             exit(-1)
+    elif args['<args>'][0] == 'restart':
+        if (len(args['<args>']) == 2):
+            instance_id = args['<args>'][1]
+            # Restart an instance
+            print("INFO: Restarting instance " + str(instance_id) + " ... ")
+            try:
+                api_response = api_instance.cf_manager_rest_api_app_restart_instance(username, password, instance_id)                
+            except ApiException as e:
+                print("Exception when calling InstancesApi->cf_manager_rest_api_app_restart_instance: %s\n" % e)
+                exit(-1)
+            return(api_response)
+        else:
+            exit(print("ERROR: invalid arguments provided in cfsp instance restart. Aborting..."))
     elif args['<args>'][0] == 'delete':
         if (len(args['<args>']) == 1):
             print("INFO: Really deleting all instances ?")

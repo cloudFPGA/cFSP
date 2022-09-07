@@ -74,9 +74,11 @@ pip install cfsp
 * [Get a cluster](#get-a-cluster).
 * [Extend a cluster](#extend-a-cluster).
 * [Reduce a cluster](#reduce-a-cluster).
+* [Restart a cluster](#restart-a-cluster).
 * [Delete a cluster](#delete-a-cluster).
 * [Create an instance](#create-an-instance).
 * [Get an instance](#get-an-instance).
+* [Restart an instance](#restart-an-instance).
 * [Delete an instance](#delete-an-instance).
 * [Use cFSP as a Python module](#use-cfsp-as-a-python-module).
 
@@ -272,6 +274,24 @@ Assuming you want to reduce the previously extended cluster with id `259`, with 
 ![cfsp-cluster-reduce](doc/img/7b.png)
 
 
+### Restart a cluster
+
+Assuming you want to restart a cluster with id `383`
+
+```bash
+./cfsp cluster restart 383
+```
+
+or
+
+
+```bash
+./cfsp cluster restart --cluster_id=383
+```
+
+![cfsp-cluster-delete](doc/img/6d.png)
+
+
 ### Delete a cluster
 
 Assuming you want to delete the previously created cluster with id `259`
@@ -324,6 +344,15 @@ Assuming you want to get the details of the previously created instance with id 
 
 ![cfsp-instance-get](doc/img/11.png)
 
+### Restart an instance
+
+Assuming you want to restart an instance with id `84`
+
+```bash
+./cfsp instance restart 84
+```
+
+![cfsp-instance-delete](doc/img/13a.png)
 
 ### Delete an instance
 

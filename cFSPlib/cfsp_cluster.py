@@ -16,12 +16,13 @@
 
 """
 Usage: 
-    cfsp cluster (get | post | extend | update | delete)    
+    cfsp cluster (get | post | extend | update | restart | delete)    
 Commands:
     get <id>     Get all clusters of a user. Either <id> of cluster or no argument for all.
     post         Request a cluster.
     extend id    Add nodes to an existing cluster
-    update id    Reconfigure one FPGA node of an existing cluster  
+    update id    Reconfigure one FPGA node of an existing cluster
+    restart id   Restart all applications on FPGAs in this cluster
     delete id    Delete a cluster with cluster_id=id. If no id is provided then all clusters are deleted (after confirmation dialog with user)
 """
 from __future__ import absolute_import
@@ -246,6 +247,21 @@ def main(args):
             return(api_response)
         else:
             exit(print("ERROR: No arguments --image_id or --node_id is provided. Aborting..."))
+    elif args['<args>'][0] == 'restart':
+        if (len(args['<args>']) == 1):
+            cluster_id = args['--cluster_id']
+        elif (len(args['<args>']) == 2):
+            cluster_id = args['<args>'][1]
+        else:
+            exit(print("ERROR: invalid arguments provided in cfsp cluster restart. Aborting..."))
+        # Restart a cluster
+        print("INFO: Restarting cluster " + str(cluster_id) + " ... ")
+        try:
+             api_response = api_instance.cf_manager_rest_api_restart_cluster(username, password, cluster_id)                 
+             return(api_response)
+        except ApiException as e:
+            print("Exception when calling ClustersApi->cf_manager_rest_api_restart_cluster: %s\n" % e)
+            exit(-1)
     elif args['<args>'][0] == 'delete':
         if (len(args['<args>']) == 1):
             print("INFO: Trying deleting all clusters.")

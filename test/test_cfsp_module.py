@@ -35,7 +35,7 @@ sys.path.append("../")
 from cFSPlib import cFSP
 
 retval=0
-num_tests=12
+num_tests=14
 
 # Create a variable of class cFSP docopt.
 # This variable will be populated with the options we need to pass to the callable cFSP module
@@ -94,6 +94,14 @@ print(cfrm_response)
 print("INFO: The new instance has id : " + str(cfrm_response.instance_id))
 retval=retval+1
 print("############# End testing:   post instance ###############\n\n")
+
+print("############# Start testing: restart instance ###############\n")
+args['<command>'] = 'instance'
+args['<args>'] = ['restart', str(cfrm_response.instance_id)]
+cfrm_response=cFSP.main(args)
+print(cfrm_response)
+retval=retval+1
+print("############# End testing: restart instance ###############\n\n")
 
 print("############# Start testing: delete instance ###############\n")
 args['<command>'] = 'instance'
@@ -157,6 +165,14 @@ print(cfrm_response)
 print("INFO: The new cluster has id : " + str(cfrm_response.cluster_id))
 retval=retval+1
 print("############# End testing:   post_cluster ###############\n\n")
+
+print("############# Start testing: restart cluster ###############\n")
+args['<command>'] = 'cluster'
+args['<args>'] = ['restart', str(cfrm_response.cluster_id)]
+cfrm_response=cFSP.main(args)
+print(cfrm_response)
+retval=retval+1
+print("############# End testing: restart cluster ###############\n\n")
 
 print("############# Start testing: delete cluster ###############\n")
 args['<command>'] = 'cluster'
