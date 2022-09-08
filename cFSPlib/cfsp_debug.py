@@ -18,8 +18,8 @@
 Usage: 
     cfsp debug (get)    
 Commands:
-    get flight_recorder_data <cluster id>   Requests and returns the status information of the 
-                                            Network Routing Core of all instances in this cluster 
+    get flight_recorder_data <cluster/instance>   Requests and returns the status information of the 
+                                            Network Routing Core of this cluster/instance
                                             Attention: There may be a delay of a few seconds until 
                                             the counters are updated after the packets were 
                                             processed. 
@@ -43,7 +43,7 @@ def main(args):
     api_client = ApiClient(conf)    
     api_instance = swagger_client.DebugApi(api_client=api_client)
 
-    if (len(args['<args>']) != 3):
+    if (len(args['<args>']) != 4):
         print("ERROR: invalid arguments provided in 'cfsp debug' command. Aborting...")
         exit(print(__doc__))
     
@@ -53,15 +53,28 @@ def main(args):
     
     if args['<args>'][0] == 'get':
         if (args['<args>'][1] == "flight_recorder_data"):
-            try:
-                api_response = api_instance.cf_manager_rest_api_get_flight_recorder_cluster(username, password, args['<args>'][2])
-                print(type(api_response))
-                print(len(api_response))
-                print(api_response)
+            if args['<args>'][2] == 'cluster':
+                try:
+                    api_response = api_instance.cf_manager_rest_api_get_flight_recorder_cluster(username, password, args['<args>'][3])
+                    print(type(api_response))
+                    print(api_response)
+                    print("now")
+                    print(type(api_response.by_instance_id))
+                    print(api_response.by_rank_id.Name)
                 
-            except ApiException as e:
-                print("Exception when calling DebugApi->cf_manager_rest_api_get_flight_recorder_cluster: %s\n" % e)              
-                exit(-1)           
+                except ApiException as e:
+                    print("Exception when calling DebugApi->cf_manager_rest_api_get_flight_recorder_cluster: %s\n" % e)              
+                    exit(-1)
+            elif args['<args>'][2] == 'instance':
+                try:
+                    api_response = api_instance.cf_manager_rest_api_get_flight_recorder_instance(username, password, args['<args>'][3])
+                    print(type(api_response))
+                    print(api_response)
+                except ApiException as e:
+                    print("Exception when calling DebugApi->cf_manager_rest_api_get_flight_recorder_instance: %s\n" % e)              
+                    exit(-1)                      
+            else:
+                exit(print("ERROR: invalid arguments provided in cfsp debug get flight_recorder_data. Choose between 'cluster' or 'instance'. Aborting..."))
         else:
             exit(print("ERROR: invalid arguments provided in cfsp debug get. Aborting..."))
         return(api_response)

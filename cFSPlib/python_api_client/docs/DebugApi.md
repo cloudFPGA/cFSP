@@ -265,7 +265,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **cf_manager_rest_api_get_flight_recorder_instance**
-> list[list[str]] cf_manager_rest_api_get_flight_recorder_instance(username, password, instance_id)
+> list[str] cf_manager_rest_api_get_flight_recorder_instance(username, password, instance_id)
 
 Requests network runtime information
 
@@ -303,7 +303,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**list[list[str]]**
+**list[str]**
 
 ### Authorization
 

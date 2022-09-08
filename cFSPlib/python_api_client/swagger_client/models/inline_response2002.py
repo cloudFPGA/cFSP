@@ -28,7 +28,7 @@ class InlineResponse2002(object):
                             and the value is json key in definition.
     """
     swagger_types = {
-        'by_instance_id': 'list[list[object]]',
+        'by_instance_id': 'list[list[str]]',
         'by_rank_id': 'list[list[str]]'
     }
 
@@ -53,7 +53,7 @@ class InlineResponse2002(object):
 
 
         :return: The by_instance_id of this InlineResponse2002.  # noqa: E501
-        :rtype: list[list[object]]
+        :rtype: list[list[str]]
         """
         return self._by_instance_id
 
@@ -63,7 +63,7 @@ class InlineResponse2002(object):
 
 
         :param by_instance_id: The by_instance_id of this InlineResponse2002.  # noqa: E501
-        :type: list[list[object]]
+        :type: list[list[str]]
         """
 
         self._by_instance_id = by_instance_id
