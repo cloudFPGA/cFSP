@@ -35,7 +35,7 @@ sys.path.append("../")
 from cFSPlib import cFSP
 
 retval=0
-num_tests=14
+num_tests=16
 
 # Create a variable of class cFSP docopt.
 # This variable will be populated with the options we need to pass to the callable cFSP module
@@ -102,6 +102,14 @@ cfrm_response=cFSP.main(args)
 print(cfrm_response)
 retval=retval+1
 print("############# End testing: restart instance ###############\n\n")
+
+print("############# Start testing: debug instance ###############\n")
+args['<command>'] = 'debug'
+args['<args>'] = ['get', 'flight_recorder_data', 'instance', str(cfrm_response.instance_id)]
+cfrm_response=cFSP.main(args)
+print(cfrm_response)
+retval=retval+1
+print("############# End testing: debug instance ###############\n\n")
 
 print("############# Start testing: delete instance ###############\n")
 args['<command>'] = 'instance'
@@ -173,6 +181,14 @@ cfrm_response=cFSP.main(args)
 print(cfrm_response)
 retval=retval+1
 print("############# End testing: restart cluster ###############\n\n")
+
+print("############# Start testing: debug cluster ###############\n")
+args['<command>'] = 'debug'
+args['<args>'] = ['get', 'flight_recorder_data', 'cluster', str(cfrm_response.cluster_id)]
+cfrm_response=cFSP.main(args)
+print(cfrm_response)
+retval=retval+1
+print("############# End testing: debug cluster ###############\n\n")
 
 print("############# Start testing: delete cluster ###############\n")
 args['<command>'] = 'cluster'
