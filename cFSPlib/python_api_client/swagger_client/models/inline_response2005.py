@@ -28,126 +28,42 @@ class InlineResponse2005(object):
                             and the value is json key in definition.
     """
     swagger_types = {
-        'failure_cnt': 'int',
-        'failure_msg': 'str',
-        'status': 'str',
-        'success_cnt': 'int'
+        'runlevel': 'int'
     }
 
     attribute_map = {
-        'failure_cnt': 'failure_cnt',
-        'failure_msg': 'failure_msg',
-        'status': 'status',
-        'success_cnt': 'success_cnt'
+        'runlevel': 'runlevel'
     }
 
-    def __init__(self, failure_cnt=None, failure_msg=None, status=None, success_cnt=None):  # noqa: E501
+    def __init__(self, runlevel=None):  # noqa: E501
         """InlineResponse2005 - a model defined in Swagger"""  # noqa: E501
-        self._failure_cnt = None
-        self._failure_msg = None
-        self._status = None
-        self._success_cnt = None
+        self._runlevel = None
         self.discriminator = None
-        if failure_cnt is not None:
-            self.failure_cnt = failure_cnt
-        if failure_msg is not None:
-            self.failure_msg = failure_msg
-        if status is not None:
-            self.status = status
-        if success_cnt is not None:
-            self.success_cnt = success_cnt
+        if runlevel is not None:
+            self.runlevel = runlevel
 
     @property
-    def failure_cnt(self):
-        """Gets the failure_cnt of this InlineResponse2005.  # noqa: E501
+    def runlevel(self):
+        """Gets the runlevel of this InlineResponse2005.  # noqa: E501
 
-        Counter of failures on this resource  # noqa: E501
+        The current runlevel  # noqa: E501
 
-        :return: The failure_cnt of this InlineResponse2005.  # noqa: E501
+        :return: The runlevel of this InlineResponse2005.  # noqa: E501
         :rtype: int
         """
-        return self._failure_cnt
+        return self._runlevel
 
-    @failure_cnt.setter
-    def failure_cnt(self, failure_cnt):
-        """Sets the failure_cnt of this InlineResponse2005.
+    @runlevel.setter
+    def runlevel(self, runlevel):
+        """Sets the runlevel of this InlineResponse2005.
 
-        Counter of failures on this resource  # noqa: E501
+        The current runlevel  # noqa: E501
 
-        :param failure_cnt: The failure_cnt of this InlineResponse2005.  # noqa: E501
+        :param runlevel: The runlevel of this InlineResponse2005.  # noqa: E501
         :type: int
         """
 
-        self._failure_cnt = failure_cnt
-
-    @property
-    def failure_msg(self):
-        """Gets the failure_msg of this InlineResponse2005.  # noqa: E501
-
-        The last failure that occured on this resource  # noqa: E501
-
-        :return: The failure_msg of this InlineResponse2005.  # noqa: E501
-        :rtype: str
-        """
-        return self._failure_msg
-
-    @failure_msg.setter
-    def failure_msg(self, failure_msg):
-        """Sets the failure_msg of this InlineResponse2005.
-
-        The last failure that occured on this resource  # noqa: E501
-
-        :param failure_msg: The failure_msg of this InlineResponse2005.  # noqa: E501
-        :type: str
-        """
-
-        self._failure_msg = failure_msg
-
-    @property
-    def status(self):
-        """Gets the status of this InlineResponse2005.  # noqa: E501
-
-        The state of the resource  # noqa: E501
-
-        :return: The status of this InlineResponse2005.  # noqa: E501
-        :rtype: str
-        """
-        return self._status
-
-    @status.setter
-    def status(self, status):
-        """Sets the status of this InlineResponse2005.
-
-        The state of the resource  # noqa: E501
-
-        :param status: The status of this InlineResponse2005.  # noqa: E501
-        :type: str
-        """
-
-        self._status = status
-
-    @property
-    def success_cnt(self):
-        """Gets the success_cnt of this InlineResponse2005.  # noqa: E501
-
-        Counter of successfull deployments on this resource  # noqa: E501
-
-        :return: The success_cnt of this InlineResponse2005.  # noqa: E501
-        :rtype: int
-        """
-        return self._success_cnt
-
-    @success_cnt.setter
-    def success_cnt(self, success_cnt):
-        """Sets the success_cnt of this InlineResponse2005.
-
-        Counter of successfull deployments on this resource  # noqa: E501
-
-        :param success_cnt: The success_cnt of this InlineResponse2005.  # noqa: E501
-        :type: int
-        """
-
-        self._success_cnt = success_cnt
+        self._runlevel = runlevel
 
     def to_dict(self):
         """Returns the model properties as a dict"""

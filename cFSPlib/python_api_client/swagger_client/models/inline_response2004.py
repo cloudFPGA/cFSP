@@ -28,42 +28,70 @@ class InlineResponse2004(object):
                             and the value is json key in definition.
     """
     swagger_types = {
-        'runlevel': 'int'
+        'host': 'str',
+        'port': 'int'
     }
 
     attribute_map = {
-        'runlevel': 'runlevel'
+        'host': 'host',
+        'port': 'port'
     }
 
-    def __init__(self, runlevel=None):  # noqa: E501
+    def __init__(self, host=None, port=None):  # noqa: E501
         """InlineResponse2004 - a model defined in Swagger"""  # noqa: E501
-        self._runlevel = None
+        self._host = None
+        self._port = None
         self.discriminator = None
-        if runlevel is not None:
-            self.runlevel = runlevel
+        if host is not None:
+            self.host = host
+        if port is not None:
+            self.port = port
 
     @property
-    def runlevel(self):
-        """Gets the runlevel of this InlineResponse2004.  # noqa: E501
+    def host(self):
+        """Gets the host of this InlineResponse2004.  # noqa: E501
 
-        The current runlevel  # noqa: E501
+        Hostname or IP address to connect  # noqa: E501
 
-        :return: The runlevel of this InlineResponse2004.  # noqa: E501
+        :return: The host of this InlineResponse2004.  # noqa: E501
+        :rtype: str
+        """
+        return self._host
+
+    @host.setter
+    def host(self, host):
+        """Sets the host of this InlineResponse2004.
+
+        Hostname or IP address to connect  # noqa: E501
+
+        :param host: The host of this InlineResponse2004.  # noqa: E501
+        :type: str
+        """
+
+        self._host = host
+
+    @property
+    def port(self):
+        """Gets the port of this InlineResponse2004.  # noqa: E501
+
+        TCP port to connect  # noqa: E501
+
+        :return: The port of this InlineResponse2004.  # noqa: E501
         :rtype: int
         """
-        return self._runlevel
+        return self._port
 
-    @runlevel.setter
-    def runlevel(self, runlevel):
-        """Sets the runlevel of this InlineResponse2004.
+    @port.setter
+    def port(self, port):
+        """Sets the port of this InlineResponse2004.
 
-        The current runlevel  # noqa: E501
+        TCP port to connect  # noqa: E501
 
-        :param runlevel: The runlevel of this InlineResponse2004.  # noqa: E501
+        :param port: The port of this InlineResponse2004.  # noqa: E501
         :type: int
         """
 
-        self._runlevel = runlevel
+        self._port = port
 
     def to_dict(self):
         """Returns the model properties as a dict"""

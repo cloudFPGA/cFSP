@@ -32,20 +32,20 @@ class AdministrationAdminOnlyApi(object):
             api_client = ApiClient()
         self.api_client = api_client
 
-    def cf_manager_rest_api_admin_test_instance(self, body, username, password, instance_id, **kwargs):  # noqa: E501
+    def cf_manager_rest_api_admin_test_instance(self, username, password, instance_id, image_id, **kwargs):  # noqa: E501
         """Test the instance **if not used**  # noqa: E501
 
         This call helps admins to test a specific instance, **if this instance is not used by another user**. This is **intended only for single instances**, not to update one instance out of a cluster.  **If this call fails with `507`** and the FPGA worked without any problems before, then the submitted image probably doesn't work (i.e. `507` doesn't imply a failure of the FPGA board). This will also assign a new ip address to this instance.   # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.cf_manager_rest_api_admin_test_instance(body, username, password, instance_id, async_req=True)
+        >>> thread = api.cf_manager_rest_api_admin_test_instance(username, password, instance_id, image_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param TestInstanceInstanceIdBody body: (required)
         :param str username: OpenStack username (required)
         :param str password: OpenStack password (required)
         :param str instance_id: ROLE instance unique identifier (required)
+        :param str image_id: Image unique identifier (required)
         :param int dont_verify_memory: If 1, don't verify the DDR4 memory during setup
         :return: InlineResponse2001
                  If the method is called asynchronously,
@@ -53,32 +53,32 @@ class AdministrationAdminOnlyApi(object):
         """
         kwargs['_return_http_data_only'] = True
         if kwargs.get('async_req'):
-            return self.cf_manager_rest_api_admin_test_instance_with_http_info(body, username, password, instance_id, **kwargs)  # noqa: E501
+            return self.cf_manager_rest_api_admin_test_instance_with_http_info(username, password, instance_id, image_id, **kwargs)  # noqa: E501
         else:
-            (data) = self.cf_manager_rest_api_admin_test_instance_with_http_info(body, username, password, instance_id, **kwargs)  # noqa: E501
+            (data) = self.cf_manager_rest_api_admin_test_instance_with_http_info(username, password, instance_id, image_id, **kwargs)  # noqa: E501
             return data
 
-    def cf_manager_rest_api_admin_test_instance_with_http_info(self, body, username, password, instance_id, **kwargs):  # noqa: E501
+    def cf_manager_rest_api_admin_test_instance_with_http_info(self, username, password, instance_id, image_id, **kwargs):  # noqa: E501
         """Test the instance **if not used**  # noqa: E501
 
         This call helps admins to test a specific instance, **if this instance is not used by another user**. This is **intended only for single instances**, not to update one instance out of a cluster.  **If this call fails with `507`** and the FPGA worked without any problems before, then the submitted image probably doesn't work (i.e. `507` doesn't imply a failure of the FPGA board). This will also assign a new ip address to this instance.   # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
-        >>> thread = api.cf_manager_rest_api_admin_test_instance_with_http_info(body, username, password, instance_id, async_req=True)
+        >>> thread = api.cf_manager_rest_api_admin_test_instance_with_http_info(username, password, instance_id, image_id, async_req=True)
         >>> result = thread.get()
 
         :param async_req bool
-        :param TestInstanceInstanceIdBody body: (required)
         :param str username: OpenStack username (required)
         :param str password: OpenStack password (required)
         :param str instance_id: ROLE instance unique identifier (required)
+        :param str image_id: Image unique identifier (required)
         :param int dont_verify_memory: If 1, don't verify the DDR4 memory during setup
         :return: InlineResponse2001
                  If the method is called asynchronously,
                  returns the request thread.
         """
 
-        all_params = ['body', 'username', 'password', 'instance_id', 'dont_verify_memory']  # noqa: E501
+        all_params = ['username', 'password', 'instance_id', 'image_id', 'dont_verify_memory']  # noqa: E501
         all_params.append('async_req')
         all_params.append('_return_http_data_only')
         all_params.append('_preload_content')
@@ -93,10 +93,6 @@ class AdministrationAdminOnlyApi(object):
                 )
             params[key] = val
         del params['kwargs']
-        # verify the required parameter 'body' is set
-        if ('body' not in params or
-                params['body'] is None):
-            raise ValueError("Missing the required parameter `body` when calling `cf_manager_rest_api_admin_test_instance`")  # noqa: E501
         # verify the required parameter 'username' is set
         if ('username' not in params or
                 params['username'] is None):
@@ -109,6 +105,10 @@ class AdministrationAdminOnlyApi(object):
         if ('instance_id' not in params or
                 params['instance_id'] is None):
             raise ValueError("Missing the required parameter `instance_id` when calling `cf_manager_rest_api_admin_test_instance`")  # noqa: E501
+        # verify the required parameter 'image_id' is set
+        if ('image_id' not in params or
+                params['image_id'] is None):
+            raise ValueError("Missing the required parameter `image_id` when calling `cf_manager_rest_api_admin_test_instance`")  # noqa: E501
 
         collection_formats = {}
 
@@ -121,6 +121,8 @@ class AdministrationAdminOnlyApi(object):
             query_params.append(('username', params['username']))  # noqa: E501
         if 'password' in params:
             query_params.append(('password', params['password']))  # noqa: E501
+        if 'image_id' in params:
+            query_params.append(('image_id', params['image_id']))  # noqa: E501
         if 'dont_verify_memory' in params:
             query_params.append(('dont_verify_memory', params['dont_verify_memory']))  # noqa: E501
 
@@ -130,14 +132,8 @@ class AdministrationAdminOnlyApi(object):
         local_var_files = {}
 
         body_params = None
-        if 'body' in params:
-            body_params = params['body']
         # HTTP header `Accept`
         header_params['Accept'] = self.api_client.select_header_accept(
-            ['application/json'])  # noqa: E501
-
-        # HTTP header `Content-Type`
-        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
             ['application/json'])  # noqa: E501
 
         # Authentication setting

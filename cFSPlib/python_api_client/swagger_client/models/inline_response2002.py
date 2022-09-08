@@ -28,98 +28,66 @@ class InlineResponse2002(object):
                             and the value is json key in definition.
     """
     swagger_types = {
-        'device': 'str',
-        'host': 'str',
-        'port': 'int'
+        'by_instance_id': 'list[list[object]]',
+        'by_rank_id': 'list[list[str]]'
     }
 
     attribute_map = {
-        'device': 'device',
-        'host': 'host',
-        'port': 'port'
+        'by_instance_id': 'by_instance_id',
+        'by_rank_id': 'by_rank_id'
     }
 
-    def __init__(self, device=None, host=None, port=None):  # noqa: E501
+    def __init__(self, by_instance_id=None, by_rank_id=None):  # noqa: E501
         """InlineResponse2002 - a model defined in Swagger"""  # noqa: E501
-        self._device = None
-        self._host = None
-        self._port = None
+        self._by_instance_id = None
+        self._by_rank_id = None
         self.discriminator = None
-        if device is not None:
-            self.device = device
-        if host is not None:
-            self.host = host
-        if port is not None:
-            self.port = port
+        if by_instance_id is not None:
+            self.by_instance_id = by_instance_id
+        if by_rank_id is not None:
+            self.by_rank_id = by_rank_id
 
     @property
-    def device(self):
-        """Gets the device of this InlineResponse2002.  # noqa: E501
+    def by_instance_id(self):
+        """Gets the by_instance_id of this InlineResponse2002.  # noqa: E501
 
-        Device name of the FPGA in the hw_server connection  # noqa: E501
 
-        :return: The device of this InlineResponse2002.  # noqa: E501
-        :rtype: str
+        :return: The by_instance_id of this InlineResponse2002.  # noqa: E501
+        :rtype: list[list[object]]
         """
-        return self._device
+        return self._by_instance_id
 
-    @device.setter
-    def device(self, device):
-        """Sets the device of this InlineResponse2002.
+    @by_instance_id.setter
+    def by_instance_id(self, by_instance_id):
+        """Sets the by_instance_id of this InlineResponse2002.
 
-        Device name of the FPGA in the hw_server connection  # noqa: E501
 
-        :param device: The device of this InlineResponse2002.  # noqa: E501
-        :type: str
+        :param by_instance_id: The by_instance_id of this InlineResponse2002.  # noqa: E501
+        :type: list[list[object]]
         """
 
-        self._device = device
+        self._by_instance_id = by_instance_id
 
     @property
-    def host(self):
-        """Gets the host of this InlineResponse2002.  # noqa: E501
+    def by_rank_id(self):
+        """Gets the by_rank_id of this InlineResponse2002.  # noqa: E501
 
-        Hostname or IP address to connect  # noqa: E501
 
-        :return: The host of this InlineResponse2002.  # noqa: E501
-        :rtype: str
+        :return: The by_rank_id of this InlineResponse2002.  # noqa: E501
+        :rtype: list[list[str]]
         """
-        return self._host
+        return self._by_rank_id
 
-    @host.setter
-    def host(self, host):
-        """Sets the host of this InlineResponse2002.
+    @by_rank_id.setter
+    def by_rank_id(self, by_rank_id):
+        """Sets the by_rank_id of this InlineResponse2002.
 
-        Hostname or IP address to connect  # noqa: E501
 
-        :param host: The host of this InlineResponse2002.  # noqa: E501
-        :type: str
+        :param by_rank_id: The by_rank_id of this InlineResponse2002.  # noqa: E501
+        :type: list[list[str]]
         """
 
-        self._host = host
-
-    @property
-    def port(self):
-        """Gets the port of this InlineResponse2002.  # noqa: E501
-
-        TCP port to connect  # noqa: E501
-
-        :return: The port of this InlineResponse2002.  # noqa: E501
-        :rtype: int
-        """
-        return self._port
-
-    @port.setter
-    def port(self, port):
-        """Sets the port of this InlineResponse2002.
-
-        TCP port to connect  # noqa: E501
-
-        :param port: The port of this InlineResponse2002.  # noqa: E501
-        :type: int
-        """
-
-        self._port = port
+        self._by_rank_id = by_rank_id
 
     def to_dict(self):
         """Returns the model properties as a dict"""

@@ -52,6 +52,7 @@ Commands:
     cluster         Creating, showing and deleting clusters.
     image           Uploading, showing and deleting FPGA images.
     instance        Creating, showing and deleting instances.
+    debug           Requests and returns the status information of all instances in acluster.
 
 Options:
     -h --help            Show this screen.
@@ -96,6 +97,7 @@ import cfsp_user
 import cfsp_cluster
 import cfsp_image
 import cfsp_instance
+import cfsp_debug
 
 from util import print_usage
 import mngmt
@@ -140,6 +142,9 @@ def main(args):
         elif args['<command>'] == 'instance':
             check_credentials(args['--config'])
             cfrm_response=cfsp_instance.main(args)
+        elif args['<command>'] == 'debug':
+            check_credentials(args['--config'])
+            cfrm_response=cfsp_debug.main(args)
         elif args['<command>'] in ['help', None]:
             if args['<args>'] == ['user']:
                 print("docopt user")
@@ -150,6 +155,8 @@ def main(args):
                 print(docopt(cfsp_image.__doc__, argv=argv))
             elif args['<args>'] == ['instance']:
                 print(docopt(cfsp_instance.__doc__, argv=argv))
+            elif args['<args>'] == ['debug']:
+                print(docopt(cfsp_debug.__doc__, argv=argv))
             else:
                 print(docopt(__doc__, version=__version__))
         else:

@@ -3,6 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**device** | **str** | Device name of the FPGA in the hw_server connection | [optional] 
 **host** | **str** | Hostname or IP address to connect | [optional] 
 **port** | **int** | TCP port to connect | [optional] 
 

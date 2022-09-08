@@ -23,6 +23,8 @@ The cFSP control plane includes a [Python package](cFSPlib/python_api_client/REA
 - API version: 0.8
 - Package version: 1.0.0
 
+[Instrunctions to update the Python API Client](#update-of-the-python-python-api)
+
 ## Requirements
 
 Python 3.6+
@@ -83,6 +85,7 @@ pip install cfsp
 * [Use cFSP as a Python module](#use-cfsp-as-a-python-module).
 
 
+A comprehensive example that tests all the supported functions of cFSP is provided in [tests/test_cfsp_module.py](https://github.com/cloudFPGA/cFSP/blob/master/test/test_cfsp_module.py).
 
 ### Getting help
 
@@ -399,4 +402,21 @@ args['<command>'] = 'put_a_command_here'
 args['<put_an_option>'] = ['put_the_value_of_that_option']
 ```
 
-A comprehensive example that tests all the supported functions of cFSP is provided in [tests/test_cfsp_module.py](https://github.com/cloudFPGA/cFSP/blob/master/test/test_cfsp_module.py).
+
+
+## Update of the python Python API
+
+In case that a new yaml swagger file is available (e.g. when new fields/features are added in the 
+swagger yaml), then a new Python API client needs to be generated. This will replace the existing one. 
+To generate a new Python API Client you need the `swagger-codegen` tool which can be downloade at 
+https://swagger.io/tools/swagger-codegen/. Then you may use this command:
+
+```
+swagger-codegen generate -i http://10.12.0.132:8080/swagger.json -l python -o python_api_client
+```
+
+Afterwads the generated folder `python_api_client` can replace the existing one in 
+https://github.com/cloudFPGA/cFSP/tree/master/cFSPlib/python_api_client 
+(e.g. `cp -r ./python_api_client/* cFSP/cFSPlib/python_api_client/`).
+
+

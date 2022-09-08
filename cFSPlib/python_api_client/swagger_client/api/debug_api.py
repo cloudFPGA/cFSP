@@ -150,7 +150,7 @@ class DebugApi(object):
         :param async_req bool
         :param str username: OpenStack username (required)
         :param str password: OpenStack password (required)
-        :return: list[InlineResponse2003]
+        :return: list[InlineResponse2004]
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -172,7 +172,7 @@ class DebugApi(object):
         :param async_req bool
         :param str username: OpenStack username (required)
         :param str password: OpenStack password (required)
-        :return: list[InlineResponse2003]
+        :return: list[InlineResponse2004]
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -232,7 +232,7 @@ class DebugApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='list[InlineResponse2003]',  # noqa: E501
+            response_type='list[InlineResponse2004]',  # noqa: E501
             auth_settings=auth_settings,
             async_req=params.get('async_req'),
             _return_http_data_only=params.get('_return_http_data_only'),
@@ -251,7 +251,7 @@ class DebugApi(object):
         :param async_req bool
         :param str username: OpenStack username (required)
         :param str password: OpenStack password (required)
-        :return: list[InlineResponse2003]
+        :return: list[InlineResponse2004]
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -273,7 +273,7 @@ class DebugApi(object):
         :param async_req bool
         :param str username: OpenStack username (required)
         :param str password: OpenStack password (required)
-        :return: list[InlineResponse2003]
+        :return: list[InlineResponse2004]
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -333,7 +333,7 @@ class DebugApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='list[InlineResponse2003]',  # noqa: E501
+            response_type='list[InlineResponse2004]',  # noqa: E501
             auth_settings=auth_settings,
             async_req=params.get('async_req'),
             _return_http_data_only=params.get('_return_http_data_only'),
@@ -355,7 +355,7 @@ class DebugApi(object):
         :param str password: OpenStack password (required)
         :param str instance_id: ROLE instance unique identifier (required)
         :param str ip_address: IPv4 address of the Debuging client if different from requesting client (only this addres will be allowed to connect).
-        :return: InlineResponse2002
+        :return: InlineResponse2003
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -380,7 +380,7 @@ class DebugApi(object):
         :param str password: OpenStack password (required)
         :param str instance_id: ROLE instance unique identifier (required)
         :param str ip_address: IPv4 address of the Debuging client if different from requesting client (only this addres will be allowed to connect).
-        :return: InlineResponse2002
+        :return: InlineResponse2003
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -448,7 +448,7 @@ class DebugApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type='InlineResponse2002',  # noqa: E501
+            response_type='InlineResponse2003',  # noqa: E501
             auth_settings=auth_settings,
             async_req=params.get('async_req'),
             _return_http_data_only=params.get('_return_http_data_only'),
@@ -459,7 +459,7 @@ class DebugApi(object):
     def cf_manager_rest_api_get_flight_recorder_cluster(self, username, password, cluster_id, **kwargs):  # noqa: E501
         """Requests network runtime information of all instances  # noqa: E501
 
-        Requests and returns the status information of the Network Routing Core of all instances in this cluster `Attention:` There may be a delay of a few seconds until the counters are updated after the packets were processed.   # noqa: E501
+        Requests and returns the status information of the Network Routing Core of all instances in this cluster. The call returns two lists, that contain both the same content, just differently sorted (one ascending by instance id, one ascending by rank id).  `Attention:` There may be a delay of a few seconds until the counters are updated after the packets were processed.   # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.cf_manager_rest_api_get_flight_recorder_cluster(username, password, cluster_id, async_req=True)
@@ -469,7 +469,7 @@ class DebugApi(object):
         :param str username: OpenStack username (required)
         :param str password: OpenStack password (required)
         :param int cluster_id: ID of a cluster (required)
-        :return: None
+        :return: InlineResponse2002
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -483,7 +483,7 @@ class DebugApi(object):
     def cf_manager_rest_api_get_flight_recorder_cluster_with_http_info(self, username, password, cluster_id, **kwargs):  # noqa: E501
         """Requests network runtime information of all instances  # noqa: E501
 
-        Requests and returns the status information of the Network Routing Core of all instances in this cluster `Attention:` There may be a delay of a few seconds until the counters are updated after the packets were processed.   # noqa: E501
+        Requests and returns the status information of the Network Routing Core of all instances in this cluster. The call returns two lists, that contain both the same content, just differently sorted (one ascending by instance id, one ascending by rank id).  `Attention:` There may be a delay of a few seconds until the counters are updated after the packets were processed.   # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.cf_manager_rest_api_get_flight_recorder_cluster_with_http_info(username, password, cluster_id, async_req=True)
@@ -493,7 +493,7 @@ class DebugApi(object):
         :param str username: OpenStack username (required)
         :param str password: OpenStack password (required)
         :param int cluster_id: ID of a cluster (required)
-        :return: None
+        :return: InlineResponse2002
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -544,6 +544,10 @@ class DebugApi(object):
         local_var_files = {}
 
         body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
         # Authentication setting
         auth_settings = []  # noqa: E501
 
@@ -555,7 +559,7 @@ class DebugApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_type='InlineResponse2002',  # noqa: E501
             auth_settings=auth_settings,
             async_req=params.get('async_req'),
             _return_http_data_only=params.get('_return_http_data_only'),
@@ -566,7 +570,7 @@ class DebugApi(object):
     def cf_manager_rest_api_get_flight_recorder_instance(self, username, password, instance_id, **kwargs):  # noqa: E501
         """Requests network runtime information  # noqa: E501
 
-        Requests and returns the status information of the Network Routing Core of this FPGA instance `Attention:` There may be a delay of a few seconds until the counters are updated after the packets were processed.   # noqa: E501
+        Requests and returns the status information of the Network Routing Core of this FPGA instance. `Attention:` There may be a delay of a few seconds until the counters are updated after the packets were processed.   # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.cf_manager_rest_api_get_flight_recorder_instance(username, password, instance_id, async_req=True)
@@ -576,7 +580,7 @@ class DebugApi(object):
         :param str username: OpenStack username (required)
         :param str password: OpenStack password (required)
         :param str instance_id: ROLE instance unique identifier (required)
-        :return: None
+        :return: list[list[str]]
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -590,7 +594,7 @@ class DebugApi(object):
     def cf_manager_rest_api_get_flight_recorder_instance_with_http_info(self, username, password, instance_id, **kwargs):  # noqa: E501
         """Requests network runtime information  # noqa: E501
 
-        Requests and returns the status information of the Network Routing Core of this FPGA instance `Attention:` There may be a delay of a few seconds until the counters are updated after the packets were processed.   # noqa: E501
+        Requests and returns the status information of the Network Routing Core of this FPGA instance. `Attention:` There may be a delay of a few seconds until the counters are updated after the packets were processed.   # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
         >>> thread = api.cf_manager_rest_api_get_flight_recorder_instance_with_http_info(username, password, instance_id, async_req=True)
@@ -600,7 +604,7 @@ class DebugApi(object):
         :param str username: OpenStack username (required)
         :param str password: OpenStack password (required)
         :param str instance_id: ROLE instance unique identifier (required)
-        :return: None
+        :return: list[list[str]]
                  If the method is called asynchronously,
                  returns the request thread.
         """
@@ -651,6 +655,10 @@ class DebugApi(object):
         local_var_files = {}
 
         body_params = None
+        # HTTP header `Accept`
+        header_params['Accept'] = self.api_client.select_header_accept(
+            ['application/json'])  # noqa: E501
+
         # Authentication setting
         auth_settings = []  # noqa: E501
 
@@ -662,7 +670,7 @@ class DebugApi(object):
             body=body_params,
             post_params=form_params,
             files=local_var_files,
-            response_type=None,  # noqa: E501
+            response_type='list[list[str]]',  # noqa: E501
             auth_settings=auth_settings,
             async_req=params.get('async_req'),
             _return_http_data_only=params.get('_return_http_data_only'),

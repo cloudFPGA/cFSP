@@ -28,24 +28,52 @@ class InlineResponse2003(object):
                             and the value is json key in definition.
     """
     swagger_types = {
+        'device': 'str',
         'host': 'str',
         'port': 'int'
     }
 
     attribute_map = {
+        'device': 'device',
         'host': 'host',
         'port': 'port'
     }
 
-    def __init__(self, host=None, port=None):  # noqa: E501
+    def __init__(self, device=None, host=None, port=None):  # noqa: E501
         """InlineResponse2003 - a model defined in Swagger"""  # noqa: E501
+        self._device = None
         self._host = None
         self._port = None
         self.discriminator = None
+        if device is not None:
+            self.device = device
         if host is not None:
             self.host = host
         if port is not None:
             self.port = port
+
+    @property
+    def device(self):
+        """Gets the device of this InlineResponse2003.  # noqa: E501
+
+        Device name of the FPGA in the hw_server connection  # noqa: E501
+
+        :return: The device of this InlineResponse2003.  # noqa: E501
+        :rtype: str
+        """
+        return self._device
+
+    @device.setter
+    def device(self, device):
+        """Sets the device of this InlineResponse2003.
+
+        Device name of the FPGA in the hw_server connection  # noqa: E501
+
+        :param device: The device of this InlineResponse2003.  # noqa: E501
+        :type: str
+        """
+
+        self._device = device
 
     @property
     def host(self):

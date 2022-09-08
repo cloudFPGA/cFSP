@@ -53,15 +53,15 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.AdministrationAdminOnlyApi(swagger_client.ApiClient(configuration))
-body = swagger_client.TestInstanceInstanceIdBody() # TestInstanceInstanceIdBody | 
 username = 'username_example' # str | OpenStack username
 password = 'password_example' # str | OpenStack password
 instance_id = 'instance_id_example' # str | ROLE instance unique identifier
+image_id = 'image_id_example' # str | Image unique identifier
 dont_verify_memory = 0 # int | If 1, don't verify the DDR4 memory during setup (optional) (default to 0)
 
 try:
     # Test the instance **if not used**
-    api_response = api_instance.cf_manager_rest_api_admin_test_instance(body, username, password, instance_id, dont_verify_memory=dont_verify_memory)
+    api_response = api_instance.cf_manager_rest_api_admin_test_instance(username, password, instance_id, image_id, dont_verify_memory=dont_verify_memory)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling AdministrationAdminOnlyApi->cf_manager_rest_api_admin_test_instance: %s\n" % e)
@@ -348,6 +348,7 @@ Class | Method | HTTP request | Description
  - [InlineResponse2003](docs/InlineResponse2003.md)
  - [InlineResponse2004](docs/InlineResponse2004.md)
  - [InlineResponse2005](docs/InlineResponse2005.md)
+ - [InlineResponse2006](docs/InlineResponse2006.md)
  - [Instance](docs/Instance.md)
  - [InstanceIdApiGatewayBody](docs/InstanceIdApiGatewayBody.md)
  - [InstanceIdRunlevelBody](docs/InstanceIdRunlevelBody.md)
@@ -357,7 +358,6 @@ Class | Method | HTTP request | Description
  - [NodeMapInner](docs/NodeMapInner.md)
  - [Quota](docs/Quota.md)
  - [Resource](docs/Resource.md)
- - [TestInstanceInstanceIdBody](docs/TestInstanceInstanceIdBody.md)
 
 ## Documentation For Authorization
 

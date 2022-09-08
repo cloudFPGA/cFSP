@@ -317,7 +317,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **cf_manager_rest_api_instance_get_runlevel**
-> InlineResponse2004 cf_manager_rest_api_instance_get_runlevel(username, password, instance_id)
+> InlineResponse2005 cf_manager_rest_api_instance_get_runlevel(username, password, instance_id)
 
 Returns the current `runlevel` of the instance (stack developers only)
 
@@ -353,7 +353,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**InlineResponse2004**](InlineResponse2004.md)
+[**InlineResponse2005**](InlineResponse2005.md)
 
 ### Authorization
 

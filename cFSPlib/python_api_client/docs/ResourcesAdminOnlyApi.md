@@ -321,7 +321,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **cf_manager_rest_api_get_single_resource_status**
-> InlineResponse2005 cf_manager_rest_api_get_single_resource_status(username, password, resource_id)
+> InlineResponse2006 cf_manager_rest_api_get_single_resource_status(username, password, resource_id)
 
 Get status of one resource
 
@@ -357,7 +357,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**InlineResponse2005**](InlineResponse2005.md)
+[**InlineResponse2006**](InlineResponse2006.md)
 
 ### Authorization
 

@@ -22,7 +22,7 @@ Method | HTTP request | Description
 [**cf_manager_rest_api_put_composable_logic_status**](AdministrationAdminOnlyApi.md#cf_manager_rest_api_put_composable_logic_status) | **PUT** /administration/composablelogic/{cl_id}/status/ | Update status of a composable logic
 
 # **cf_manager_rest_api_admin_test_instance**
-> InlineResponse2001 cf_manager_rest_api_admin_test_instance(body, username, password, instance_id, dont_verify_memory=dont_verify_memory)
+> InlineResponse2001 cf_manager_rest_api_admin_test_instance(username, password, instance_id, image_id, dont_verify_memory=dont_verify_memory)
 
 Test the instance **if not used**
 
@@ -38,15 +38,15 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = swagger_client.AdministrationAdminOnlyApi()
-body = swagger_client.TestInstanceInstanceIdBody() # TestInstanceInstanceIdBody | 
 username = 'username_example' # str | OpenStack username
 password = 'password_example' # str | OpenStack password
 instance_id = 'instance_id_example' # str | ROLE instance unique identifier
+image_id = 'image_id_example' # str | Image unique identifier
 dont_verify_memory = 0 # int | If 1, don't verify the DDR4 memory during setup (optional) (default to 0)
 
 try:
     # Test the instance **if not used**
-    api_response = api_instance.cf_manager_rest_api_admin_test_instance(body, username, password, instance_id, dont_verify_memory=dont_verify_memory)
+    api_response = api_instance.cf_manager_rest_api_admin_test_instance(username, password, instance_id, image_id, dont_verify_memory=dont_verify_memory)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling AdministrationAdminOnlyApi->cf_manager_rest_api_admin_test_instance: %s\n" % e)
@@ -56,10 +56,10 @@ except ApiException as e:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**TestInstanceInstanceIdBody**](TestInstanceInstanceIdBody.md)|  | 
  **username** | **str**| OpenStack username | 
  **password** | **str**| OpenStack password | 
  **instance_id** | **str**| ROLE instance unique identifier | 
+ **image_id** | **str**| Image unique identifier | 
  **dont_verify_memory** | **int**| If 1, don&#x27;t verify the DDR4 memory during setup | [optional] [default to 0]
 
 ### Return type
@@ -72,7 +72,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)

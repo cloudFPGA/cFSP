@@ -63,7 +63,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **cf_manager_rest_api_get_all_debug_connections**
-> list[InlineResponse2003] cf_manager_rest_api_get_all_debug_connections(username, password)
+> list[InlineResponse2004] cf_manager_rest_api_get_all_debug_connections(username, password)
 
 Requests a list of running `hw_server`s on all instances (admin only)
 
@@ -97,7 +97,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**list[InlineResponse2003]**](InlineResponse2003.md)
+[**list[InlineResponse2004]**](InlineResponse2004.md)
 
 ### Authorization
 
@@ -111,7 +111,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **cf_manager_rest_api_get_all_debug_connections_of_user**
-> list[InlineResponse2003] cf_manager_rest_api_get_all_debug_connections_of_user(username, password)
+> list[InlineResponse2004] cf_manager_rest_api_get_all_debug_connections_of_user(username, password)
 
 Returns all open `hw_server` of a user
 
@@ -145,7 +145,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**list[InlineResponse2003]**](InlineResponse2003.md)
+[**list[InlineResponse2004]**](InlineResponse2004.md)
 
 ### Authorization
 
@@ -159,7 +159,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **cf_manager_rest_api_get_debug_connection**
-> InlineResponse2002 cf_manager_rest_api_get_debug_connection(username, password, instance_id, ip_address=ip_address)
+> InlineResponse2003 cf_manager_rest_api_get_debug_connection(username, password, instance_id, ip_address=ip_address)
 
 Requests a connection to the `hw_server` of this instance
 
@@ -199,7 +199,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**InlineResponse2002**](InlineResponse2002.md)
+[**InlineResponse2003**](InlineResponse2003.md)
 
 ### Authorization
 
@@ -213,11 +213,11 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **cf_manager_rest_api_get_flight_recorder_cluster**
-> cf_manager_rest_api_get_flight_recorder_cluster(username, password, cluster_id)
+> InlineResponse2002 cf_manager_rest_api_get_flight_recorder_cluster(username, password, cluster_id)
 
 Requests network runtime information of all instances
 
-Requests and returns the status information of the Network Routing Core of all instances in this cluster `Attention:` There may be a delay of a few seconds until the counters are updated after the packets were processed. 
+Requests and returns the status information of the Network Routing Core of all instances in this cluster. The call returns two lists, that contain both the same content, just differently sorted (one ascending by instance id, one ascending by rank id).  `Attention:` There may be a delay of a few seconds until the counters are updated after the packets were processed. 
 
 ### Example
 ```python
@@ -235,7 +235,8 @@ cluster_id = 56 # int | ID of a cluster
 
 try:
     # Requests network runtime information of all instances
-    api_instance.cf_manager_rest_api_get_flight_recorder_cluster(username, password, cluster_id)
+    api_response = api_instance.cf_manager_rest_api_get_flight_recorder_cluster(username, password, cluster_id)
+    pprint(api_response)
 except ApiException as e:
     print("Exception when calling DebugApi->cf_manager_rest_api_get_flight_recorder_cluster: %s\n" % e)
 ```
@@ -250,7 +251,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+[**InlineResponse2002**](InlineResponse2002.md)
 
 ### Authorization
 
@@ -259,16 +260,16 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **cf_manager_rest_api_get_flight_recorder_instance**
-> cf_manager_rest_api_get_flight_recorder_instance(username, password, instance_id)
+> list[list[str]] cf_manager_rest_api_get_flight_recorder_instance(username, password, instance_id)
 
 Requests network runtime information
 
-Requests and returns the status information of the Network Routing Core of this FPGA instance `Attention:` There may be a delay of a few seconds until the counters are updated after the packets were processed. 
+Requests and returns the status information of the Network Routing Core of this FPGA instance. `Attention:` There may be a delay of a few seconds until the counters are updated after the packets were processed. 
 
 ### Example
 ```python
@@ -286,7 +287,8 @@ instance_id = 'instance_id_example' # str | ROLE instance unique identifier
 
 try:
     # Requests network runtime information
-    api_instance.cf_manager_rest_api_get_flight_recorder_instance(username, password, instance_id)
+    api_response = api_instance.cf_manager_rest_api_get_flight_recorder_instance(username, password, instance_id)
+    pprint(api_response)
 except ApiException as e:
     print("Exception when calling DebugApi->cf_manager_rest_api_get_flight_recorder_instance: %s\n" % e)
 ```
@@ -301,7 +303,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-void (empty response body)
+**list[list[str]]**
 
 ### Authorization
 
@@ -310,7 +312,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

@@ -42,6 +42,7 @@ from swagger_client.models.inline_response2002 import InlineResponse2002
 from swagger_client.models.inline_response2003 import InlineResponse2003
 from swagger_client.models.inline_response2004 import InlineResponse2004
 from swagger_client.models.inline_response2005 import InlineResponse2005
+from swagger_client.models.inline_response2006 import InlineResponse2006
 from swagger_client.models.instance import Instance
 from swagger_client.models.instance_id_api_gateway_body import InstanceIdApiGatewayBody
 from swagger_client.models.instance_id_runlevel_body import InstanceIdRunlevelBody
@@ -51,4 +52,3 @@ from swagger_client.models.node_map import NodeMap
 from swagger_client.models.node_map_inner import NodeMapInner
 from swagger_client.models.quota import Quota
 from swagger_client.models.resource import Resource
-from swagger_client.models.test_instance_instance_id_body import TestInstanceInstanceIdBody
