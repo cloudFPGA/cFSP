@@ -77,10 +77,12 @@ pip install cfsp
 * [Extend a cluster](#extend-a-cluster).
 * [Reduce a cluster](#reduce-a-cluster).
 * [Restart a cluster](#restart-a-cluster).
+* [Debug a cluster](#debug-a-cluster).
 * [Delete a cluster](#delete-a-cluster).
 * [Create an instance](#create-an-instance).
 * [Get an instance](#get-an-instance).
 * [Restart an instance](#restart-an-instance).
+* [Debug an instance](#debug-an-instance).
 * [Delete an instance](#delete-an-instance).
 * [Use cFSP as a Python module](#use-cfsp-as-a-python-module).
 
@@ -295,6 +297,21 @@ or
 ![cfsp-cluster-delete](doc/img/6d.png)
 
 
+### Debug a cluster
+
+Assuming you want to debug a cluster with id `383`, by fetching the status information of the 
+                                            Network Routing Core of this cluster
+                                            
+> **_Attention:_** There may be a delay of a few seconds until the counters are updated after 
+                         the packets were processed.
+
+```bash
+./cfsp cluster get flight_recorder_data cluster 383
+```
+
+![cfsp-instance-delete](doc/img/14a.png)
+
+
 ### Delete a cluster
 
 Assuming you want to delete the previously created cluster with id `259`
@@ -312,7 +329,6 @@ Assuming you want to delete the previously created cluster with id `259`
 ```
 
 ![cfsp-cluster-delete-all](doc/img/9.png)
-
 
 
 
@@ -356,6 +372,22 @@ Assuming you want to restart an instance with id `84`
 ```
 
 ![cfsp-instance-delete](doc/img/13a.png)
+
+
+### Debug an instance
+
+Assuming you want to debug an instance with id `84`, by fetching the status information of the 
+                                            Network Routing Core of this cluster
+                                            
+> **_Attention:_** There may be a delay of a few seconds until the counters are updated after 
+                         the packets were processed.
+
+```bash
+./cfsp cluster get flight_recorder_data instance 84
+```
+
+![cfsp-instance-delete](doc/img/14b.png)
+
 
 ### Delete an instance
 

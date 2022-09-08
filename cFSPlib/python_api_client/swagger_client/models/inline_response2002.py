@@ -28,66 +28,66 @@ class InlineResponse2002(object):
                             and the value is json key in definition.
     """
     swagger_types = {
-        'by_instance_id': 'dict(str, object)',
-        'by_rank_id': 'dict(str, object)'
+        'by_inst_id': 'dict(str, object)',
+        'by_rank': 'dict(str, object)'
     }
 
     attribute_map = {
-        'by_instance_id': 'by_instance_id',
-        'by_rank_id': 'by_rank_id'
+        'by_inst_id': 'by_inst_id',
+        'by_rank': 'by_rank'
     }
 
-    def __init__(self, by_instance_id=None, by_rank_id=None):  # noqa: E501
+    def __init__(self, by_inst_id=None, by_rank=None):  # noqa: E501
         """InlineResponse2002 - a model defined in Swagger"""  # noqa: E501
-        self._by_instance_id = None
-        self._by_rank_id = None
+        self._by_inst_id = None
+        self._by_rank = None
         self.discriminator = None
-        if by_instance_id is not None:
-            self.by_instance_id = by_instance_id
-        if by_rank_id is not None:
-            self.by_rank_id = by_rank_id
+        if by_inst_id is not None:
+            self.by_inst_id = by_inst_id
+        if by_rank is not None:
+            self.by_rank = by_rank
 
     @property
-    def by_instance_id(self):
-        """Gets the by_instance_id of this InlineResponse2002.  # noqa: E501
+    def by_inst_id(self):
+        """Gets the by_inst_id of this InlineResponse2002.  # noqa: E501
 
 
-        :return: The by_instance_id of this InlineResponse2002.  # noqa: E501
+        :return: The by_inst_id of this InlineResponse2002.  # noqa: E501
         :rtype: dict(str, object)
         """
-        return self._by_instance_id
+        return self._by_inst_id
 
-    @by_instance_id.setter
-    def by_instance_id(self, by_instance_id):
-        """Sets the by_instance_id of this InlineResponse2002.
+    @by_inst_id.setter
+    def by_inst_id(self, by_inst_id):
+        """Sets the by_inst_id of this InlineResponse2002.
 
 
-        :param by_instance_id: The by_instance_id of this InlineResponse2002.  # noqa: E501
+        :param by_inst_id: The by_inst_id of this InlineResponse2002.  # noqa: E501
         :type: dict(str, object)
         """
 
-        self._by_instance_id = by_instance_id
+        self._by_inst_id = by_inst_id
 
     @property
-    def by_rank_id(self):
-        """Gets the by_rank_id of this InlineResponse2002.  # noqa: E501
+    def by_rank(self):
+        """Gets the by_rank of this InlineResponse2002.  # noqa: E501
 
 
-        :return: The by_rank_id of this InlineResponse2002.  # noqa: E501
+        :return: The by_rank of this InlineResponse2002.  # noqa: E501
         :rtype: dict(str, object)
         """
-        return self._by_rank_id
+        return self._by_rank
 
-    @by_rank_id.setter
-    def by_rank_id(self, by_rank_id):
-        """Sets the by_rank_id of this InlineResponse2002.
+    @by_rank.setter
+    def by_rank(self, by_rank):
+        """Sets the by_rank of this InlineResponse2002.
 
 
-        :param by_rank_id: The by_rank_id of this InlineResponse2002.  # noqa: E501
+        :param by_rank: The by_rank of this InlineResponse2002.  # noqa: E501
         :type: dict(str, object)
         """
 
-        self._by_rank_id = by_rank_id
+        self._by_rank = by_rank
 
     def to_dict(self):
         """Returns the model properties as a dict"""

@@ -56,20 +56,12 @@ def main(args):
             if args['<args>'][2] == 'cluster':
                 try:
                     api_response = api_instance.cf_manager_rest_api_get_flight_recorder_cluster(username, password, args['<args>'][3])
-                    print(type(api_response))
-                    print(api_response)
-                    print("now")
-                    print(type(api_response.by_instance_id))
-                    print(api_response.by_rank_id)
-                
                 except ApiException as e:
                     print("Exception when calling DebugApi->cf_manager_rest_api_get_flight_recorder_cluster: %s\n" % e)              
                     exit(-1)
             elif args['<args>'][2] == 'instance':
                 try:
                     api_response = api_instance.cf_manager_rest_api_get_flight_recorder_instance(username, password, args['<args>'][3])
-                    print(type(api_response))
-                    print(api_response)
                 except ApiException as e:
                     print("Exception when calling DebugApi->cf_manager_rest_api_get_flight_recorder_instance: %s\n" % e)              
                     exit(-1)                      
