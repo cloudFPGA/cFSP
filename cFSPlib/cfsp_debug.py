@@ -60,7 +60,7 @@ def main(args):
                     print(api_response)
                     print("now")
                     print(type(api_response.by_instance_id))
-                    print(api_response.by_rank_id.Name)
+                    print(api_response.by_rank_id)
                 
                 except ApiException as e:
                     print("Exception when calling DebugApi->cf_manager_rest_api_get_flight_recorder_cluster: %s\n" % e)              
