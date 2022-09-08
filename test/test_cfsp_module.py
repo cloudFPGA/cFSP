@@ -91,13 +91,14 @@ args['<args>'] = ['post']
 args['--image_id'] = ['74462cd5-20e3-4228-a47d-258b7e5e583a']
 cfrm_response=cFSP.main(args)
 print(cfrm_response)
-print("INFO: The new instance has id : " + str(cfrm_response.instance_id))
+instance_id=cfrm_response.instance_id
+print("INFO: The new instance has id : " + str(instance_id))
 retval=retval+1
 print("############# End testing:   post instance ###############\n\n")
 
 print("############# Start testing: restart instance ###############\n")
 args['<command>'] = 'instance'
-args['<args>'] = ['restart', str(cfrm_response.instance_id)]
+args['<args>'] = ['restart', str(instance_id)]
 cfrm_response=cFSP.main(args)
 print(cfrm_response)
 retval=retval+1
@@ -105,7 +106,7 @@ print("############# End testing: restart instance ###############\n\n")
 
 print("############# Start testing: debug instance ###############\n")
 args['<command>'] = 'debug'
-args['<args>'] = ['get', 'flight_recorder_data', 'instance', str(cfrm_response.instance_id)]
+args['<args>'] = ['get', 'flight_recorder_data', 'instance', str(instance_id)]
 cfrm_response=cFSP.main(args)
 print(cfrm_response)
 retval=retval+1
@@ -113,7 +114,7 @@ print("############# End testing: debug instance ###############\n\n")
 
 print("############# Start testing: delete instance ###############\n")
 args['<command>'] = 'instance'
-args['<args>'] = ['delete', str(cfrm_response.instance_id)]
+args['<args>'] = ['delete', str(instance_id)]
 cfrm_response=cFSP.main(args)
 print(cfrm_response)
 retval=retval+1
@@ -170,13 +171,14 @@ args['--image_id'] = ['74462cd5-20e3-4228-a47d-258b7e5e583a']
 args['--node_ip'] = ['10.12.2.100']
 cfrm_response=cFSP.main(args)
 print(cfrm_response)
-print("INFO: The new cluster has id : " + str(cfrm_response.cluster_id))
+cluster_id = cfrm_response.cluster_id
+print("INFO: The new cluster has id : " + str(cluster_id))
 retval=retval+1
 print("############# End testing:   post_cluster ###############\n\n")
 
 print("############# Start testing: restart cluster ###############\n")
 args['<command>'] = 'cluster'
-args['<args>'] = ['restart', str(cfrm_response.cluster_id)]
+args['<args>'] = ['restart', str(cluster_id)]
 cfrm_response=cFSP.main(args)
 print(cfrm_response)
 retval=retval+1
@@ -184,7 +186,7 @@ print("############# End testing: restart cluster ###############\n\n")
 
 print("############# Start testing: debug cluster ###############\n")
 args['<command>'] = 'debug'
-args['<args>'] = ['get', 'flight_recorder_data', 'cluster', str(cfrm_response.cluster_id)]
+args['<args>'] = ['get', 'flight_recorder_data', 'cluster', str(cluster_id)]
 cfrm_response=cFSP.main(args)
 print(cfrm_response)
 retval=retval+1
@@ -192,7 +194,7 @@ print("############# End testing: debug cluster ###############\n\n")
 
 print("############# Start testing: delete cluster ###############\n")
 args['<command>'] = 'cluster'
-args['<args>'] = ['delete', str(cfrm_response.cluster_id)]
+args['<args>'] = ['delete', str(cluster_id)]
 cfrm_response=cFSP.main(args)
 print(cfrm_response)
 retval=retval+1
