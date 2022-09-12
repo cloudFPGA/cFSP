@@ -84,6 +84,7 @@ pip install cfsp
 * [Restart an instance](#restart-an-instance).
 * [Debug an instance](#debug-an-instance).
 * [Delete an instance](#delete-an-instance).
+* [Debug using the flight-record data](#debug-using-the-flight-recorder-data).
 * [Use cFSP as a Python module](#use-cfsp-as-a-python-module).
 
 
@@ -309,6 +310,9 @@ Assuming you want to debug a cluster with id `383`, by fetching the status infor
 ./cfsp cluster get flight_recorder_data cluster 383
 ```
 
+> Information: The [Themisto Shell](https://github.com/cloudFPGA/cFDK/blob/main/DOC/Themisto.md) is required to obtain these status information.
+
+
 ![cfsp-instance-delete](doc/img/14a.png)
 
 
@@ -386,6 +390,8 @@ Assuming you want to debug an instance with id `84`, by fetching the status info
 ./cfsp cluster get flight_recorder_data instance 84
 ```
 
+> Information: The [Themisto Shell](https://github.com/cloudFPGA/cFDK/blob/main/DOC/Themisto.md) is required to obtain these status information.
+
 ![cfsp-instance-delete](doc/img/14b.png)
 
 
@@ -406,6 +412,66 @@ Assuming you want to delete the previously created instance with id `5`
 ```
 
 ![cfsp-instance-delete-all](doc/img/13.png)
+
+
+### Debug using the flight recorder data
+
+The status information returned by the [Debug a cluster](#debug-a-cluster) or [Debug an instance](#debug-an-instance) commands are called "flight recorder data" and contain a number of status information of each FPGA instance.
+The [Themisto Shell](https://github.com/cloudFPGA/cFDK/blob/main/DOC/Themisto.md) is required to obtain these status information.
+
+An example of this flight recorder data is given below:
+```json
+   "72": [
+      "Rank: 12",
+      "Size: 23",
+      "Last RX port: 2718",
+      "Last RX id: 22",
+      "Last TX port: 2718",
+      "Last TX id: 22",
+      "RX packet count: 6026",
+      "TX packet count: 4017",
+      "cFDK/FMC version: 1.0",
+      "FPGA uptime: 17:11:06",
+      "current ROLE version: 318",
+      "Layer 4 (TCP/UDP) is ENABLED.",
+      "Layer 6 (Network Routing) is ENABLED.",
+      "Layer 7 (ROLE) is ENABLED.",
+      "UDP RX drop count: 0",
+      "Invalid node-id/ip-address RX count: 0",
+      "Invalid port TX count: 0",
+      "Invalid node-id/ip-address TX count: 0",
+      "Failed creation of TCP connections (TX) count : 0",
+      "TCP RX notif drop count: 0",
+      "TCP RX meta drop count: 0",
+      "TCP RX data drop count: 0",
+      "TCP RX CRC drop count: 0",
+      "TCP RX Session drop count: 0",
+      "TCP RX Out-of-Order drop count: 0"
+    ]
+```
+
+
+The information can be interpreted as follows:
+
+- `Rank`: The rank / node-id of the FPGA instance.
+- `Size`: The total size of the FPGA cluster.
+- `Last RX port`: The port of the last received UDP packet or TCP connection.
+- `Last RX id`: The rank of the last received UDP packet or TCP connection.
+- `Last TX port`: The port of the last transmitted UDP packet or TCP connection.
+- `Last TX id`: The rank of the last transmitted UDP packet or TCP connection.
+- `cFDK/FMC version`: The cFDK version of the configured Shell (c.f. [cfdk.hpp](https://github.com/cloudFPGA/cFDK/blob/main/SRA/LIB/hls/cfdk.hpp)).
+- `FPGA uptime`: The time since boot in 24h format.
+- `current ROLE version`: The content of the `poSHL_Mmio_RdReg` signal, written by the [Themisto Role.vhdl](https://github.com/cloudFPGA/cFDK/blob/main/DOC/Themisto.md).
+- `Layer 4/6/7 ENABLED/DISABLED`: The reset state of the reset layers 4, 6, and 7 (analog the [OSI model](https://en.wikipedia.org/wiki/OSI_model)). The Role is on Layer 7.
+- `UDP RX drop count`: *The number of packets dropped by the Shell,* **because the application inside the Role didn't read them fast enough**. The Themisto Shell can store roughly 10KB UDP data in FIFOs (see details [here](https://github.com/cloudFPGA/cFDK/blob/main/DOC/NAL/NAL.md)). If these FIFOs are full, because the Role doesn't read the packets from the NAL interface (or not fast enough), then the Shell drops all further incoming UDP packets, which are counted by the `UDP RX drop count` (until there is sufficient space in the FIFOs again). This happens frequently, if the processes in the Role that are responsible for reading the network traffic, don't have an initial pipeline interval of 1 (i.e. `#pragma HLS pipeline II=1` must be used for these processes). 
+- `Invalid node-id/ip-address RX count`: The Role is only allowed to receive packets from IP addresses that are configured within the cluster (FPGA and CPU nodes, see details [here](https://github.com/cloudFPGA/cFDK/blob/main/DOC/Themisto.md#packet-addressing)). If packets are received from different ip addresses, they are dropped and this counter is increased.
+- `Invalid port TX count`: The Themisto Shell can only send (and receive) to ports in a given range (see details [here](https://github.com/cloudFPGA/cFDK/blob/main/DOC/Themisto.md#port-opening)), if the Role wants to send a packet to a port outside this range, the default port (i.e. `2718`) is used instead and this counter is increased. This counter is for UDP packets and TCP connections.
+- `Invalid node-id/ip-address TX count`: The Role is only allowed to send packets to IP addresses that are configured within the cluster (FPGA and CPU nodes, see details [here](https://github.com/cloudFPGA/cFDK/blob/main/DOC/Themisto.md#packet-addressing)). If packets are received from different ip addresses, they are dropped and this counter is increased.
+- `Failed creation of TCP connections (TX) count`: This counter is increased if the initialization of a new TCP connection timed out. This happens if the Role want's to connect to an IP address in the cluster (otherwise the invalid counter above is increased), but the contacted node is not listening on the requested port. 
+- `TCP RX * drop count`: These counters are for debugging the TCP stack and NAL layer in the Shell. If they are not 0 and you loose *TCP* (not UDP) packets, please contact developers.
+
+
+All counters in the flight recorder data are reset if the Role is reset, as done by the [Restart a cluster](#restart-a-cluster) and [Restart an instance](#restart-an-instance) commands.
 
 
 ### Use cFSP as a Python module
