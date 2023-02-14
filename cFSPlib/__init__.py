@@ -27,7 +27,7 @@
 #  *
 
 # assemble the package
-#from .util  import print_usage
+#from .cfsp_util  import print_usage
 from . import cFSP
 from . import cfsp_user
 #from . import comm

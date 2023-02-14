@@ -99,7 +99,7 @@ import cfsp_image
 import cfsp_instance
 import cfsp_debug
 
-from util import print_usage
+from cfsp_util import print_usage
 import mngmt
 import comm
 

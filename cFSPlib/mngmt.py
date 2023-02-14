@@ -37,7 +37,7 @@ import datetime
 from cfsp_user import *
 from cfsp_globals import *
 
-from util import errorReqExit
+from cfsp_util import errorReqExit
 
 
 
