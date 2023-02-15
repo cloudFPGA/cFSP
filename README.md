@@ -59,6 +59,8 @@ pip install cfsp
 
 > **_NOTE:_** If you install `cfsp` through `PyPi`, then the top-level script `cfsp` can be executed from any directory location, and not necessarily from the cFSP root path. Thus, in the following commands you should replace `./cfsp` by `cfsp`.
 
+For instrunctions about updating the PyPi package check: [README_pypi.md](README_pypi.md)
+
 ## Getting Started
 
 ### Contents
